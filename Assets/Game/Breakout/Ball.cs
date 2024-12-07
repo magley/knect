@@ -7,10 +7,15 @@ public class Ball : MonoBehaviour
 	private Rigidbody rb;
 	private bool CanGetHitByBouncePad = true;
 
+	/// <summary>
+	/// Velocity magnitude at level start and when the ball is hit by the player.
+	/// </summary>
+	[SerializeField] private float StandardSpeed = 14f;
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
-		rb.velocity = Vector3.forward * 10f;
+		rb.velocity = transform.forward * StandardSpeed;
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -44,7 +49,7 @@ public class Ball : MonoBehaviour
 
 		Vector3 dir = new Vector3(forward.x + xOffset * 10, forward.y + yOffset * 5, forward.z).normalized;
 		dir.z = 1;
-		rb.velocity = dir * 10f;
+		rb.velocity = dir * StandardSpeed;
 		
 		Debug.Log("Hit!");
 	}
