@@ -119,4 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BrickShard: {fileID: 3215097375045089415, guid: c5b8fe6220b0ad44aaf2a842b32b6d86, type: 3}
+  BallPrefab: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
   SndBrickBreak: {fileID: 8300000, guid: 21228c7139befe244a37fa627fc16039, type: 3}
+  Drop: 0

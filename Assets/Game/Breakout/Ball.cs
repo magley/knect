@@ -7,6 +7,9 @@ public class Ball : MonoBehaviour
 	private TrailRenderer trailRenderer;
 	private bool CanGetHitByBouncePad = true;
 
+	[SerializeField] private AudioClip[] SndHitWall = { };
+	private AudioSource SndHitWallSource;
+
 	public static event Action<int> OnComboMade;
 
 	/// <summary>
@@ -40,6 +43,7 @@ public class Ball : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody>();
 		trailRenderer = GetComponent<TrailRenderer>();
+		SndHitWallSource = GetComponent<AudioSource>();
 		rb.velocity = transform.forward * StandardSpeed;
 	}
 
@@ -79,6 +83,10 @@ public class Ball : MonoBehaviour
 		else
 		{
 			DecreaseBonus();
+
+			var clip = SndHitWall[UnityEngine.Random.Range(0, SndHitWall.Length)];
+			SndHitWallSource.clip = clip;
+			SndHitWallSource.Play();
 		}
 	}
 
