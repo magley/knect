@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7005585387267477280}
   - component: {fileID: 3639439900190283389}
   - component: {fileID: 2814906130537546299}
+  - component: {fileID: 2084724816276141775}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104908600783249232}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.010441738, y: 0.9715012, z: 0.18380249, w: -0.14930898}
+  m_LocalRotation: {x: 0.010437178, y: 0.9715016, z: 0.18380007, w: -0.14930898}
   m_LocalPosition: {x: 2.29, y: 5.05, z: 27.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -119,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14c9dc39cac6d9409b89daec6d1936d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StandardSpeed: 14
 --- !u!54 &2814906130537546299
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,3 +148,152 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!96 &2084724816276141775
+TrailRenderer:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104908600783249232}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Time: 0.15
+  m_PreviewTimeScale: 1
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -1.6838263
+        outSlope: -1.6838263
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.5000012
+      - serializedVersion: 3
+        time: 0.17538247
+        value: 0.8649103
+        inSlope: -0.0097622415
+        outSlope: -0.0097622415
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.6979913
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.41506606
+        value: 0.7724427
+        inSlope: 1.9050963
+        outSlope: 1.9050963
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.6817869
+        outWeight: 0.4766355
+      - serializedVersion: 3
+        time: 0.64556843
+        value: 0.68666035
+        inSlope: 2.6282816
+        outSlope: 2.6282816
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.7495123
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.7854561
+        value: 0.6273527
+        inSlope: 0.96442795
+        outSlope: 0.96442795
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.22619247
+        inSlope: -3.3015792
+        outSlope: -3.3015792
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.7606105
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 0.9818833, g: 1, b: 0, a: 1}
+      key1: {r: 1, g: 0.8780921, b: 0, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 52802
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 2
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 1
+    numCapVertices: 5
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MinVertexDistance: 0.1
+  m_MaskInteraction: 0
+  m_Autodestruct: 0
+  m_Emitting: 1
+  m_ApplyActiveColorSpace: 1
