@@ -5,6 +5,7 @@ public class Ball : MonoBehaviour
 {
 	private Rigidbody rb;
 	private TrailRenderer trailRenderer;
+	private ParticleSystem particles;
 	private bool CanGetHitByBouncePad = true;
 
 	[SerializeField] private AudioClip[] SndHitWall = { };
@@ -29,7 +30,7 @@ public class Ball : MonoBehaviour
 		set
 		{
 			_bonus = value;
-			StandardSpeed = 14f + _bonus / 2f;
+			StandardSpeed = 18f + _bonus / 2f;
 		}
 	}
 	[SerializeField] private int _bonus = 0;
@@ -37,13 +38,14 @@ public class Ball : MonoBehaviour
 	/// <summary>
 	/// Velocity magnitude at level start and when the ball is hit by the player.
 	/// </summary>
-	[SerializeField] private float StandardSpeed = 14f;
+	[SerializeField] private float StandardSpeed = 18f;
 
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		trailRenderer = GetComponent<TrailRenderer>();
 		SndHitWallSource = GetComponent<AudioSource>();
+		particles = GetComponent<ParticleSystem>();
 		rb.velocity = transform.forward * StandardSpeed;
 	}
 
@@ -56,6 +58,7 @@ public class Ball : MonoBehaviour
 				BounceOffBouncePad();
 				CanGetHitByBouncePad = false;
 				ResetCombo();
+				particles.Emit(1);
 			}
 		}
 	}
@@ -73,8 +76,20 @@ public class Ball : MonoBehaviour
 		HandleTrailLength();
 	}
 
+	private void SlowTheBallDownABit()
+	{
+		float currentSpeed = rb.velocity.magnitude;
+		if (currentSpeed < 13f)
+		{
+			currentSpeed -= 0.2f;
+		}
+		rb.velocity = rb.velocity.normalized * currentSpeed;
+	}
+
 	void OnCollisionEnter(Collision collision)
 	{
+		SlowTheBallDownABit();
+
 		if (collision.gameObject.CompareTag("Brick"))
 		{
 			Destroy(collision.gameObject);
