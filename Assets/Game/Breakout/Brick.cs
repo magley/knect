@@ -16,6 +16,8 @@ public class Brick : MonoBehaviour
     }
     [SerializeField] private DropOnBreak Drop;
 
+	[SerializeField] private GameObject[] GenericDrops = { };
+
 	private void OnDestroy()
 	{
 		AudioSource.PlayClipAtPoint(SndBrickBreak, Camera.main.transform.position);
@@ -56,13 +58,25 @@ public class Brick : MonoBehaviour
     {
 		switch (Drop)
         {
-			default: return;
 			case DropOnBreak.ExtraBall:
 				{
 					GameObject o = Instantiate(BallPrefab, transform.parent);
 					o.transform.position = transform.position;
 				}
 				break;
+			case DropOnBreak.Nothing:
+				{
+					if (Random.Range(0, 8) == 0)
+					{
+						int i = Random.Range(0, GenericDrops.Length);
+						var prefab = GenericDrops[i];
+
+						GameObject o = Instantiate(prefab, transform.parent);
+						o.transform.position = transform.position;
+					}
+				}
+				break;
+			default: return;
         }
 	}
 }

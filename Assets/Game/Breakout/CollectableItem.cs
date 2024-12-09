@@ -36,10 +36,10 @@ public class CollectableItem : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.back * 5 * Time.deltaTime, Space.World);
-        transform.Rotate(Vector3.up * 6);
+        transform.Translate(Vector3.back * 8 * Time.deltaTime, Space.World);
+        transform.Rotate(Vector3.up * 4);
 
-        if (transform.position.z < -20)
+        if (transform.position.z < -100)
         {
             Destroy(gameObject);
         }

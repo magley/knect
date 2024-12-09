@@ -121,4 +121,8 @@ MonoBehaviour:
   BrickShard: {fileID: 3215097375045089415, guid: c5b8fe6220b0ad44aaf2a842b32b6d86, type: 3}
   BallPrefab: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
   SndBrickBreak: {fileID: 8300000, guid: 21228c7139befe244a37fa627fc16039, type: 3}
+  Score: 100
   Drop: 0
+  GenericDrops:
+  - {fileID: 5605765447041821035, guid: f5092a72bd6a4164583d26d6b9f02c1a, type: 3}
+  - {fileID: 5605765447041821035, guid: d2372b6f28d447a47a60093aa4f13fbc, type: 3}
