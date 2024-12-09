@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Ball : MonoBehaviour
 {
@@ -94,6 +95,7 @@ public class Ball : MonoBehaviour
 		{
 			Destroy(collision.gameObject);
 			IncreaseComboAndBonus();
+			GameState.AddScore(Bonus * 50);
 		}
 		else
 		{
@@ -146,6 +148,7 @@ public class Ball : MonoBehaviour
 		if (Combo >= 3)
 		{
 			OnComboMade?.Invoke(Combo);
+			GameState.AddScore(Combo * 1000);
 		}
 
 		Combo = 0;

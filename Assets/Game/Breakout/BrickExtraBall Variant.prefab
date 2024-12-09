@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: Drop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7459622536187266429, guid: 66a427c9a1563204b994553ee3236241, type: 3}
+      propertyPath: Score
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 116499627119491939, guid: 66a427c9a1563204b994553ee3236241, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

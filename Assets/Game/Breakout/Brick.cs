@@ -1,19 +1,21 @@
 using UnityEngine;
 
+
 public class Brick : MonoBehaviour
 {
     [SerializeField] private GameObject BrickShard;
 	[SerializeField] private GameObject BallPrefab;
     [SerializeField] private AudioClip SndBrickBreak;
 
+	[SerializeField] private int Score = 100;
+
     public enum DropOnBreak
     {
         Nothing,
         ExtraBall,
     }
-
     [SerializeField] private DropOnBreak Drop;
-    
+
 	private void OnDestroy()
 	{
 		AudioSource.PlayClipAtPoint(SndBrickBreak, Camera.main.transform.position);
@@ -24,9 +26,11 @@ public class Brick : MonoBehaviour
         {
 			SpawnBrickShard(i);
 		}
+
+		GameState.AddScore((int)(Score));
 	}
 
-    private void SpawnBrickShard(int i)
+	private void SpawnBrickShard(int i)
     {
 		GameObject shard = Instantiate(BrickShard, transform.parent);
 		shard.transform.position = transform.position;
