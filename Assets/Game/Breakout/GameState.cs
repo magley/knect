@@ -10,7 +10,7 @@ public static class GameState
 
     public static void AddScore(int added)
     {
-        Score += added;
-        ScoreChanged(Score, added);
+        Score += added * PlayerAdditions.ScoreMultiplier;
+        ScoreChanged(Score, added * PlayerAdditions.ScoreMultiplier);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UIScore : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class UIScore : MonoBehaviour
     private float textPosY;
     private float textPosYbase;
 
-    void Start()
+	[SerializeField] private Text scoreMultiplierText;
+	[SerializeField] private GameObject scoreMultiplierImageObject;
+
+	void Start()
     {
         GameState.ScoreChanged += OnScoreAdded;
 
@@ -22,6 +26,7 @@ public class UIScore : MonoBehaviour
     void Update()
     {
 		HandleTextBounce();
+		HandleScoreMultiplier();
 	}
 
     private void HandleTextBounce()
@@ -39,6 +44,25 @@ public class UIScore : MonoBehaviour
 		Vector2 p = textScoreTransform.anchoredPosition;
 		p.y = textPosY;
 		textScoreTransform.anchoredPosition = p;
+	}
+
+	private void HandleScoreMultiplier()
+	{
+		if (PlayerAdditions.ScoreMultiplier == 1)
+		{
+			scoreMultiplierText.enabled = false;
+			scoreMultiplierImageObject.SetActive(false);
+		}
+		else
+		{
+			scoreMultiplierText.enabled = true;
+			scoreMultiplierImageObject.SetActive(true);
+
+			scoreMultiplierText.text = $"x{PlayerAdditions.ScoreMultiplier}";
+
+			float ratio = PlayerAdditions.scoreMultiplierTimeLeft / (float)PlayerAdditions.ScoreMultiplierTimeBase;
+			scoreMultiplierImageObject.GetComponent<RectTransform>().localScale = new Vector2(ratio, 1);
+		}
 	}
 
     private void OnScoreAdded(int newScore, int deltaScore)
