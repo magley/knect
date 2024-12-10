@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class BouncePad : MonoBehaviour
@@ -20,8 +17,8 @@ public class BouncePad : MonoBehaviour
     {
         Control_KeyboardMouse();
 
-		transform.position = Vector3.Lerp(transform.position, startPos + posOffset * 2, 0.25f);
-
+        Vector3 offsetWithDistance = new(posOffset.x * 3.5f, posOffset.y * 2f, 0);
+		transform.position = Vector3.Lerp(transform.position, startPos + offsetWithDistance, 0.15f);
 	}
 
     private void Control_KeyboardMouse()

@@ -68,6 +68,6 @@ public class UIScore : MonoBehaviour
     private void OnScoreAdded(int newScore, int deltaScore)
     {
         textScore.text = $"{newScore:00000000}";
-        textPosY += 27;
+        textPosY = textPosYbase + 27;
     }
 }

@@ -109,7 +109,7 @@ public class Ball : MonoBehaviour
 
 	private void HandleTrailLength()
 	{
-		float trailRenderTargetTime = 0.075f + _combo / 4f;
+		float trailRenderTargetTime = 0.025f + _combo / 50f;
 		trailRenderer.time = Mathf.Lerp(trailRenderer.time, trailRenderTargetTime, 0.25f);
 	}
 
