@@ -153,10 +153,4 @@ public class Ball : MonoBehaviour
 
 		Combo = 0;
 	}
-
-	public void DestroyAndGivePoints(int points)
-	{
-		GameState.AddScore(points);
-		Destroy(gameObject);
-	}
 }
