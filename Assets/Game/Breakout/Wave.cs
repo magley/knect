@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using UnityEngine.Assertions;
 using static Unity.VisualScripting.Metadata;
+using UnityEngine.SceneManagement;
 
 public class Wave : MonoBehaviour
 {
@@ -17,16 +18,19 @@ public class Wave : MonoBehaviour
     private Mode mode = Mode.Pending;
     private ParticleSystem particles;
     private List<Transform> children = new();
+    private LevelManager levelManager;
 
-    /// <summary>
-    /// Reference to all waves in the level.
-    /// </summary>
-    private Wave[] waves = { };
+	/// <summary>
+	/// Reference to all waves in the level.
+	/// </summary>
+	private Wave[] waves = { };
 
     void Start()
     {
         waves = transform.parent.GetComponentsInChildren<Wave>();
         particles = GetComponent<ParticleSystem>();
+        levelManager = FindObjectOfType<LevelManager>();
+
 		foreach (var child in GetComponentsInChildren<Transform>().Skip(1)) // Skip self.
         {
             children.Add(child);
@@ -100,6 +104,7 @@ public class Wave : MonoBehaviour
 			}
 		}
 
-        Debug.Log("Level completed!");
+		levelManager.OnLevelComplete();
     }
+
 }
