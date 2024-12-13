@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuItem : MonoBehaviour
 {
@@ -9,43 +10,63 @@ public class MenuItem : MonoBehaviour
     {
         Unknown,
         PlayBreakout,
+        PlaySwitches,
         Quit,
     }
 
     public MenuItemType Type;
-    [SerializeField] private bool Focused = false;
+    [SerializeField] private bool CanBeSelected = true;
+    private bool Focused = false;
     private bool Selected = false;
     private bool HasFocusFromKinect = false;
     private float TimeUntilSelectFromKinect = 120;
 
     private const float scaleFocus = 2f;
-    private const float scaleUnfocus = 1f;
-    private float scale = 1f;
+    private const float scaleUnfocus = 1.5f;
+    private float scale = 1.5f;
+
+
+    [SerializeField] private AudioClip sndFocus;
+    [SerializeField] private AudioClip sndSelect;
+    private AudioSource audioSource;
 
     void Start()
     {
-
-    }
+		audioSource = GetComponent<AudioSource>();
+	}
 
     void Update()
     {
-        HandleVisualsWhenFocused();
+		HandleScale();
         HandleInteractionThroughKinect();
         HandleInteractionThroughKeyboard();
 	}
 
-    private void HandleVisualsWhenFocused()
+    private void HandleScale()
     {
-		if (Focused)
-		{
+        if (!Selected)
+        {
+		    if (Focused)
+		    {
+			    scale = Mathf.Lerp(scale, scaleFocus, 0.2f);
+            
+		    }
+		    else
+		    {			
+                scale = Mathf.Lerp(scale, scaleUnfocus, 0.2f);
+		    }
+        }
+        else
+        {
 			scale = Mathf.Lerp(scale, scaleFocus, 0.2f);
-            transform.localScale = Vector3.one * scale;
+
+            if (Mathf.Abs(scale - scaleFocus) <= 0.01f)
+            {
+                OnSelect();
+            }
 		}
-		else
-		{			
-            scale = Mathf.Lerp(scale, scaleUnfocus, 0.2f);
-			transform.localScale = Vector3.one * scale;
-		}
+
+		transform.localScale = Vector3.one * scale;
 	}
 
     private void HandleInteractionThroughKeyboard()
@@ -115,19 +136,36 @@ public class MenuItem : MonoBehaviour
 
 	public void DoFocus()
     {
-        Focused = true;
-    }
+        if (!Focused)
+        {
+            Focused = true;
+            audioSource.clip = sndFocus;
+            audioSource.Play();
+        }
+	}
 
     public void DoUnfocus()
     {
-        Focused = false;
+        if (Focused)
+        {
+            Focused = false;
+        }
     }
 
 	public void DoSelect()
 	{
-        Selected = true;
+        if (!CanBeSelected)
+        {
+            return;
+        }
 
-        OnSelect();
+        if (!Selected)
+        {
+            scale = 3;
+			Selected = true;
+			audioSource.clip = sndSelect;
+			audioSource.Play();
+		}
 	}
 
 	private void OnSelect()
@@ -147,8 +185,10 @@ public class MenuItem : MonoBehaviour
             case MenuItemType.PlayBreakout:
                 {
                     Debug.Log("Breakout!");
+                    SceneManager.LoadScene("BreakoutScene");
                 }
                 break;
+            case MenuItemType.PlaySwitches: break;
         }
     }
 }

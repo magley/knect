@@ -53,14 +53,4 @@ public class MenuManager : MonoBehaviour
 		backgroundScale = Mathf.Sin(Time.time * 0.25f) * 0.5f + 1f;
 		backgroundObject.localScale = new Vector3(1, 1, 0) * backgroundScale + Vector3.forward;
 	}
-
-    private void GoUp()
-    {
-
-    }
-
-	private void GoDown()
-    {
-
-    }
 }
