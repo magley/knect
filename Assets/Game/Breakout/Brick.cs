@@ -5,7 +5,8 @@ public class Brick : MonoBehaviour
 {
     [SerializeField] private GameObject BrickShard;
 	[SerializeField] private GameObject BallPrefab;
-    [SerializeField] private AudioClip SndBrickBreak;
+	[SerializeField] private GameObject MiniballPrefab;
+	[SerializeField] private AudioClip SndBrickBreak;
 
 	[SerializeField] private int Score = 100;
 
@@ -13,6 +14,7 @@ public class Brick : MonoBehaviour
     {
         Nothing,
         ExtraBall,
+		Miniballs,
     }
     [SerializeField] private DropOnBreak Drop;
 
@@ -73,6 +75,25 @@ public class Brick : MonoBehaviour
 
 						GameObject o = Instantiate(prefab, transform.parent);
 						o.transform.position = transform.position;
+					}
+				}
+				break;
+			case DropOnBreak.Miniballs:
+				{
+					for (int i = 0; i < 5; i++)
+					{
+						Vector3 rand = new(
+							Random.Range(-1, 1),
+							Random.Range(-1, 1),
+							Random.Range(-1, 1)
+						);
+						GameObject o = Instantiate(MiniballPrefab, transform.parent);
+						o.transform.position = transform.position + rand;
+						o.transform.rotation = Quaternion.Euler(new(
+							Random.Range(-90, 90),
+							Random.Range(-90, 90),
+							Random.Range(-90, 90)
+						));
 					}
 				}
 				break;

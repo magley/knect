@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9119606483944477221
+--- !u!1 &4245996693544957275
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 825907100672481929}
-  - component: {fileID: 6758602379561541032}
-  - component: {fileID: 116499627119491939}
-  - component: {fileID: 3182334238579997009}
-  - component: {fileID: -7459622536187266429}
+  - component: {fileID: 5698637483636997623}
+  - component: {fileID: 1849000010793286358}
+  - component: {fileID: 5043597772436724765}
+  - component: {fileID: 7514953728151608879}
+  - component: {fileID: 6636492119993867773}
   m_Layer: 0
-  m_Name: Brick
+  m_Name: BrickMiniballs
   m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &825907100672481929
+--- !u!4 &5698637483636997623
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9119606483944477221}
+  m_GameObject: {fileID: 4245996693544957275}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6758602379561541032
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!33 &1849000010793286358
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9119606483944477221}
+  m_GameObject: {fileID: 4245996693544957275}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &116499627119491939
+--- !u!23 &5043597772436724765
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9119606483944477221}
+  m_GameObject: {fileID: 4245996693544957275}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fc5d6e43f7f112f4581e1185d2cbfa0f, type: 2}
+  - {fileID: 2100000, guid: 43eaf377ac03d9541a2199ef76390ea5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,13 +85,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3182334238579997009
+--- !u!65 &7514953728151608879
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9119606483944477221}
+  m_GameObject: {fileID: 4245996693544957275}
   m_Material: {fileID: 13400000, guid: f2712b2ce9ab759428680e8d9dc231bd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -106,13 +106,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-7459622536187266429
+--- !u!114 &6636492119993867773
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9119606483944477221}
+  m_GameObject: {fileID: 4245996693544957275}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0d9656ac82efed4e93ee78d23f949fc, type: 3}
@@ -122,8 +122,8 @@ MonoBehaviour:
   BallPrefab: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
   MiniballPrefab: {fileID: 104908600783249232, guid: e092c449780abf947a521ac5bbe84444, type: 3}
   SndBrickBreak: {fileID: 8300000, guid: 21228c7139befe244a37fa627fc16039, type: 3}
-  Score: 100
-  Drop: 0
+  Score: 150
+  Drop: 2
   GenericDrops:
   - {fileID: 5605765447041821035, guid: f5092a72bd6a4164583d26d6b9f02c1a, type: 3}
   - {fileID: 5605765447041821035, guid: d2372b6f28d447a47a60093aa4f13fbc, type: 3}

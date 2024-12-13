@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -222991162492256133}
   - component: {fileID: 2287486172164289272}
   m_Layer: 6
-  m_Name: Ball
+  m_Name: BallMini
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.010437178, y: 0.9715016, z: 0.18380007, w: -0.14930898}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14c9dc39cac6d9409b89daec6d1936d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyOnImpact: 0
+  DestroyOnImpact: 1
   SndHitWall:
   - {fileID: 8300000, guid: 2a92f927439318542a6b1f80eb4b14e7, type: 3}
   - {fileID: 8300000, guid: 21cebf1382b469c44bdde8de20209609, type: 3}
@@ -210,8 +210,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.006668091
-        value: 0.9153843
+        time: 0.0033340454
+        value: 0.32307625
         inSlope: -1.6838263
         outSlope: -1.6838263
         tangentMode: 0
@@ -219,8 +219,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.5000012
       - serializedVersion: 3
-        time: 0.17538247
-        value: 0.78798693
+        time: 0.17204842
+        value: 0.19567889
         inSlope: -0.0097622415
         outSlope: -0.0097622415
         tangentMode: 0
@@ -228,8 +228,8 @@ TrailRenderer:
         inWeight: 0.6979913
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.41506606
-        value: 0.7724427
+        time: 0.41173202
+        value: 0.18013465
         inSlope: 1.9050963
         outSlope: 1.9050963
         tangentMode: 0
@@ -237,8 +237,8 @@ TrailRenderer:
         inWeight: 0.6817869
         outWeight: 0.4766355
       - serializedVersion: 3
-        time: 0.64556843
-        value: 0.68666035
+        time: 0.6422344
+        value: 0.094352305
         inSlope: 2.6282816
         outSlope: 2.6282816
         tangentMode: 0
@@ -246,8 +246,8 @@ TrailRenderer:
         inWeight: 0.7495123
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.7854561
-        value: 0.6273527
+        time: 0.7821221
+        value: 0.03504467
         inSlope: 0.96442795
         outSlope: 0.96442795
         tangentMode: 0
@@ -255,8 +255,8 @@ TrailRenderer:
         inWeight: 1
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0.22619247
+        time: 0.99666595
+        value: 0
         inSlope: -3.3015792
         outSlope: -3.3015792
         tangentMode: 0
@@ -321,7 +321,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.724
-  m_Pitch: 1
+  m_Pitch: 1.5
   Loop: 0
   Mute: 0
   Spatialize: 0

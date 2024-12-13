@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
 	private TrailRenderer trailRenderer;
 	private ParticleSystem particles;
 	private bool CanGetHitByBouncePad = true;
+	[SerializeField] private bool DestroyOnImpact = false;
 
 	[SerializeField] private AudioClip[] SndHitWall = { };
 	private AudioSource SndHitWallSource;
@@ -96,6 +97,11 @@ public class Ball : MonoBehaviour
 			Destroy(collision.gameObject);
 			IncreaseComboAndBonus();
 			GameState.AddScore(Bonus * 50);
+
+			if (DestroyOnImpact)
+			{
+				Destroy(gameObject);
+			}
 		}
 		else
 		{
