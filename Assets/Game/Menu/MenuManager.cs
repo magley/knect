@@ -5,28 +5,45 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-	[SerializeField] private Transform backgroundObject;
-	private float backgroundScale = 1f;
+    [SerializeField] int focusIndex = 0;
+    private List<MenuItem> menuItems = new List<MenuItem>();
 
-    [SerializeField] int focusIndex = -1;
-    List<MenuItem> menuItems = new List<MenuItem>();
+	[SerializeField] private string NameID = "";
+	[SerializeField] public bool IsActive = false;
+
 	private void Start()
 	{
-		menuItems = GameObject.FindObjectsOfType<MenuItem>().ToList();
-        focusIndex = 0;
+		menuItems = GetComponentsInChildren<MenuItem>(includeInactive:true).ToList();
+		UIManager.OnActiveMenuChanged += OnActiveMenuChanged;
+
+		focusIndex = 0;
 		menuItems[focusIndex].DoFocus();
+	}
+
+	private void OnActiveMenuChanged(string nameID)
+	{
+		IsActive = (NameID == nameID);
+
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(IsActive);
+		}
 	}
 
 	void Update()
     {
-		HandleBackground();
+		if (IsActive)
+		{
+			HandleInput();
+		}
+	}
 
-		menuItems = GameObject.FindObjectsOfType<MenuItem>().ToList();
+	private void HandleInput()
+	{
 		int inputY = (Input.GetKeyDown(KeyCode.DownArrow) ? 1 : 0) - (Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0);
 
-
 		if (inputY == 1)
-        {
+		{
 			menuItems[focusIndex].DoUnfocus();
 			focusIndex++;
 			if (focusIndex > menuItems.Count - 1)
@@ -35,8 +52,8 @@ public class MenuManager : MonoBehaviour
 			}
 			menuItems[focusIndex].DoFocus();
 		}
-        if (inputY == -1)
-        {
+		if (inputY == -1)
+		{
 			menuItems[focusIndex].DoUnfocus();
 			focusIndex--;
 			if (focusIndex < 0)
@@ -45,12 +62,18 @@ public class MenuManager : MonoBehaviour
 			}
 			menuItems[focusIndex].DoFocus();
 		}
-    }
 
-	private void HandleBackground()
-	{
-		backgroundObject.Rotate(new Vector3(0, 0, 0.1f));
-		backgroundScale = Mathf.Sin(Time.time * 0.25f) * 0.5f + 1f;
-		backgroundObject.localScale = new Vector3(1, 1, 0) * backgroundScale + Vector3.forward;
+		bool enterPressed = Input.GetKeyDown(KeyCode.Return);
+
+		if (enterPressed)
+		{
+			foreach (var item in menuItems)
+			{
+				if (item.Focused)
+				{
+					item.DoSelect();
+				}
+			}
+		}
 	}
 }

@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,39 +7,64 @@ public class MenuItem : MonoBehaviour
     public enum MenuItemType
     {
         Unknown,
+
         PlayBreakout,
         PlaySwitches,
         Quit,
-    }
+
+		OpenMenu_Main,
+		OpenMenu_Breakout,
+		OpenMenu_Switches,
+		OpenMenu_Quit,
+	}
 
     public MenuItemType Type;
     [SerializeField] private bool CanBeSelected = true;
-    private bool Focused = false;
+    public bool Focused { get; private set; } = false;
     private bool Selected = false;
     private bool HasFocusFromKinect = false;
     private float TimeUntilSelectFromKinect = 120;
 
-    private const float scaleFocus = 2f;
-    private const float scaleUnfocus = 1.5f;
-    private float scale = 1.5f;
-
+    private const float scaleFocus = 1f;
+    private const float scaleUnfocus = 0.65f;
+    private float scale = 1f;
 
     [SerializeField] private AudioClip sndFocus;
     [SerializeField] private AudioClip sndSelect;
     private AudioSource audioSource;
 
+    private MenuManager parentMenu; // Set in MenuManager::Start().
+    public bool IsActive { get => parentMenu.IsActive; }
+
+    private Vector3 baseScale;
+
     void Start()
     {
 		audioSource = GetComponent<AudioSource>();
+        parentMenu = GetComponentInParent<MenuManager>();
+        baseScale = transform.localScale;
 	}
 
     void Update()
     {
 		HandleScale();
-        HandleInteractionThroughKinect();
-        HandleInteractionThroughKeyboard();
+
+        if (IsActive)
+        {
+            HandleInteractionThroughKinect();
+        }
+        else
+        {
+            if (HasFocusFromKinect)
+            {
+				LoseFocusFromKinect();
+			}
+		}
 	}
 
+    /// <summary>
+    /// Animate the menu item scaling up/down when it's focused or selected.
+    /// </summary>
     private void HandleScale()
     {
         if (!Selected)
@@ -66,24 +89,8 @@ public class MenuItem : MonoBehaviour
             }
 		}
 
-		transform.localScale = Vector3.one * scale;
+		transform.localScale = baseScale * scale;
 	}
-
-    private void HandleInteractionThroughKeyboard()
-    {
-		if (Selected)
-		{
-			return;
-		}
-
-        if (Focused)
-        {
-		    if (Input.GetKeyDown(KeyCode.Return))
-            {
-                DoSelect();
-            }
-        }
-    }
 
     private void HandleInteractionThroughKinect()
     {
@@ -112,7 +119,7 @@ public class MenuItem : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("KinectPointer"))
+		if (other.CompareTag("KinectPointer") && IsActive)
         {
 			if (!HasFocusFromKinect)
             {
@@ -124,14 +131,24 @@ public class MenuItem : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.CompareTag("KinectPointer"))
+        if (!IsActive)
         {
-            if (HasFocusFromKinect)
-            {
-                DoUnfocus();
-			}
-            HasFocusFromKinect = false;
+            return;
         }
+
+		if (other.CompareTag("KinectPointer") && IsActive)
+        {
+            LoseFocusFromKinect();
+		}
+	}
+
+    private void LoseFocusFromKinect()
+    {
+		if (HasFocusFromKinect)
+		{
+			DoUnfocus();
+		}
+		HasFocusFromKinect = false;
 	}
 
 	public void DoFocus()
@@ -161,7 +178,7 @@ public class MenuItem : MonoBehaviour
 
         if (!Selected)
         {
-            scale = 3;
+            scale = 2f;
 			Selected = true;
 			audioSource.clip = sndSelect;
 			audioSource.Play();
@@ -170,7 +187,10 @@ public class MenuItem : MonoBehaviour
 
 	private void OnSelect()
     {
-        switch (Type)
+        Selected = false;
+		transform.localScale = baseScale;
+
+		switch (Type)
         {
             case MenuItemType.Unknown: default: break;
             case MenuItemType.Quit:
@@ -184,11 +204,25 @@ public class MenuItem : MonoBehaviour
 				break;
             case MenuItemType.PlayBreakout:
                 {
-                    Debug.Log("Breakout!");
                     SceneManager.LoadScene("BreakoutScene");
                 }
                 break;
             case MenuItemType.PlaySwitches: break;
-        }
+            case MenuItemType.OpenMenu_Main:
+                {
+                    UIManager.SetActiveMenu("Menu_Main");
+                }
+                break;
+			case MenuItemType.OpenMenu_Breakout:
+				{
+					UIManager.SetActiveMenu("Menu_Breakout");
+				}
+				break;
+			case MenuItemType.OpenMenu_Quit:
+				{
+					UIManager.SetActiveMenu("Menu_Quit");
+				}
+				break;
+		}
     }
 }
