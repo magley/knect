@@ -42,6 +42,8 @@ public class MenuItem : MonoBehaviour
 
     private MenuItemToggle toggle;
 
+    private float focusRotation = 0f;
+
     void Start()
     {
 		audioSource = GetComponent<AudioSource>();
@@ -60,8 +62,9 @@ public class MenuItem : MonoBehaviour
     void Update()
     {
 		HandleScale();
+        HandleRotation();
 
-        if (IsActive)
+		if (IsActive)
         {
             HandleInteractionThroughKinect();
         }
@@ -103,6 +106,20 @@ public class MenuItem : MonoBehaviour
 
 		transform.localScale = baseScale * scale;
 	}
+
+    private void HandleRotation()
+    {
+        float targetRot = 0f;
+        if (Focused)
+        {
+			targetRot = Mathf.Sin(Time.time * 1.75f) * 15f;
+		}
+
+        focusRotation = Mathf.Lerp(focusRotation, targetRot, 0.35f);
+
+
+		transform.rotation = Quaternion.Euler(new Vector3(0, 0, focusRotation));
+    }
 
     private void HandleInteractionThroughKinect()
     {

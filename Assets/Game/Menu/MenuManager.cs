@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ public class MenuManager : MonoBehaviour
 	[SerializeField] private string NameID = "";
 	[SerializeField] public bool IsActive = false;
 
+	[SerializeField] private SpriteRenderer myBackgroundObject;
+	public static event Action<SpriteRenderer> OnSetBackgroundImage;
 
 	private void Start()
 	{
@@ -34,6 +37,11 @@ public class MenuManager : MonoBehaviour
 	private void OnActiveMenuChanged(string nameID)
 	{
 		IsActive = (NameID == nameID);
+
+		if (IsActive)
+		{
+			OnSetBackgroundImage(myBackgroundObject);
+		}
 
 		for (int i = 0; i < transform.childCount; i++)
 		{
