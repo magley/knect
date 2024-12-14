@@ -16,6 +16,8 @@ public class MenuItem : MonoBehaviour
 		OpenMenu_Breakout,
 		OpenMenu_Switches,
 		OpenMenu_Quit,
+
+        Toggle,
 	}
 
     public MenuItemType Type;
@@ -38,11 +40,21 @@ public class MenuItem : MonoBehaviour
 
     private Vector3 baseScale;
 
+    private MenuItemToggle toggle;
+
     void Start()
     {
 		audioSource = GetComponent<AudioSource>();
         parentMenu = GetComponentInParent<MenuManager>();
         baseScale = transform.localScale;
+
+        toggle = GetComponent<MenuItemToggle>();
+        if (toggle == null && Type == MenuItemType.Toggle)
+        {
+            Debug.LogError("A 'Toggle' menu item requires a 'MenuItemToggle' component!");
+        }
+
+		transform.localScale = baseScale * scaleUnfocus;
 	}
 
     void Update()
@@ -223,6 +235,11 @@ public class MenuItem : MonoBehaviour
 					UIManager.SetActiveMenu("Menu_Quit");
 				}
 				break;
+            case MenuItemType.Toggle:
+                {
+                    toggle.Toggle();
+				}
+                break;
 		}
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MenuManager : MonoBehaviour
 	[SerializeField] private string NameID = "";
 	[SerializeField] public bool IsActive = false;
 
+
 	private void Start()
 	{
 		menuItems = GetComponentsInChildren<MenuItem>(includeInactive:true).ToList();
@@ -18,6 +20,15 @@ public class MenuManager : MonoBehaviour
 
 		focusIndex = 0;
 		menuItems[focusIndex].DoFocus();
+
+	}
+
+	private void Awake()
+	{
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(IsActive);
+		}
 	}
 
 	private void OnActiveMenuChanged(string nameID)

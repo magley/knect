@@ -1,13 +1,35 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
 	public static event Action<string> OnActiveMenuChanged;
 
+	[SerializeField] private List<Transform> textKinectManagerNotFound = new List<Transform>();
+
 	public static void SetActiveMenu(string nameID)
 	{
 		OnActiveMenuChanged.Invoke(nameID);
+	}
+
+	private void SetKinectNotConnectedText()
+	{
+		foreach (var t in textKinectManagerNotFound)
+		{
+			if (t.GetComponent<Text>() is Text tt)
+			{
+				if (KinectManager.Instance == null)
+				{
+					tt.text = "Kinect not connected!";
+				}
+				else
+				{
+					tt.text = "";
+				}
+			}
+		}
 	}
 
 	[SerializeField] private Transform backgroundObject;
