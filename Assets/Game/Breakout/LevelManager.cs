@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -7,19 +8,76 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private GameObject PrefabWorldSpaceTextForScore;
 	private AudioSource sndBallDestroyOnLevelEnd;
 
-    void Start()
-    {
+	private bool ShouldTickTimeLeft = true;
+	[SerializeField] float seconds = 180;
+	[SerializeField] private Text TimeLeftText;
+	private float secondsLeft = 1000;
+	[SerializeField] private AudioSource DrumRollLoop;
+	[SerializeField] private AudioClip SndDrumRollEnd;
+
+	private bool ShouldAddPointsForRemainingTime = false;
+
+	void Start()
+	{
 		destroyedBallsOnLevelEnd = 0;
 		sndBallDestroyOnLevelEnd = GetComponent<AudioSource>();
+
+		secondsLeft = seconds;
 	}
 
-    void Update()
-    {
-        
-    }
+	void Update()
+	{
+		UpdateTimeLeft();
+	}
+
+	private void UpdateTimeLeft()
+	{
+		// Display time left.
+
+		int minutes = (int)secondsLeft / 60;
+		int seconds = (int)secondsLeft % 60;
+		TimeLeftText.text = $"{minutes.ToString("D2")}:{seconds.ToString("D2")}";
+
+		// Tick time.
+
+		if (ShouldTickTimeLeft)
+		{
+			secondsLeft -= Time.deltaTime;
+			if (secondsLeft <= 0)
+			{
+				TimeIsUp();
+			}
+		}
+
+		if (ShouldAddPointsForRemainingTime)
+		{
+			if (secondsLeft > 0)
+			{
+				secondsLeft -= 1;
+				GameState.AddScore(100);
+
+				if (secondsLeft <= 0)
+				{
+					DrumRollLoop.Stop();
+					DrumRollLoop.clip = SndDrumRollEnd;
+					DrumRollLoop.loop = false;
+					DrumRollLoop.Play();
+
+					secondsLeft = 0;
+					Invoke(nameof(PromptForNextLevel), 0.75f);
+				}
+			}
+		}
+	}
+
+	private void TimeIsUp()
+	{
+
+	}
 
 	public void OnLevelComplete()
 	{
+		ShouldTickTimeLeft = false;
 		Invoke(nameof(DestoryRandomBall), 1f);
 	}
 
@@ -30,7 +88,7 @@ public class LevelManager : MonoBehaviour
 		balls.Reverse();
 		if (balls.Count == 0)
 		{
-			Invoke(nameof(OnAllBallsDestroyed), 2f);
+			Invoke(nameof(OnAllBallsDestroyed), 1f);
 		}
 		else
 		{
@@ -54,6 +112,12 @@ public class LevelManager : MonoBehaviour
 	}
 
 	private void OnAllBallsDestroyed()
+	{
+		ShouldAddPointsForRemainingTime = true;
+		DrumRollLoop.Play();
+	}
+
+	private void PromptForNextLevel()
 	{
 
 	}
