@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,11 +43,14 @@ public class MenuItem : MonoBehaviour
 
     private float focusRotation = 0f;
 
+    private UIManager UIManager;
+
     void Start()
     {
 		audioSource = GetComponent<AudioSource>();
         parentMenu = GetComponentInParent<MenuManager>();
         baseScale = transform.localScale;
+        UIManager = FindFirstObjectByType<UIManager>();
 
         toggle = GetComponent<MenuItemToggle>();
         if (toggle == null && Type == MenuItemType.Toggle)
@@ -223,17 +225,23 @@ public class MenuItem : MonoBehaviour
         {
             case MenuItemType.Unknown: default: break;
             case MenuItemType.Quit:
-                { 
+                {
+                    UIManager.TransitionAndThen(() =>
+                    {
 #if UNITY_EDITOR
-				    UnityEditor.EditorApplication.isPlaying = false;
+						UnityEditor.EditorApplication.isPlaying = false;
 #else
                     Application.Quit();
 #endif
+					}, 0);
 				}
 				break;
             case MenuItemType.PlayBreakout:
                 {
-                    SceneManager.LoadScene("BreakoutScene");
+                    UIManager.TransitionAndThen(() =>
+                    {
+                        SceneManager.LoadScene("BreakoutScene");
+                    }, 1);
                 }
                 break;
             case MenuItemType.PlaySwitches: break;

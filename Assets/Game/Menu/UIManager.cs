@@ -8,9 +8,20 @@ public class UIManager : MonoBehaviour
 	public static event Action<string> OnActiveMenuChanged;
 	[SerializeField] private List<Transform> textKinectManagerNotFound = new List<Transform>();
 	[SerializeField] private Transform backgroundObject;
+	[SerializeField] private SpriteMask transitionCircleMask;
 
 	private float backgroundScale = 1f;
 	private SpriteRenderer visibleBackgroundImage;
+
+	private bool isTransitioning = false;
+	private Action callableAfterTransition;
+	private float callableAfterTransitionHowManySeconds;
+	public void TransitionAndThen(Action callableFunction, float afterHowManySeconds)
+	{
+		isTransitioning = true;
+		callableAfterTransitionHowManySeconds = afterHowManySeconds;
+		callableAfterTransition = callableFunction;
+	}
 
 	private void Start()
 	{
@@ -25,6 +36,28 @@ public class UIManager : MonoBehaviour
 	void Update()
     {
 		HandleBackground();
+		HandleTransition();
+	}
+
+	private void HandleTransition()
+	{
+		if (isTransitioning)
+		{
+			if (transitionCircleMask.transform.localScale.x > 0f)
+			{
+				transitionCircleMask.transform.localScale -= Vector3.one * 0.135f;
+				if (transitionCircleMask.transform.localScale.z <= 0.025f)
+				{
+					transitionCircleMask.transform.localScale *= 0;
+					Invoke(nameof(InvokeCallableAfterTransition), callableAfterTransitionHowManySeconds);
+				}
+			}
+		}
+	}
+
+	private void InvokeCallableAfterTransition()
+	{
+		callableAfterTransition();
 	}
 
 	private void HandleBackground()
