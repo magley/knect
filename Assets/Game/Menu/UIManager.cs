@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
 	private void Start()
 	{
 		MenuManager.OnSetBackgroundImage += OnSetBackgroundImage;
+		transitionCircleMask.transform.localScale = Vector3.zero;
 	}
 
 	private void OnSetBackgroundImage(SpriteRenderer image)
@@ -51,6 +52,13 @@ public class UIManager : MonoBehaviour
 					transitionCircleMask.transform.localScale *= 0;
 					Invoke(nameof(InvokeCallableAfterTransition), callableAfterTransitionHowManySeconds);
 				}
+			}
+		}
+		else
+		{
+			if (transitionCircleMask.transform.localScale.x < 6f)
+			{
+				transitionCircleMask.transform.localScale += Vector3.one * 0.135f;
 			}
 		}
 	}
