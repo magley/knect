@@ -61,6 +61,11 @@ public class Ball : MonoBehaviour
 				CanGetHitByBouncePad = false;
 				ResetCombo();
 				particles.Emit(1);
+
+				if (other.GetComponent<BouncePad>() is BouncePad bouncePad)
+				{
+					bouncePad.SpinPaddleRing();
+				}
 			}
 		}
 	}
