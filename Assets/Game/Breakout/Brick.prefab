@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 116499627119491939}
   - component: {fileID: 3182334238579997009}
   - component: {fileID: -7459622536187266429}
+  - component: {fileID: -8057679948222019379}
   m_Layer: 0
   m_Name: Brick
   m_TagString: Brick
@@ -127,3 +128,15 @@ MonoBehaviour:
   GenericDrops:
   - {fileID: 5605765447041821035, guid: f5092a72bd6a4164583d26d6b9f02c1a, type: 3}
   - {fileID: 5605765447041821035, guid: d2372b6f28d447a47a60093aa4f13fbc, type: 3}
+--- !u!114 &-8057679948222019379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9119606483944477221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6b9b07a0401224c9ba8b1d86e854f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

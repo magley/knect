@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 74382356231962668}
   - component: {fileID: 8104119401314168764}
   - component: {fileID: 4032729275102643482}
+  - component: {fileID: -5883040068431857960}
   m_Layer: 6
   m_Name: TimesTwo
   m_TagString: Untagged
@@ -69,6 +70,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollectableType: 0
   ScoreBonus: 1000
+--- !u!114 &-5883040068431857960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605765447041821035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6b9b07a0401224c9ba8b1d86e854f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8977659048255084677
 PrefabInstance:
   m_ObjectHideFlags: 0
