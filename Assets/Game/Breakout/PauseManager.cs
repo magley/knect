@@ -11,6 +11,9 @@ public class PauseManager : MonoBehaviour
 	bool isPaused = false;
 	private List<Pauseable> wasInactiveBeforePausing = new List<Pauseable>();
 
+	[SerializeField] private Camera cameraMain;
+	[SerializeField] private Camera cameraPause;
+
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -55,6 +58,9 @@ public class PauseManager : MonoBehaviour
 
 	private void PauseGame()
 	{
+		cameraPause.enabled = true;
+		cameraMain.enabled = false;
+
 		wasInactiveBeforePausing = FindObjectsOfType<Pauseable>(true).Where(p => !p.gameObject.activeInHierarchy).ToList();
 		foreach (var pauseable in FindObjectsOfType<Pauseable>(true))
 		{
@@ -67,6 +73,9 @@ public class PauseManager : MonoBehaviour
 
 	private void ResumeGame()
 	{
+		cameraMain.enabled = true;
+		cameraPause.enabled = false;
+
 		foreach (var pauseable in FindObjectsOfType<Pauseable>(true).Except(wasInactiveBeforePausing))
 		{
 			pauseable.gameObject.SetActive(true);
