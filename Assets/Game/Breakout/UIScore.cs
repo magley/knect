@@ -23,7 +23,12 @@ public class UIScore : MonoBehaviour
 		textPosY = textScoreTransform.anchoredPosition.y;
 	}
 
-    void Update()
+	private void OnDestroy()
+	{
+		GameState.ScoreChanged -= OnScoreAdded;
+	}
+
+	void Update()
     {
 		HandleTextBounce();
 		HandleScoreMultiplier();

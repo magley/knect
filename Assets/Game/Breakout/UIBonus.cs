@@ -24,6 +24,11 @@ public class UIBonus : MonoBehaviour
 		sourceBonus = GetComponent<AudioSource>();
 	}
 
+	private void OnDestroy()
+	{
+		Ball.OnComboMade -= ShowCombo;
+	}
+
 	private void Update()
 	{
 		if (KeepUIOnScreenTimer > 0)

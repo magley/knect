@@ -37,6 +37,11 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+	private void OnDestroy()
+	{
+		MenuManager.OnSetBackgroundImage -= OnSetBackgroundImage;
+	}
+
 	private void OnSetBackgroundImage(SpriteRenderer image)
 	{
 		visibleBackgroundImage = image;
