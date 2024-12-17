@@ -125,11 +125,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestroyOnImpact: 0
-  SndHitWall:
-  - {fileID: 8300000, guid: 2a92f927439318542a6b1f80eb4b14e7, type: 3}
-  - {fileID: 8300000, guid: 21cebf1382b469c44bdde8de20209609, type: 3}
-  - {fileID: 8300000, guid: 13953044604034b41832dee04d9da240, type: 3}
-  - {fileID: 8300000, guid: 66fc2d291b2a0f14cb654273a900cac0, type: 3}
+  sndBallHit:
+  - {fileID: 8300000, guid: 8c71b51a1c51dba4da1e91288bbff633, type: 3}
+  - {fileID: 8300000, guid: f8dfe49ddcf5d8d4791c65d434cbd50f, type: 3}
+  - {fileID: 8300000, guid: 18c7cb34872cca740a3d489f0e2c7103, type: 3}
+  sndBallHitHard:
+  - {fileID: 8300000, guid: 411b0874d3954784b881240171bfe579, type: 3}
+  - {fileID: 8300000, guid: 4436a4ddd3e70b844b666f3ec9a4ab57, type: 3}
   _combo: 0
   _bonus: 0
   StandardSpeed: 14
@@ -329,8 +331,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 25
+  MinDistance: 14.2
+  MaxDistance: 75.88
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0

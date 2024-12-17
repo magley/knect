@@ -10,10 +10,12 @@ public class Ball : MonoBehaviour
 	private bool CanGetHitByBouncePad = true;
 	[SerializeField] private bool DestroyOnImpact = false;
 
-	[SerializeField] private AudioClip[] SndHitWall = { };
 	private AudioSource SndHitWallSource;
 
 	public static event Action<int> OnComboMade;
+
+	[SerializeField] private AudioClip[] sndBallHit = { };
+	[SerializeField] private AudioClip[] sndBallHitHard = { };
 
 	/// <summary>
 	/// Combo is increased for each breakable that the ball destroys.
@@ -66,6 +68,10 @@ public class Ball : MonoBehaviour
 				{
 					bouncePad.SpinPaddleRing();
 				}
+
+				var clip = sndBallHitHard[UnityEngine.Random.Range(0, sndBallHitHard.Length)];
+				SndHitWallSource.clip = clip;
+				SndHitWallSource.Play();
 			}
 		}
 	}
@@ -112,7 +118,7 @@ public class Ball : MonoBehaviour
 		{
 			DecreaseBonus();
 
-			var clip = SndHitWall[UnityEngine.Random.Range(0, SndHitWall.Length)];
+			var clip = sndBallHit[UnityEngine.Random.Range(0, sndBallHit.Length)];
 			SndHitWallSource.clip = clip;
 			SndHitWallSource.Play();
 		}
