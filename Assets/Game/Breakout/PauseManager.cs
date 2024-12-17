@@ -15,6 +15,9 @@ public class PauseManager : MonoBehaviour
 	[SerializeField] private Camera cameraMain;
 	[SerializeField] private Camera cameraPause;
 
+	[SerializeField] private AudioClip sndPause;
+	[SerializeField] private AudioClip sndUnpause;
+
 	private void Start()
 	{
 		for (int i = 0; i < transform.childCount; i++)
@@ -83,6 +86,8 @@ public class PauseManager : MonoBehaviour
 		{
 			transform.GetChild(i).gameObject.SetActive(true);
 		}
+
+		AudioSource.PlayClipAtPoint(sndPause, cameraMain.transform.position);
 	}
 
 	public void ResumeGame()
@@ -101,5 +106,7 @@ public class PauseManager : MonoBehaviour
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
 		}
+
+		AudioSource.PlayClipAtPoint(sndUnpause, cameraMain.transform.position);
 	}
 }
