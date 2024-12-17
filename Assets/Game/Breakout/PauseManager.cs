@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,14 @@ public class PauseManager : MonoBehaviour
 
 	[SerializeField] private Camera cameraMain;
 	[SerializeField] private Camera cameraPause;
+
+	private void Start()
+	{
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(false);
+		}
+	}
 
 	void Update()
 	{
@@ -40,7 +49,6 @@ public class PauseManager : MonoBehaviour
 	{
 		Sprite sprite = Sprite.Create(screenshot, new Rect(0, 0, screenshot.width, screenshot.height), new Vector2(0.5f, 0.5f));
 		pauseImage.sprite = sprite;
-		pauseImage.gameObject.SetActive(true);
 	}
 
 	void TogglePause()
@@ -56,8 +64,9 @@ public class PauseManager : MonoBehaviour
 		}
 	}
 
-	private void PauseGame()
+	public void PauseGame()
 	{
+		isPaused = true;
 		cameraPause.enabled = true;
 		cameraMain.enabled = false;
 
@@ -69,10 +78,16 @@ public class PauseManager : MonoBehaviour
 
 		CaptureScreenshot();
 		ShowScreenshot();
+
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(true);
+		}
 	}
 
-	private void ResumeGame()
+	public void ResumeGame()
 	{
+		isPaused = false;
 		cameraMain.enabled = true;
 		cameraPause.enabled = false;
 
@@ -82,6 +97,9 @@ public class PauseManager : MonoBehaviour
 		}
 		wasInactiveBeforePausing.Clear();
 
-		pauseImage.gameObject.SetActive(false);
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(false);
+		}
 	}
 }

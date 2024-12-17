@@ -10,9 +10,12 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Transform backgroundObject;
 	[SerializeField] private SpriteMask transitionCircleMask;
 
+
 	private float backgroundScale = 1f;
 	private SpriteRenderer visibleBackgroundImage;
 
+	[SerializeField] private bool StartWithTransitionCircleClosed = true;
+	private float transitionCircleMaskOpenSize;
 	private bool isTransitioning = false;
 	private Action callableAfterTransition;
 	private float callableAfterTransitionHowManySeconds;
@@ -26,7 +29,12 @@ public class UIManager : MonoBehaviour
 	private void Start()
 	{
 		MenuManager.OnSetBackgroundImage += OnSetBackgroundImage;
-		transitionCircleMask.transform.localScale = Vector3.zero;
+
+		transitionCircleMaskOpenSize = transitionCircleMask.transform.localScale.x;
+		if (StartWithTransitionCircleClosed)
+		{
+			transitionCircleMask.transform.localScale = Vector3.zero;
+		}
 	}
 
 	private void OnSetBackgroundImage(SpriteRenderer image)
@@ -56,7 +64,7 @@ public class UIManager : MonoBehaviour
 		}
 		else
 		{
-			if (transitionCircleMask.transform.localScale.x < 6f)
+			if (transitionCircleMask.transform.localScale.x < transitionCircleMaskOpenSize)
 			{
 				transitionCircleMask.transform.localScale += Vector3.one * 0.135f;
 			}
@@ -70,6 +78,11 @@ public class UIManager : MonoBehaviour
 
 	private void HandleBackground()
 	{
+		if (backgroundObject == null)
+		{
+			return;
+		}
+
 		backgroundObject.Rotate(new Vector3(0, 0, 0.1f));
 		backgroundScale = Mathf.Sin(Time.time * 0.25f) * 0.5f + 1f;
 		backgroundObject.localScale = new Vector3(1, 1, 0) * backgroundScale + Vector3.forward;

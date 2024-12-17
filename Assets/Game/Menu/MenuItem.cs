@@ -17,6 +17,9 @@ public class MenuItem : MonoBehaviour
 		OpenMenu_Quit,
 
         Toggle,
+
+        ResumeGame,
+        QuitToMainMenu,
 	}
 
     public MenuItemType Type;
@@ -263,6 +266,26 @@ public class MenuItem : MonoBehaviour
             case MenuItemType.Toggle:
                 {
                     toggle.Toggle();
+				}
+                break;
+            case MenuItemType.ResumeGame:
+                {
+                    if (FindFirstObjectByType<PauseManager>() is PauseManager pauseManager)
+                    {
+                        pauseManager.ResumeGame();
+					}
+                    else
+                    {
+                        Debug.LogError("No gameobject with 'PauseManager' component found! You need a 'PauseManager' to unpause the game.");
+                    }
+                }
+                break;
+            case MenuItemType.QuitToMainMenu:
+                {
+					UIManager.TransitionAndThen(() =>
+					{
+						SceneManager.LoadScene("MenuScene");
+					}, 1);
 				}
                 break;
 		}
