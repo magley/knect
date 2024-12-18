@@ -21,7 +21,7 @@ public class BouncePad : MonoBehaviour
         Control_KeyboardMouse();
         HandlePaddleRingRotation();
 
-		Vector3 offsetWithDistance = new(posOffset.x * 3.5f, posOffset.y * 2f, 0);
+		Vector3 offsetWithDistance = new(posOffset.x * 3.5f, posOffset.y * 1.2f, 0);
 		transform.position = Vector3.Lerp(transform.position, startPos + offsetWithDistance, 0.15f);
 	}
 
