@@ -6688,6 +6688,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 2814906130537546299, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 7769144860297684704, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.74

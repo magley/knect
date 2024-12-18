@@ -17,6 +17,8 @@ public class Ball : MonoBehaviour
 	[SerializeField] private AudioClip[] sndBallHit = { };
 	[SerializeField] private AudioClip[] sndBallHitHard = { };
 
+	[SerializeField] private Material[] PossibleMaterial = { };
+
 	/// <summary>
 	/// Combo is increased for each breakable that the ball destroys.
 	/// When the ball hits the player, the combo resets.
@@ -51,6 +53,8 @@ public class Ball : MonoBehaviour
 		SndHitWallSource = GetComponent<AudioSource>();
 		particles = GetComponent<ParticleSystem>();
 		rb.velocity = transform.forward * StandardSpeed;
+
+		GetComponent<Renderer>().material = PossibleMaterial[UnityEngine.Random.Range(0, PossibleMaterial.Length)];
 	}
 
 	private void OnTriggerEnter(Collider other)
