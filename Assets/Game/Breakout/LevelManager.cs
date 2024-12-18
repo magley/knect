@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,8 @@ public class LevelManager : MonoBehaviour
 
 	private bool ShouldAddPointsForRemainingTime = false;
 
+	[SerializeField] private List<GameObject> PrefabWavesInOrder = new List<GameObject>();
+
 	void Start()
 	{
 		destroyedBallsOnLevelEnd = 0;
@@ -25,6 +28,22 @@ public class LevelManager : MonoBehaviour
 		secondsLeft = seconds;
 
 		GameState.ResetScore();
+
+		Invoke(nameof(SpawnNextWave), 1.5f);
+	}
+
+	public void SpawnNextWave()
+	{
+		if (PrefabWavesInOrder.Count > 0)
+		{
+			var obj = PrefabWavesInOrder[0];
+			Instantiate(obj);
+			PrefabWavesInOrder.RemoveAt(0);
+		}
+		else
+		{
+			OnLevelComplete();
+		}
 	}
 
 	void Update()
