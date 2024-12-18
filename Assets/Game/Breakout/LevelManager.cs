@@ -23,6 +23,8 @@ public class LevelManager : MonoBehaviour
 		sndBallDestroyOnLevelEnd = GetComponent<AudioSource>();
 
 		secondsLeft = seconds;
+
+		GameState.ResetScore();
 	}
 
 	void Update()
