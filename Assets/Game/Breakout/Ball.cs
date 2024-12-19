@@ -45,6 +45,11 @@ public class Ball : MonoBehaviour
 	/// Velocity magnitude at level start and when the ball is hit by the player.
 	/// </summary>
 	[SerializeField] private float StandardSpeed = 18f;
+	/// <summary>
+	/// Minimum speed in any axis. This is to prevent the ball from moving too slowly
+	/// on the z-axis which means it takes a long time for the ball to move across the arena.
+	/// </summary>
+	private float MinimumSpeedOnAxis = 5;
 
 	void Start()
 	{
@@ -91,6 +96,19 @@ public class Ball : MonoBehaviour
 	private void Update()
 	{
 		HandleTrailLength();
+		HandleVelocityDirection();
+	}
+
+	private void HandleVelocityDirection()
+	{
+		if (Math.Abs(rb.velocity.z) < MinimumSpeedOnAxis)
+		{
+			rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Math.Sign(rb.velocity.z) * MinimumSpeedOnAxis);
+		}
+		if (Math.Abs(rb.velocity.y) < MinimumSpeedOnAxis)
+		{
+			rb.velocity = new Vector3(rb.velocity.x, Math.Sign(rb.velocity.y) * MinimumSpeedOnAxis, rb.velocity.z);
+		}
 	}
 
 	private void SlowTheBallDownABit()
