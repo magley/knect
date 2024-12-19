@@ -221,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 8959996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.34, y: 5.18, z: -1}
+  m_LocalPosition: {x: -0.34, y: 5.18, z: -0.5}
   m_LocalScale: {x: 19.48542, y: 10.379804, z: 3.481634}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1138,7 +1138,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8268597, g: 1, b: 0.4198113, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1146,11 +1146,11 @@ Light:
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
-    m_Resolution: 0
+    m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.77
+    m_Strength: 0.581
+    m_Bias: 0
+    m_NormalBias: 0
     m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
@@ -2724,7 +2724,7 @@ Transform:
   m_GameObject: {fileID: 1143740113}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.53, y: 6.683423, z: 4.01}
+  m_LocalPosition: {x: 2.53, y: 6.6, z: 4.01}
   m_LocalScale: {x: 0.57, y: 0.57, z: 0.57}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5187,7 +5187,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -47.8, y: 7.28}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 160, y: 3060}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1648655256
 MonoBehaviour:
@@ -5202,7 +5202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8690245, b: 0.5990566, a: 1}
+  m_Color: {r: 0.8726415, g: 0.87677526, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5211,18 +5211,20 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: fd25d4eb07b65bb4aa6b9331e6eecf18, type: 3}
-    m_FontSize: 20
+    m_FontSize: 12
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 03:00
+    m_LineSpacing: 0.71
+  m_Text: '03:00
+
+    Wave 99'
 --- !u!222 &1648655257
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5243,8 +5245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.7960785, g: 0.44705886, b: 0.16078432, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
+  m_EffectColor: {r: 0.058962256, g: 0.24377796, b: 0.5, a: 1}
+  m_EffectDistance: {x: 0.5, y: -0.5}
   m_UseGraphicAlpha: 1
 --- !u!1 &1650297277
 GameObject:
@@ -5471,7 +5473,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 169059f5bb36ffe48b5b13c13d81b019, type: 3}
       propertyPath: m_LocalScale.x
-      value: 125.6
+      value: 137.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 169059f5bb36ffe48b5b13c13d81b019, type: 3}
       propertyPath: m_LocalScale.y

@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour
 	private bool ShouldAddPointsForRemainingTime = false;
 
 	[SerializeField] private List<GameObject> PrefabWavesInOrder = new List<GameObject>();
+	private int waveIndex = 0;
+	private int waveCounter = 0;
 
 	void Start()
 	{
@@ -36,13 +38,14 @@ public class LevelManager : MonoBehaviour
 	{
 		if (PrefabWavesInOrder.Count > 0)
 		{
-			var obj = PrefabWavesInOrder[0];
+			var obj = PrefabWavesInOrder[waveIndex];
 			Instantiate(obj);
-			PrefabWavesInOrder.RemoveAt(0);
+			waveIndex = (waveIndex + 1) % (PrefabWavesInOrder.Count);
+			waveCounter++;
 		}
 		else
 		{
-			OnLevelComplete();
+			Debug.LogError("No wave prefabs found");
 		}
 	}
 
@@ -58,6 +61,7 @@ public class LevelManager : MonoBehaviour
 		int minutes = (int)secondsLeft / 60;
 		int seconds = (int)secondsLeft % 60;
 		TimeLeftText.text = $"{minutes.ToString("D2")}:{seconds.ToString("D2")}";
+		TimeLeftText.text += $"\nWave {waveCounter}";
 
 		// Tick time.
 
