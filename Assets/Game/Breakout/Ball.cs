@@ -188,6 +188,11 @@ public class Ball : MonoBehaviour
 		{
 			OnComboMade?.Invoke(Combo);
 			GameState.AddScore(Combo * 1000);
+
+			if (Combo > GameState.BestCombo)
+			{
+				GameState.BestCombo = Combo;
+			}
 		}
 
 		Combo = 0;

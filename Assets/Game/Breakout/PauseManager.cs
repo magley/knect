@@ -18,6 +18,12 @@ public class PauseManager : MonoBehaviour
 	[SerializeField] private AudioClip sndPause;
 	[SerializeField] private AudioClip sndUnpause;
 
+	[SerializeField] private GameObject objectTreePause;
+	[SerializeField] private GameObject objectTreeResults;
+	[SerializeField] private GameObject pauseScreenshotCanvasObject;
+
+	public bool CanPause = true;
+
 	private void Start()
 	{
 		for (int i = 0; i < transform.childCount; i++)
@@ -28,7 +34,7 @@ public class PauseManager : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Escape) && CanPause)
 		{
 			StartCoroutine(PauseOnEndOfFrame());
 		}
@@ -39,7 +45,6 @@ public class PauseManager : MonoBehaviour
 		yield return new WaitForEndOfFrame();
 		TogglePause();
 	}
-
 
 	void CaptureScreenshot()
 	{
@@ -56,14 +61,18 @@ public class PauseManager : MonoBehaviour
 
 	void TogglePause()
 	{
-		isPaused = !isPaused;
-		if (isPaused)
+		if (CanPause)
 		{
-			PauseGame();
-		}
-		else
-		{
-			ResumeGame();
+			isPaused = !isPaused;
+
+			if (isPaused)
+			{
+				PauseGame();
+			}
+			else
+			{
+				ResumeGame();
+			}
 		}
 	}
 
@@ -82,9 +91,11 @@ public class PauseManager : MonoBehaviour
 		CaptureScreenshot();
 		ShowScreenshot();
 
-		for (int i = 0; i < transform.childCount; i++)
+		objectTreePause.SetActive(true);
+		pauseScreenshotCanvasObject.SetActive(true);
+		for (int i = 0; i < objectTreePause.transform.childCount; i++)
 		{
-			transform.GetChild(i).gameObject.SetActive(true);
+			objectTreePause.transform.GetChild(i).gameObject.SetActive(true);
 		}
 
 		AudioSource.PlayClipAtPoint(sndPause, cameraMain.transform.position);
@@ -96,17 +107,62 @@ public class PauseManager : MonoBehaviour
 		cameraMain.enabled = true;
 		cameraPause.enabled = false;
 
+
 		foreach (var pauseable in FindObjectsOfType<Pauseable>(true).Except(wasInactiveBeforePausing))
 		{
 			pauseable.gameObject.SetActive(true);
 		}
 		wasInactiveBeforePausing.Clear();
 
-		for (int i = 0; i < transform.childCount; i++)
+		objectTreePause.SetActive(false);
+		for (int i = 0; i < objectTreePause.transform.childCount; i++)
 		{
-			transform.GetChild(i).gameObject.SetActive(false);
+			objectTreePause.transform.GetChild(i).gameObject.SetActive(false);
 		}
 
 		AudioSource.PlayClipAtPoint(sndUnpause, cameraMain.transform.position);
 	}
+
+	public void ShowResultsScreen()
+	{
+		StartCoroutine(ShowResultsScreenOnEndOfFrame());
+	}
+
+	IEnumerator ShowResultsScreenOnEndOfFrame()
+	{
+		yield return new WaitForEndOfFrame();
+		CaptureScreenshot();
+		ShowScreenshot();
+
+		wasInactiveBeforePausing = FindObjectsOfType<Pauseable>(true).Where(p => !p.gameObject.activeInHierarchy).ToList();
+		foreach (var pauseable in FindObjectsOfType<Pauseable>(true))
+		{
+			pauseable.gameObject.SetActive(false);
+		}
+
+		CanPause = false;
+		isPaused = true;
+		cameraPause.enabled = true;
+		cameraMain.enabled = false;
+
+		pauseScreenshotCanvasObject.SetActive(true);
+
+		objectTreePause.SetActive(false);
+		for (int i = 0; i < objectTreePause.transform.childCount; i++)
+		{
+			objectTreePause.transform.GetChild(i).gameObject.SetActive(false);
+		}
+
+		objectTreeResults.SetActive(true);
+		for (int i = 0; i < objectTreeResults.transform.childCount; i++)
+		{
+			objectTreeResults.transform.GetChild(i).gameObject.SetActive(true);
+		}
+
+		if (objectTreeResults.transform.GetComponentInChildren<ResultsUIManager>() is ResultsUIManager resultsUI)
+		{
+			resultsUI.Ready();
+		}
+	}
+
 }

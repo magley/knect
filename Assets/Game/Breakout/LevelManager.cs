@@ -27,6 +27,8 @@ public class LevelManager : MonoBehaviour
 	/// </summary>
 	private int waveCounterVisible = 0;
 
+	private PauseManager pauseManager;
+
 	private bool IsGameGoing = true;
 
 	void Start()
@@ -37,6 +39,8 @@ public class LevelManager : MonoBehaviour
 		secondsLeft = seconds;
 
 		GameState.ResetScore();
+
+		pauseManager = FindObjectOfType<PauseManager>();
 
 		Invoke(nameof(SpawnNextWave), 1.5f);
 	}
@@ -96,6 +100,8 @@ public class LevelManager : MonoBehaviour
 		DrumRollLoop.clip = SndRefereeWhistle;
 		DrumRollLoop.loop = false;
 		DrumRollLoop.Play();
+
+		pauseManager.CanPause = false;
 
 		Invoke(nameof(TimeIsUp_01_StopBalls), 0.25f);
 	}
@@ -169,15 +175,23 @@ public class LevelManager : MonoBehaviour
 		}
 		else
 		{
-			Invoke(nameof(TimeIsUp_06_ShowResultsAndMenu), 0.67f);
+			Invoke(nameof(TimeIsUp_06_DrumRollEnd), 0.67f);
 		}
 	}
 
-	private void TimeIsUp_06_ShowResultsAndMenu()
+	private void TimeIsUp_06_DrumRollEnd()
 	{
 		DrumRollLoop.Stop();
 		DrumRollLoop.clip = SndDrumRollEnd;
 		DrumRollLoop.loop = false;
 		DrumRollLoop.Play();
+
+		Invoke(nameof(TimeIsUp_07_ShowResults), 2.5f);
+	}
+
+	private void TimeIsUp_07_ShowResults()
+	{
+		GameState.TotalWaves = waveCounter;
+		pauseManager.ShowResultsScreen();
 	}
 }
