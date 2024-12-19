@@ -126,9 +126,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DestroyOnImpact: 0
   sndBallHit:
-  - {fileID: 8300000, guid: 8c71b51a1c51dba4da1e91288bbff633, type: 3}
-  - {fileID: 8300000, guid: f8dfe49ddcf5d8d4791c65d434cbd50f, type: 3}
-  - {fileID: 8300000, guid: 18c7cb34872cca740a3d489f0e2c7103, type: 3}
+  - {fileID: 8300000, guid: f299eff90f6e7e04c861a0115d1e0426, type: 3}
+  - {fileID: 8300000, guid: 582bdecd026abe740b182fb9424bd051, type: 3}
+  - {fileID: 8300000, guid: 6806bcfd8c26fd9418d17e0d3bb710f8, type: 3}
+  - {fileID: 8300000, guid: 77b90c57ee628d244b5a1078c4960cac, type: 3}
   sndBallHitHard:
   - {fileID: 8300000, guid: 411b0874d3954784b881240171bfe579, type: 3}
   - {fileID: 8300000, guid: 4436a4ddd3e70b844b666f3ec9a4ab57, type: 3}

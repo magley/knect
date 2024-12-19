@@ -10,9 +10,9 @@ public class LevelManager : MonoBehaviour
 	private AudioSource sndBallDestroyOnLevelEnd;
 
 	private bool ShouldTickTimeLeft = true;
-	[SerializeField] float seconds = 180;
+	[SerializeField] float seconds = 60;
 	[SerializeField] private Text TimeLeftText;
-	private float secondsLeft = 1000;
+	private float secondsLeft = 60;
 	[SerializeField] private AudioSource DrumRollLoop;
 	[SerializeField] private AudioClip SndDrumRollEnd;
 

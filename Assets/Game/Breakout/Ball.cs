@@ -8,7 +8,7 @@ public class Ball : MonoBehaviour
 	private TrailRenderer trailRenderer;
 	private ParticleSystem particles;
 	private bool CanGetHitByBouncePad = true;
-	[SerializeField] private bool DestroyOnImpact = false;
+	[SerializeField] public bool DestroyOnImpact = false;
 
 	private AudioSource SndHitWallSource;
 
@@ -49,7 +49,7 @@ public class Ball : MonoBehaviour
 	/// Minimum speed in any axis. This is to prevent the ball from moving too slowly
 	/// on the z-axis which means it takes a long time for the ball to move across the arena.
 	/// </summary>
-	private float MinimumSpeedOnAxis = 5;
+	private float MinimumSpeedOnAxis = 9;
 
 	void Start()
 	{
