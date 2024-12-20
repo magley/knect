@@ -14,6 +14,7 @@ public class ResultsUIManager : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private AudioClip sndBlip;
 	[SerializeField] private AudioClip sndBloop;
+    [SerializeField] private MenuItem BtnExitToMenu;
 
     private void SetScoreBoardText(int score, int waves, int bestCombo)
     {
@@ -29,7 +30,7 @@ public class ResultsUIManager : MonoBehaviour
         */
 
         string s = "";
-        bool isNewHighScore = true;
+        bool isNewHighScore = score > 0 && score >= XMLManager.instance.data.GetHighScore();
         s += $"Score:       {score.ToString().PadLeft(8, '0')}\n";
         s += isNewHighScore ? $"New High Score!\n" : "\n";
         s += "_____________________\n\n";
@@ -111,6 +112,7 @@ public class ResultsUIManager : MonoBehaviour
         {
 			audioSource.Stop();
 			animRunning = false;
+            BtnExitToMenu.CanBeSelected = true;
 		}
 
 		SetScoreBoardText(animScore, animWaves, animCombo);

@@ -43,6 +43,8 @@ public class LevelManager : MonoBehaviour
 		pauseManager = FindObjectOfType<PauseManager>();
 
 		Invoke(nameof(SpawnNextWave), 1.5f);
+
+		XMLManager.instance.Load();
 	}
 
 	public void SpawnNextWave()
@@ -110,7 +112,7 @@ public class LevelManager : MonoBehaviour
 	{
 		foreach(var ball in FindObjectsByType<Ball>(FindObjectsSortMode.None))
 		{
-			ball.GetComponent<Rigidbody>().velocity *= 0;
+			Destroy(ball.GetComponent<Rigidbody>());
 		}
 
 		Invoke(nameof(TimeIsUp_02_PlayDrumRoll), 1.473f);
@@ -192,6 +194,10 @@ public class LevelManager : MonoBehaviour
 	private void TimeIsUp_07_ShowResults()
 	{
 		GameState.TotalWaves = waveCounter;
+
+		XMLManager.instance.AddScore(new(GameState.Score, GameState.TotalWaves, GameState.BestCombo));
+		XMLManager.instance.Save();
+
 		pauseManager.ShowResultsScreen();
 	}
 }

@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 
 	[SerializeField] private bool StartWithTransitionCircleClosed = true;
 	private float transitionCircleMaskOpenSize;
-	private bool isTransitioning = false;
+	[SerializeField] private bool isTransitioning = false;
 	private Action callableAfterTransition;
 	private float callableAfterTransitionHowManySeconds;
 	public void TransitionAndThen(Action callableFunction, float afterHowManySeconds)
@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
 			if (transitionCircleMask.transform.localScale.x > 0f)
 			{
 				transitionCircleMask.transform.localScale -= Vector3.one * 0.135f;
-				if (transitionCircleMask.transform.localScale.z <= 0.025f)
+				if (transitionCircleMask.transform.localScale.x <= 0.025f)
 				{
 					transitionCircleMask.transform.localScale *= 0;
 					Invoke(nameof(InvokeCallableAfterTransition), callableAfterTransitionHowManySeconds);

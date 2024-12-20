@@ -23,7 +23,7 @@ public class MenuItem : MonoBehaviour
 	}
 
     public MenuItemType Type;
-    [SerializeField] private bool CanBeSelected = true;
+    [SerializeField] public bool CanBeSelected = true;
     public bool Focused { get; private set; } = false;
     private bool Selected = false;
     private bool HasFocusFromKinect = false;
@@ -102,6 +102,7 @@ public class MenuItem : MonoBehaviour
         else
         {
 			scale = Mathf.Lerp(scale, scaleFocus, 0.2f);
+
 
             if (Mathf.Abs(scale - scaleFocus) <= 0.01f)
             {

@@ -20,7 +20,8 @@ public class PauseManager : MonoBehaviour
 
 	[SerializeField] private GameObject objectTreePause;
 	[SerializeField] private GameObject objectTreeResults;
-	[SerializeField] private GameObject pauseScreenshotCanvasObject;
+
+	[SerializeField] private GameObject alwaysActive;
 
 	public bool CanPause = true;
 
@@ -92,7 +93,7 @@ public class PauseManager : MonoBehaviour
 		ShowScreenshot();
 
 		objectTreePause.SetActive(true);
-		pauseScreenshotCanvasObject.SetActive(true);
+		alwaysActive.SetActive(true);
 		for (int i = 0; i < objectTreePause.transform.childCount; i++)
 		{
 			objectTreePause.transform.GetChild(i).gameObject.SetActive(true);
@@ -145,7 +146,7 @@ public class PauseManager : MonoBehaviour
 		cameraPause.enabled = true;
 		cameraMain.enabled = false;
 
-		pauseScreenshotCanvasObject.SetActive(true);
+		alwaysActive.SetActive(true);
 
 		objectTreePause.SetActive(false);
 		for (int i = 0; i < objectTreePause.transform.childCount; i++)
