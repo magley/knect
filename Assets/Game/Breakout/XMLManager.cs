@@ -55,6 +55,8 @@ public class XMLManager : MonoBehaviour
 		{
 			Directory.CreateDirectory(Application.persistentDataPath + "/Data/");
 		}
+
+		Load();
 	}
 
 	public void AddScore(BreakoutPlaythroughXML score)

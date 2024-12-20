@@ -18,6 +18,34 @@ class LevelStartBonus
 		this.Function = function;
 
 	}
+
+	public static List<LevelStartBonus> Bonuses = new()
+	{
+		new LevelStartBonus("Start with 90 seconds", 100_000, (LevelManager self) =>
+		{
+			self.SetStartingTime(90);
+		}),
+		new LevelStartBonus("Start with x2 multiplier", 200_000, (LevelManager self) =>
+		{
+			PlayerAdditions.SetScoreMultiplier(2);
+		}),
+		new LevelStartBonus("Start with 120 seconds", 300_000, (LevelManager self) =>
+		{
+			self.SetStartingTime(120);
+		}),
+		new LevelStartBonus("Start with 2 balls", 500_000, (LevelManager self) =>
+		{
+			self.AddBall();
+		}),
+		new LevelStartBonus("Start with x5 multiplier", 800_000, (LevelManager self) =>
+		{
+			PlayerAdditions.SetScoreMultiplier(5);
+		}),
+		new LevelStartBonus("Start with 3 balls", 1_000_000, (LevelManager self) =>
+		{
+			self.AddBall();
+		}),
+	};
 }
 
 public class LevelManager : MonoBehaviour
@@ -50,34 +78,16 @@ public class LevelManager : MonoBehaviour
 
 	private bool IsGameGoing = true;
 
-	private List<LevelStartBonus> LevelStartBonuses = new()
+	internal void SetStartingTime(int newSeconds)
 	{
-		new LevelStartBonus("Start with 90 seconds", 100_000, (LevelManager self) =>
-		{
-			self.seconds = 90;
-		}),
-		new LevelStartBonus("Start with x2 multiplier", 200_000, (LevelManager self) =>
-		{
-			PlayerAdditions.SetScoreMultiplier(2);
-		}),
-		new LevelStartBonus("Start with 120 seconds", 300_000, (LevelManager self) =>
-		{
-			self.seconds = 120;
-		}),
-		new LevelStartBonus("Start with 2 balls", 400_000, (LevelManager self) =>
-		{
-			var ball = Instantiate(self.PrefabBall, FindFirstObjectByType<Ball>().transform);
-			ball.transform.position += Vector3.left * 2;
-		}),
-		new LevelStartBonus("Start with x5 multiplier", 800_000, (LevelManager self) =>
-		{
-			PlayerAdditions.SetScoreMultiplier(5);
-		}),
-		new LevelStartBonus("??????", 4_000_000, (LevelManager self) =>
-		{
-			//
-		}),
-	};
+		seconds = newSeconds;
+	}
+
+	internal void AddBall()
+	{
+		var ball = Instantiate(PrefabBall, FindFirstObjectByType<Ball>().transform);
+		ball.transform.position += Vector3.left * 2;
+	}
 
 	void Start()
 	{
@@ -97,7 +107,7 @@ public class LevelManager : MonoBehaviour
 	private void ApplyBonuses()
 	{
 
-		foreach (var bonus in LevelStartBonuses)
+		foreach (var bonus in LevelStartBonus.Bonuses)
 		{
 			if (bonus.HighScoreThreshold > XMLManager.instance.data.GetHighScore())
 			{

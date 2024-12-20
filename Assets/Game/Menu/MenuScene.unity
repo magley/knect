@@ -1323,6 +1323,7 @@ MonoBehaviour:
   backgroundObject: {fileID: 1385058978}
   transitionCircleMask: {fileID: 606657785}
   StartWithTransitionCircleClosed: 1
+  isTransitioning: 0
 --- !u!4 &400446908
 Transform:
   m_ObjectHideFlags: 0
@@ -5638,6 +5639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1781201105}
   - component: {fileID: 1781201108}
+  - component: {fileID: 1781201109}
   - component: {fileID: 1781201107}
   - component: {fileID: 1781201106}
   m_Layer: 5
@@ -5679,7 +5681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0.35686275, g: 0.12941177, b: 0.32156864, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
+  m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 1
 --- !u!114 &1781201107
 MonoBehaviour:
@@ -5702,8 +5704,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 64
+    m_Font: {fileID: 12800000, guid: b068ba9f3c23a4143b29b33dbeb1b8a8, type: 3}
+    m_FontSize: 39
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 3
@@ -5714,13 +5716,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.16
-  m_Text: 'Destroy all the bricks    using balls     in the shortest amount of time.
-
-    Gain
-    bonus points with combos and score multipliers           .
-
-    Special bricks           
-    spawn extra balls.'
+  m_Text: "High score: 000000000\n________________________________\nStart with 90
+    seconds...........100000 \u2714\nStart with x2 multiplier..........200000 \u2714\nStart
+    with 120 seconds   300000 \u2714\nStart with 2 balls           400000 \u2714\nStart
+    with x5 multiplier   800000 \u2714"
 --- !u!222 &1781201108
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5729,6 +5728,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781201104}
   m_CullTransparentMesh: 1
+--- !u!114 &1781201109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781201104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da2d821f9c19bf4d8f89e9c05f68332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1784423941
 GameObject:
   m_ObjectHideFlags: 0
@@ -6305,6 +6316,10 @@ PrefabInstance:
     - target: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
       propertyPath: m_Name
       value: Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2084724816276141775, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
       propertyPath: m_Enabled
