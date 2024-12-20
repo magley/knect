@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ public class LevelManager : MonoBehaviour
 {
 	private int destroyedBallsOnLevelEnd = 0;
 	[SerializeField] private GameObject PrefabWorldSpaceTextForScore;
-	private AudioSource sndBallDestroyOnLevelEnd;
+	private AudioSource audioSource;
 
 	private bool ShouldTickTimeLeft = true;
 	[SerializeField] float seconds = 60;
@@ -62,6 +63,9 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private AudioClip SndRefereeWhistle;
 	[SerializeField] private AudioClip SndDrumRoll;
 	[SerializeField] private AudioClip SndDrumRollEnd;
+
+	[SerializeField] private AudioClip sndLevelEndBonusBall;
+
 
 	[SerializeField] private GameObject PrefabBall;
 
@@ -75,6 +79,75 @@ public class LevelManager : MonoBehaviour
 	private int waveCounterVisible = 0;
 
 	private PauseManager pauseManager;
+
+	[SerializeField] private Text textCountdown;
+	private float textCountdownScaleStart = 4;
+	private float textCountdownScaleEnd = 1;
+	private float textCountdownTimeUntilNext = 1f;
+	private int textCountdownCounter = 3;
+	[SerializeField] private AudioClip sndCountdown;
+	[SerializeField] private AudioClip sndCountdownEnd;
+
+	private void TextCountdownStart()
+	{
+        foreach (var item in FindObjectsByType<Ball>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+			item.gameObject.SetActive(false);
+        }
+
+		Invoke(nameof(TextCountdownTick), 2);
+		ShouldTickTimeLeft = false;
+	}
+
+	private void TextCountdownTick()
+	{
+		if (textCountdownCounter > 0)
+		{
+			textCountdown.text = $"{textCountdownCounter}";
+			textCountdown.transform.localScale = Vector3.one * textCountdownScaleStart;
+			textCountdownCounter--;
+
+			Invoke(nameof(TextCountdownTick), textCountdownTimeUntilNext);
+
+			audioSource.clip = sndCountdown;
+			audioSource.Play();
+			audioSource.loop = false;
+			audioSource.pitch = 1;
+		}
+		else
+		{
+			textCountdown.text = "GO!";
+			textCountdown.transform.localScale = Vector3.one * textCountdownScaleStart;
+
+			Invoke(nameof(TextCountdownFinish), textCountdownTimeUntilNext);
+
+			audioSource.clip = sndCountdownEnd;
+			audioSource.Play();
+			audioSource.loop = false;
+			audioSource.pitch = 1f;
+		}
+	}
+
+	private void TextCountdownFinish()
+	{
+		foreach (var item in FindObjectsByType<Ball>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+		{
+			item.gameObject.SetActive(true);
+		}
+
+		textCountdown.text = "";
+
+		Invoke(nameof(SpawnNextWave), 1f);
+		ShouldTickTimeLeft = true;
+	}
+
+	private void HandleTextCountdown()
+	{
+		if (textCountdown.transform.localScale.x > textCountdownScaleEnd)
+		{
+			textCountdown.transform.localScale -= Vector3.one * 0.5f;
+		}
+	}
 
 	private bool IsGameGoing = true;
 
@@ -92,7 +165,7 @@ public class LevelManager : MonoBehaviour
 	void Start()
 	{
 		destroyedBallsOnLevelEnd = 0;
-		sndBallDestroyOnLevelEnd = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
 		pauseManager = FindObjectOfType<PauseManager>();
 
 		GameState.ResetScore();
@@ -101,7 +174,7 @@ public class LevelManager : MonoBehaviour
 		ApplyBonuses();
 		secondsLeft = seconds;
 
-		Invoke(nameof(SpawnNextWave), 1f);
+		TextCountdownStart();
 	}
 
 	private void ApplyBonuses()
@@ -143,6 +216,7 @@ public class LevelManager : MonoBehaviour
 	void Update()
 	{
 		UpdateTimeLeft();
+		HandleTextCountdown();
 	}
 
 	private void UpdateTimeLeft()
@@ -178,6 +252,8 @@ public class LevelManager : MonoBehaviour
 		pauseManager.CanPause = false;
 
 		Invoke(nameof(TimeIsUp_01_StopBalls), 0.25f);
+
+		audioSource.clip = sndLevelEndBonusBall;
 	}
 
 	private void TimeIsUp_01_StopBalls()
@@ -222,8 +298,8 @@ public class LevelManager : MonoBehaviour
 			pointsText.gameObject.transform.position = ball.transform.position;
 			Destroy(ball);
 
-			sndBallDestroyOnLevelEnd.Play();
-			sndBallDestroyOnLevelEnd.pitch += 0.1f;
+			audioSource.Play();
+			audioSource.pitch += 0.1f;
 
 			Invoke(nameof(TimeIsUp_03_DestroyRandomBall), 0.25f);
 		}
@@ -240,8 +316,8 @@ public class LevelManager : MonoBehaviour
 		{
 			GameState.AddScore(1000);
 
-			sndBallDestroyOnLevelEnd.Play();
-			sndBallDestroyOnLevelEnd.pitch += 0.1f;
+			audioSource.Play();
+			audioSource.pitch += 0.1f;
 
 			waveCounterVisible--;
 
