@@ -62,7 +62,11 @@ public class ResultsUIManager : MonoBehaviour
             MaybeStartPlayingBlip();
 
 			int diff = GameState.Score - animScore;
-            if (diff > 10000)
+			if (diff > 20000)
+			{
+				animScore += 5000;
+			}
+			if (diff > 10000)
             {
 				animScore += 1000;
             }
@@ -131,7 +135,6 @@ public class ResultsUIManager : MonoBehaviour
 			audioSource.loop = true;
 			audioSource.Play();
 		}
-
 	}
 
 	private void StopAnim()

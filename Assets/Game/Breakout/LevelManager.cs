@@ -1,7 +1,24 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+
+class LevelStartBonus
+{
+	public string Description;
+	public int HighScoreThreshold;
+	public Action<LevelManager> Function;
+
+	public LevelStartBonus(string description, int highScoreThreshold, Action<LevelManager> function)
+	{
+		this.Description = description;
+		this.HighScoreThreshold = highScoreThreshold;
+		this.Function = function;
+
+	}
+}
 
 public class LevelManager : MonoBehaviour
 {
@@ -18,6 +35,8 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private AudioClip SndDrumRoll;
 	[SerializeField] private AudioClip SndDrumRollEnd;
 
+	[SerializeField] private GameObject PrefabBall;
+
 	[SerializeField] private List<GameObject> PrefabWavesInOrder = new List<GameObject>();
 	private int waveIndex = 0;
 	private int waveCounter = 0;
@@ -31,20 +50,63 @@ public class LevelManager : MonoBehaviour
 
 	private bool IsGameGoing = true;
 
+	private List<LevelStartBonus> LevelStartBonuses = new()
+	{
+		new LevelStartBonus("Start with 90 seconds", 100_000, (LevelManager self) =>
+		{
+			self.seconds = 90;
+		}),
+		new LevelStartBonus("Start with x2 multiplier", 200_000, (LevelManager self) =>
+		{
+			PlayerAdditions.SetScoreMultiplier(2);
+		}),
+		new LevelStartBonus("Start with 120 seconds", 300_000, (LevelManager self) =>
+		{
+			self.seconds = 120;
+		}),
+		new LevelStartBonus("Start with 2 balls", 400_000, (LevelManager self) =>
+		{
+			var ball = Instantiate(self.PrefabBall, FindFirstObjectByType<Ball>().transform);
+			ball.transform.position += Vector3.left * 2;
+		}),
+		new LevelStartBonus("Start with x5 multiplier", 800_000, (LevelManager self) =>
+		{
+			PlayerAdditions.SetScoreMultiplier(5);
+		}),
+		new LevelStartBonus("??????", 4_000_000, (LevelManager self) =>
+		{
+			//
+		}),
+	};
+
 	void Start()
 	{
 		destroyedBallsOnLevelEnd = 0;
 		sndBallDestroyOnLevelEnd = GetComponent<AudioSource>();
-
-		secondsLeft = seconds;
-
-		GameState.ResetScore();
-
 		pauseManager = FindObjectOfType<PauseManager>();
 
-		Invoke(nameof(SpawnNextWave), 1.5f);
-
+		GameState.ResetScore();
 		XMLManager.instance.Load();
+
+		ApplyBonuses();
+		secondsLeft = seconds;
+
+		Invoke(nameof(SpawnNextWave), 1f);
+	}
+
+	private void ApplyBonuses()
+	{
+
+		foreach (var bonus in LevelStartBonuses)
+		{
+			if (bonus.HighScoreThreshold > XMLManager.instance.data.GetHighScore())
+			{
+				Debug.Log($"Need {bonus.HighScoreThreshold}, have {XMLManager.instance.data.GetHighScore()}");
+				break;
+			}
+			Debug.Log($"Applying {bonus.Description}");
+			bonus.Function.Invoke(this);
+		}
 	}
 
 	public void SpawnNextWave()

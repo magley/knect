@@ -590,12 +590,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabWorldSpaceTextForScore: {fileID: 8017578372582268918, guid: cbdd3306d3e03a340ab14e9cec9fe919, type: 3}
-  seconds: 5
+  seconds: 60
   TimeLeftText: {fileID: 1648655256}
   DrumRollLoop: {fileID: 1143740115}
   SndRefereeWhistle: {fileID: 8300000, guid: 4b36af5f359c79044bcc2a2c91506b5f, type: 3}
   SndDrumRoll: {fileID: 8300000, guid: 11f3f267899e17742934bb97877ea99e, type: 3}
   SndDrumRollEnd: {fileID: 8300000, guid: bd90f24f1b26605448ae2c33738aff38, type: 3}
+  PrefabBall: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
   PrefabWavesInOrder:
   - {fileID: 3980900535151861304, guid: 7f06779acc7fcc74c8fb3e7769db3f38, type: 3}
   - {fileID: 3778439350462284727, guid: 79f26cf551931bf429be3301eb42a1fd, type: 3}
