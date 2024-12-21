@@ -88,6 +88,39 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private AudioClip sndCountdown;
 	[SerializeField] private AudioClip sndCountdownEnd;
 
+	[SerializeField] private Text textFinished;
+	private float textFinishedScaleStart = 4;
+	private float textFinishedScaleMid = 0.5f;
+	private float textFinishedScaleEnd = 0.4f;
+	private bool textFinishedScaleRunning = false;
+
+	private void HandleTextFinishedSize()
+	{
+		if (!textFinishedScaleRunning)
+		{
+			return;
+		}
+		float textFinishedScale = textFinished.transform.localScale.x;
+		
+		float textFinishedScaleChangeSpeed = 0.5f;
+		if (textFinishedScale <= textFinishedScaleMid)
+		{
+			textFinishedScaleChangeSpeed = 0.0025f;
+		}
+		if (textFinishedScale <= textFinishedScaleEnd)
+		{
+			textFinishedScaleChangeSpeed = 0.05f;
+		}
+
+		textFinishedScale -= textFinishedScaleChangeSpeed;
+		if (textFinishedScale < 0)
+		{
+			textFinishedScale = 0;
+			textFinishedScaleRunning = false;
+		}
+		textFinished.transform.localScale = Vector3.one * textFinishedScale;
+	}
+
 	private void TextCountdownStart()
 	{
         foreach (var item in FindObjectsByType<Ball>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -217,6 +250,7 @@ public class LevelManager : MonoBehaviour
 	{
 		UpdateTimeLeft();
 		HandleTextCountdown();
+		HandleTextFinishedSize();
 	}
 
 	private void UpdateTimeLeft()
@@ -248,6 +282,9 @@ public class LevelManager : MonoBehaviour
 		DrumRollLoop.clip = SndRefereeWhistle;
 		DrumRollLoop.loop = false;
 		DrumRollLoop.Play();
+
+		textFinishedScaleRunning = true;
+		textFinished.transform.localScale = Vector3.one * textFinishedScaleStart;
 
 		pauseManager.CanPause = false;
 

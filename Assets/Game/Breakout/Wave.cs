@@ -72,6 +72,7 @@ public class Wave : MonoBehaviour
 
     private void CallForNextWave()
     {
-        levelManager.SpawnNextWave();
+		levelManager = FindObjectOfType<LevelManager>();        // ???
+		levelManager.SpawnNextWave();
     }
 }
