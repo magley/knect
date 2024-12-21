@@ -8,8 +8,14 @@ public class PlayerAdditions : MonoBehaviour
     public static float scoreMultiplierTimeLeft = 0;
 	public static int ScoreMultiplier = 1;
 	public static int ScoreMultiplierTimeBase = 10;
+	public static bool ForceScoreMultiplier5 = false;
 
-    void Update()
+	private void Awake()
+	{
+		ForceScoreMultiplier5 = false;
+	}
+
+	void Update()
     {
 		HandleScoreMultiplierDepletion();
 	}

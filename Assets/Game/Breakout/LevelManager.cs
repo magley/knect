@@ -42,7 +42,11 @@ class LevelStartBonus
 		{
 			PlayerAdditions.SetScoreMultiplier(5);
 		}),
-		new LevelStartBonus("Start with 3 balls", 1_000_000, (LevelManager self) =>
+		new LevelStartBonus("All multipliers are x5", 1_000_000, (LevelManager self) =>
+		{
+			PlayerAdditions.ForceScoreMultiplier5 = true;
+		}),
+		new LevelStartBonus("Start with 3 balls", 1_500_000, (LevelManager self) =>
 		{
 			self.AddBall();
 		}),
@@ -65,8 +69,6 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private AudioClip SndDrumRollEnd;
 
 	[SerializeField] private AudioClip sndLevelEndBonusBall;
-
-
 	[SerializeField] private GameObject PrefabBall;
 
 	[SerializeField] private List<GameObject> PrefabWavesInOrder = new List<GameObject>();
@@ -188,6 +190,7 @@ public class LevelManager : MonoBehaviour
 	internal void SetStartingTime(int newSeconds)
 	{
 		seconds = newSeconds;
+		secondsLeft = seconds;
 	}
 
 	internal void AddBall()

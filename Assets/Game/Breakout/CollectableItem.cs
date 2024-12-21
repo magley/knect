@@ -10,7 +10,7 @@ public class CollectableItem : MonoBehaviour
         TimesFive,
     }
 
-    [SerializeField] private Type CollectableType;
+    [SerializeField] public Type CollectableType;
     [SerializeField] private int ScoreBonus = 1000;
 
     private void OnCollect()

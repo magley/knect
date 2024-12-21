@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -70,11 +72,30 @@ public class Brick : MonoBehaviour
 				{
 					if (Random.Range(0, 8) == 0)
 					{
-						int i = Random.Range(0, GenericDrops.Length);
-						var prefab = GenericDrops[i];
+						var drops = new List<GameObject>();
+						foreach (var item in GenericDrops.Select(item => item.GetComponent<CollectableItem>()).Where(item => item != null))
+						{
+							bool canBeDropped = true;
 
-						GameObject o = Instantiate(prefab, transform.parent);
-						o.transform.position = transform.position;
+							if (item.CollectableType == CollectableItem.Type.TimesTwo && PlayerAdditions.ForceScoreMultiplier5)
+							{
+								canBeDropped = false;
+							}
+
+							if (canBeDropped)
+							{
+								drops.Add(item.gameObject);
+							}
+						}
+
+						if (drops.Count > 0)
+						{
+							int i = Random.Range(0, drops.Count);
+							var prefab = drops[i];
+
+							GameObject o = Instantiate(prefab, transform.parent);
+							o.transform.position = transform.position;
+						}
 					}
 				}
 				break;
