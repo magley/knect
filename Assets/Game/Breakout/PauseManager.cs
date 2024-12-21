@@ -24,6 +24,7 @@ public class PauseManager : MonoBehaviour
 	[SerializeField] private GameObject alwaysActive;
 
 	public bool CanPause = true;
+	private List<CanvasGroup> uiObjectsToHandleOpacity = new List<CanvasGroup>();
 
 	private void Start()
 	{
@@ -31,6 +32,8 @@ public class PauseManager : MonoBehaviour
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
 		}
+
+		uiObjectsToHandleOpacity = transform.GetComponentsInChildren<CanvasGroup>(true).ToList();
 	}
 
 	void Update()
@@ -38,6 +41,22 @@ public class PauseManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Escape) && CanPause)
 		{
 			StartCoroutine(PauseOnEndOfFrame());
+		}
+
+		HandleUIOpacity();
+	}
+
+	private void HandleUIOpacity()
+	{
+		float uiOpacity = 0;
+		if (isPaused)
+		{
+			uiOpacity = 1;
+		}
+
+		foreach (var canvasGroup in uiObjectsToHandleOpacity)
+		{
+			canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, uiOpacity, 0.1f);
 		}
 	}
 
