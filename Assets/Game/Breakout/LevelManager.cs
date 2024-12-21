@@ -170,8 +170,9 @@ public class LevelManager : MonoBehaviour
 
 		textCountdown.text = "";
 
-		Invoke(nameof(SpawnNextWave), 1f);
+		Invoke(nameof(SpawnNextWave), 0.25f);
 		ShouldTickTimeLeft = true;
+		ApplyBonuses();
 	}
 
 	private void HandleTextCountdown()
@@ -204,7 +205,6 @@ public class LevelManager : MonoBehaviour
 		GameState.ResetScore();
 		XMLManager.instance.Load();
 
-		ApplyBonuses();
 		secondsLeft = seconds;
 
 		TextCountdownStart();
