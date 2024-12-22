@@ -127,13 +127,8 @@ public class LevelManager : MonoBehaviour
 		textFinished.transform.localScale = Vector3.one * textFinishedScale;
 	}
 
-	private void TextCountdownStart()
+	public void TextCountdownStart()
 	{
-        foreach (var item in FindObjectsByType<Ball>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-        {
-			item.gameObject.SetActive(false);
-        }
-
 		Invoke(nameof(TextCountdownTick), 2);
 		ShouldTickTimeLeft = false;
 	}
@@ -214,7 +209,12 @@ public class LevelManager : MonoBehaviour
 
 		secondsLeft = seconds;
 
-		TextCountdownStart();
+		foreach (var item in FindObjectsByType<Ball>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+		{
+			item.gameObject.SetActive(false);
+		}
+
+		// TextCountdownStart(); <-- Called by IntroPanCameraController.
 
 		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
 	}
