@@ -48,7 +48,7 @@ public class Brick : MonoBehaviour
 		vel.y = (6 + i >= 2 ? 8 : 0);
 		vel.z = 5 * (i % 2 == 0 ? -1 : 1);
 
-		shard.transform.position += vel / 10f;
+		shard.transform.position += new Vector3(vel.x / Random.Range(8f, 10f), vel.y / Random.Range(8f, 10f), vel.z / Random.Range(5f, 10f));
 		rb.velocity = vel;
 
 		rb.angularVelocity = new Vector3(
@@ -109,7 +109,7 @@ public class Brick : MonoBehaviour
 							Random.Range(-1, 1)
 						);
 						GameObject o = Instantiate(MiniballPrefab, transform.parent);
-						o.transform.position = transform.position + rand;
+						o.transform.position = transform.position + rand * 0.2f;
 						o.transform.rotation = Quaternion.Euler(new(
 							Random.Range(-90, 90),
 							Random.Range(-90, 90),
