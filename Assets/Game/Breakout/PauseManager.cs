@@ -25,6 +25,7 @@ public class PauseManager : MonoBehaviour
 
 	public bool CanPause = true;
 	private List<CanvasGroup> uiObjectsToHandleOpacity = new List<CanvasGroup>();
+	private AudioSource objMusic;
 
 	private void Start()
 	{
@@ -32,6 +33,8 @@ public class PauseManager : MonoBehaviour
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
 		}
+
+		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
 
 		uiObjectsToHandleOpacity = transform.GetComponentsInChildren<CanvasGroup>(true).ToList();
 	}
@@ -119,6 +122,8 @@ public class PauseManager : MonoBehaviour
 		}
 
 		AudioSource.PlayClipAtPoint(sndPause, cameraMain.transform.position);
+
+		objMusic.volume = 0.4f;
 	}
 
 	public void ResumeGame()
@@ -141,6 +146,8 @@ public class PauseManager : MonoBehaviour
 		}
 
 		AudioSource.PlayClipAtPoint(sndUnpause, cameraMain.transform.position);
+
+		objMusic.volume = 1.0f;
 	}
 
 	public void ShowResultsScreen()

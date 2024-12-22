@@ -96,6 +96,10 @@ public class LevelManager : MonoBehaviour
 	private float textFinishedScaleEnd = 0.4f;
 	private bool textFinishedScaleRunning = false;
 
+	private AudioSource objMusic;
+	[SerializeField] private AudioClip mus;
+	[SerializeField] private AudioClip musHurryUp;
+
 	private void HandleTextFinishedSize()
 	{
 		if (!textFinishedScaleRunning)
@@ -211,6 +215,8 @@ public class LevelManager : MonoBehaviour
 		secondsLeft = seconds;
 
 		TextCountdownStart();
+
+		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
 	}
 
 	private void ApplyBonuses()
@@ -260,9 +266,9 @@ public class LevelManager : MonoBehaviour
 	{
 		// Display time left.
 
-		int minutes = (int)secondsLeft / 60;
-		int seconds = (int)secondsLeft % 60;
-		TimeLeftText.text = $"{minutes.ToString("D2")}:{seconds.ToString("D2")}";
+		int minutesShow = (int)(secondsLeft / 60);
+		int secondsShow = (int)(secondsLeft % 60);
+		TimeLeftText.text = $"{minutesShow.ToString("D2")}:{secondsShow.ToString("D2")}";
 		TimeLeftText.text += $"\nWave {waveCounterVisible}";
 
 		// Tick time.
@@ -274,7 +280,19 @@ public class LevelManager : MonoBehaviour
 			{
 				TimeIsUp();
 			}
+
+			// Hurry up music.
+
+			if (secondsLeft <= seconds / 6)
+			{
+				if (objMusic.clip != musHurryUp)
+				{
+					objMusic.clip = musHurryUp;
+					objMusic.Play();
+				}
+			}
 		}
+
 	}
 
 	private void TimeIsUp()
@@ -294,6 +312,8 @@ public class LevelManager : MonoBehaviour
 		Invoke(nameof(TimeIsUp_01_StopBalls), 0.25f);
 
 		audioSource.clip = sndLevelEndBonusBall;
+
+		objMusic.Stop();
 	}
 
 	private void TimeIsUp_01_StopBalls()
@@ -387,5 +407,8 @@ public class LevelManager : MonoBehaviour
 		XMLManager.instance.Save();
 
 		pauseManager.ShowResultsScreen();
+
+		objMusic.clip = mus;
+		objMusic.Play();
 	}
 }

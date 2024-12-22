@@ -8,6 +8,7 @@ TagManager:
   - BouncePad
   - Death
   - KinectPointer
+  - Music
   layers:
   - Default
   - TransparentFX
