@@ -5,20 +5,42 @@ using UnityEngine;
 
 public class AudienceController : MonoBehaviour
 {
-    [SerializeField] private GameObject boneHead;
+    /// <summary>
+    /// The attitude determines which set of animation is used for emotes.
+    /// </summary>
+	public enum Attitudes
+	{
+		Boy,
+		Girl,
+	}
 
     /// <summary>
-    /// I follow only the balls in this list.
-    /// The list gets updated every X seconds to improve
-    /// performance (because the list of balls is volatile).
+    /// Predefined animation for an audience member.
     /// </summary>
-    private List<Ball> ballsIamAwareOf = new List<Ball>();
+    private enum Emotes
+    {
+        Idle,
+    }
+
+	[SerializeField] Attitudes Attitude = Attitudes.Boy;
+	[SerializeField] private GameObject boneHead;
+	private Animator Animator;
+
+	/// <summary>
+	/// I follow only the balls in this list.
+	/// The list gets updated every X seconds to improve
+	/// performance (because the list of balls is volatile).
+	/// </summary>
+	private List<Ball> ballsIamAwareOf = new List<Ball>();
     private bool followingBalls = true;
     private float lookAtLerpSpeed = 0.25f;
 
     void Start()
     {
         UpdateBallsList();
+        Animator = GetComponent<Animator>();
+
+        SetEmote(Emotes.Idle);
 	}
 
     void LateUpdate()
@@ -58,5 +80,18 @@ public class AudienceController : MonoBehaviour
 		Vector3 relativePos = ballCentroid - boneHead.transform.position;
 		Quaternion toRotation = Quaternion.LookRotation(relativePos);
 		boneHead.transform.rotation = Quaternion.Lerp(boneHead.transform.rotation, toRotation, lookAtLerpSpeed);
+    }
+
+    private void SetEmote(Emotes emote)
+    {
+        switch (emote)
+        {
+            case Emotes.Idle:
+                {
+                    if (Attitude == Attitudes.Boy) Animator.Play("Base Layer.Idle01");
+					if (Attitude == Attitudes.Girl) Animator.Play("Base Layer.Idle02");
+					break;
+                }
+        }
     }
 }
