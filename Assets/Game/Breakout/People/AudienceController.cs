@@ -20,6 +20,7 @@ public class AudienceController : MonoBehaviour
     private enum Emotes
     {
         Idle,
+        Clap,
     }
 
 	[SerializeField] Attitudes Attitude = Attitudes.Boy;
@@ -35,15 +36,49 @@ public class AudienceController : MonoBehaviour
     private bool followingBalls = true;
     private float lookAtLerpSpeed = 0.25f;
 
+    /// <summary>
+    /// Time (in seconds) until the emote is set to idle again.
+    /// </summary>
+    private float setEmoteToIdleTimer = 0f;
+
     void Start()
     {
         UpdateBallsList();
         Animator = GetComponent<Animator>();
 
         SetEmote(Emotes.Idle);
+        Ball.OnComboMade += OnComboMade;
 	}
 
-    void LateUpdate()
+	private void OnDestroy()
+	{
+        Ball.OnComboMade -= OnComboMade;
+	}
+
+	void OnComboMade(int combo)
+    {
+        if (combo >= 3 && combo < 10)
+        {
+            SetEmote(Emotes.Clap);
+            setEmoteToIdleTimer = Random.Range(1f, 2f) + combo / 4.5f;
+
+		}
+    }
+
+	private void Update()
+	{
+        if (setEmoteToIdleTimer > 0f)
+        {
+            setEmoteToIdleTimer -= Time.deltaTime;
+            if (setEmoteToIdleTimer <= 0)
+            {
+                setEmoteToIdleTimer = 0f;
+                SetEmote(Emotes.Idle);
+            }
+        }
+	}
+
+	void LateUpdate()
     {
         FollowBalls();
 	}
@@ -88,10 +123,16 @@ public class AudienceController : MonoBehaviour
         {
             case Emotes.Idle:
                 {
-                    if (Attitude == Attitudes.Boy) Animator.Play("Base Layer.Idle01");
-					if (Attitude == Attitudes.Girl) Animator.Play("Base Layer.Idle02");
+                    if (Attitude == Attitudes.Boy) Animator.CrossFade("Base Layer.Idle01", 0.5f);
+					if (Attitude == Attitudes.Girl) Animator.CrossFade("Base Layer.Idle02", 0.5f);
 					break;
                 }
-        }
+			case Emotes.Clap:
+				{
+					if (Attitude == Attitudes.Boy) Animator.CrossFade("Base Layer.Clap01", 0.5f);
+					if (Attitude == Attitudes.Girl) Animator.CrossFade("Base Layer.Clap02", 0.5f);
+					break;
+				}
+		}
     }
 }
