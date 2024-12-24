@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AudienceController : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class AudienceController : MonoBehaviour
     {
         Idle,
         Clap,
+        Cheer,
     }
 
 	[SerializeField] Attitudes Attitude = Attitudes.Boy;
@@ -33,8 +36,15 @@ public class AudienceController : MonoBehaviour
 	/// performance (because the list of balls is volatile).
 	/// </summary>
 	private List<Ball> ballsIamAwareOf = new List<Ball>();
+    private GameObject focusObject;
     private bool followingBalls = true;
     private float lookAtLerpSpeed = 0.25f;
+
+    /// <summary>
+    /// The combo you're currently cheering for.
+    /// If -1, then no combo.
+    /// </summary>
+    private int cheeringForCombo = -1;
 
     /// <summary>
     /// Time (in seconds) until the emote is set to idle again.
@@ -48,6 +58,8 @@ public class AudienceController : MonoBehaviour
 
         SetEmote(Emotes.Idle);
         Ball.OnComboMade += OnComboMade;
+
+        focusObject = FindObjectsOfType<Transform>(false).Where(o => o.tag == "Player").First().gameObject;
 	}
 
 	private void OnDestroy()
@@ -57,13 +69,24 @@ public class AudienceController : MonoBehaviour
 
 	void OnComboMade(int combo)
     {
-        if (combo >= 3 && combo < 10)
+        if (combo < 0)
+        {
+            return;
+        }
+
+        cheeringForCombo = Mathf.Max(cheeringForCombo, combo);
+
+		if (cheeringForCombo >= 3 && cheeringForCombo < 10)
         {
             SetEmote(Emotes.Clap);
             setEmoteToIdleTimer = Random.Range(1f, 2f) + combo / 4.5f;
-
 		}
-    }
+        else if (cheeringForCombo >= 10)
+		{
+			SetEmote(Emotes.Cheer);
+			setEmoteToIdleTimer = Random.Range(1f, 2f) + (combo - 5) / 6.5f;
+		}
+	}
 
 	private void Update()
 	{
@@ -74,6 +97,7 @@ public class AudienceController : MonoBehaviour
             {
                 setEmoteToIdleTimer = 0f;
                 SetEmote(Emotes.Idle);
+                cheeringForCombo = -1;
             }
         }
 	}
@@ -86,8 +110,12 @@ public class AudienceController : MonoBehaviour
     private void UpdateBallsList()
     {
         ballsIamAwareOf = FindObjectsByType<Ball>(FindObjectsSortMode.None).ToList();
-        lookAtLerpSpeed = Random.Range(0.15f, 0.65f);
+        if (ballsIamAwareOf.Count > 0)
+        {
+			focusObject = ballsIamAwareOf[Random.Range(0, ballsIamAwareOf.Count)].gameObject;
+        }
 
+        lookAtLerpSpeed = Random.Range(0.15f, 0.35f);
 		if (followingBalls)
         {
             Invoke(nameof(UpdateBallsList), 3f);
@@ -98,24 +126,33 @@ public class AudienceController : MonoBehaviour
     {
         if (ballsIamAwareOf.Count == 0)
         {
-            return;
-        }
+			return;
+		}
 
-        // Find the centroid of all balls.
+        // Ugly ugly ugly code.
 
-        Vector3 ballCentroid = Vector3.zero;
-        foreach (var ball in ballsIamAwareOf)
+        if (focusObject.IsDestroyed()) 
         {
-            ballCentroid += ball.transform.position;
-        }
-        ballCentroid /= ballsIamAwareOf.Count;
+			ballsIamAwareOf = FindObjectsByType<Ball>(FindObjectsSortMode.None).ToList();
+			if (ballsIamAwareOf.Count > 0)
+			{
+				focusObject = ballsIamAwareOf[Random.Range(0, ballsIamAwareOf.Count)].gameObject;
 
-        // Look at centroid, with lerp.
+				Vector3 focusPoint = focusObject.transform.position;
+				Vector3 relativePos = focusPoint - boneHead.transform.position;
+				Quaternion toRotation = Quaternion.LookRotation(relativePos);
+				boneHead.transform.rotation = Quaternion.Lerp(boneHead.transform.rotation, toRotation, lookAtLerpSpeed);
+			}
+		} 
+        else
+        {
+			Vector3 focusPoint = focusObject.transform.position;
+			Vector3 relativePos = focusPoint - boneHead.transform.position;
+			Quaternion toRotation = Quaternion.LookRotation(relativePos);
+			boneHead.transform.rotation = Quaternion.Lerp(boneHead.transform.rotation, toRotation, lookAtLerpSpeed);
 
-		Vector3 relativePos = ballCentroid - boneHead.transform.position;
-		Quaternion toRotation = Quaternion.LookRotation(relativePos);
-		boneHead.transform.rotation = Quaternion.Lerp(boneHead.transform.rotation, toRotation, lookAtLerpSpeed);
-    }
+		}
+	}
 
     private void SetEmote(Emotes emote)
     {
@@ -123,14 +160,20 @@ public class AudienceController : MonoBehaviour
         {
             case Emotes.Idle:
                 {
-                    if (Attitude == Attitudes.Boy) Animator.CrossFade("Base Layer.Idle01", 0.5f);
-					if (Attitude == Attitudes.Girl) Animator.CrossFade("Base Layer.Idle02", 0.5f);
+                    if (Attitude == Attitudes.Boy) Animator.CrossFade("Base Layer.Idle01", 0.85f);
+					if (Attitude == Attitudes.Girl) Animator.CrossFade("Base Layer.Idle02", 0.85f);
 					break;
                 }
 			case Emotes.Clap:
 				{
 					if (Attitude == Attitudes.Boy) Animator.CrossFade("Base Layer.Clap01", 0.5f);
 					if (Attitude == Attitudes.Girl) Animator.CrossFade("Base Layer.Clap02", 0.5f);
+					break;
+				}
+			case Emotes.Cheer:
+				{
+					if (Attitude == Attitudes.Boy) Animator.CrossFade("Base Layer.Cheer01", 0.35f);
+					if (Attitude == Attitudes.Girl) Animator.CrossFade("Base Layer.Cheer02", 0.35f);
 					break;
 				}
 		}
