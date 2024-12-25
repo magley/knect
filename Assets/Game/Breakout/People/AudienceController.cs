@@ -51,7 +51,9 @@ public class AudienceController : MonoBehaviour
     /// </summary>
     private float setEmoteToIdleTimer = 0f;
 
-    void Start()
+    private AudienceGroupController audienceGroup;
+
+	void Start()
     {
         UpdateBallsList();
         Animator = GetComponent<Animator>();
@@ -60,6 +62,7 @@ public class AudienceController : MonoBehaviour
         Ball.OnComboMade += OnComboMade;
 
         focusObject = FindObjectsOfType<Transform>(false).Where(o => o.tag == "Player").First().gameObject;
+		audienceGroup = transform.parent.GetComponent<AudienceGroupController>();
 	}
 
 	private void OnDestroy()
@@ -80,11 +83,13 @@ public class AudienceController : MonoBehaviour
         {
             SetEmote(Emotes.Clap);
             setEmoteToIdleTimer = Random.Range(1f, 2f) + combo / 4.5f;
+            audienceGroup.PlayClap();
 		}
         else if (cheeringForCombo >= 10)
 		{
 			SetEmote(Emotes.Cheer);
 			setEmoteToIdleTimer = Random.Range(1f, 2f) + (combo - 5) / 6.5f;
+			audienceGroup.PlayCheer();
 		}
 	}
 

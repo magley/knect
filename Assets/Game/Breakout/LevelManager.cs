@@ -71,10 +71,6 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private AudioClip sndLevelEndBonusBall;
 	[SerializeField] private GameObject PrefabBall;
 
-	[SerializeField] private AudioSource AudienceAudioSource;
-	[SerializeField] private List<AudioClip> SndAudienceClap = new();
-	[SerializeField] private List<AudioClip> SndAudienceCheer = new();
-
 	[SerializeField] private List<GameObject> PrefabWavesInOrder = new List<GameObject>();
 	private int waveIndex = 0;
 	private int waveCounter = 0;
@@ -221,28 +217,8 @@ public class LevelManager : MonoBehaviour
 		// TextCountdownStart(); <-- Called by IntroPanCameraController.
 
 		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
-
-		Ball.OnComboMade += OnComboAudienceSounds;
 	}
 
-	private void OnDestroy()
-	{
-		Ball.OnComboMade -= OnComboAudienceSounds;
-	}
-
-	private void OnComboAudienceSounds(int combo)
-	{
-		if (combo >= 3 && combo <= 10)
-		{
-			AudienceAudioSource.clip = SndAudienceClap[UnityEngine.Random.Range(0, SndAudienceClap.Count)];
-			AudienceAudioSource.Play();
-		}
-		else
-		{
-			AudienceAudioSource.clip = SndAudienceCheer[UnityEngine.Random.Range(0, SndAudienceCheer.Count)];
-			AudienceAudioSource.Play();
-		}
-	}
 
 	private void ApplyBonuses()
 	{

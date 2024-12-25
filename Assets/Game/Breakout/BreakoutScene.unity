@@ -598,13 +598,6 @@ MonoBehaviour:
   SndDrumRollEnd: {fileID: 8300000, guid: bd90f24f1b26605448ae2c33738aff38, type: 3}
   sndLevelEndBonusBall: {fileID: 8300000, guid: efea4fe8a7fe5de45a79840860d72113, type: 3}
   PrefabBall: {fileID: 104908600783249232, guid: 720a3ff490c45714b832950fbe52f281, type: 3}
-  AudienceAudioSource: {fileID: 149935594}
-  SndAudienceClap:
-  - {fileID: 8300000, guid: 811bffc0cfe09534a8b768859ac70794, type: 3}
-  - {fileID: 8300000, guid: 6907fb240781eb541a4f1b2ef6b18ca2, type: 3}
-  SndAudienceCheer:
-  - {fileID: 8300000, guid: 604d002ba7b09c74e986b1c3bfb1c89e, type: 3}
-  - {fileID: 8300000, guid: 7e1b5c29f22cd504abbec03ee22a1763, type: 3}
   PrefabWavesInOrder:
   - {fileID: 3980900535151861304, guid: 7f06779acc7fcc74c8fb3e7769db3f38, type: 3}
   - {fileID: 3778439350462284727, guid: 79f26cf551931bf429be3301eb42a1fd, type: 3}
@@ -1071,6 +1064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 149935593}
   - component: {fileID: 149935594}
+  - component: {fileID: 149935595}
   m_Layer: 0
   m_Name: Audience
   m_TagString: Untagged
@@ -1202,6 +1196,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &149935595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149935592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9cc1ff05b542a846881c7ceef61e0bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SndAudienceClap:
+  - {fileID: 8300000, guid: 811bffc0cfe09534a8b768859ac70794, type: 3}
+  - {fileID: 8300000, guid: 6907fb240781eb541a4f1b2ef6b18ca2, type: 3}
+  SndAudienceCheer:
+  - {fileID: 8300000, guid: 604d002ba7b09c74e986b1c3bfb1c89e, type: 3}
+  - {fileID: 8300000, guid: 7e1b5c29f22cd504abbec03ee22a1763, type: 3}
 --- !u!1 &162727883
 GameObject:
   m_ObjectHideFlags: 0
