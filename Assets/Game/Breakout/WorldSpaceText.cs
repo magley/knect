@@ -52,9 +52,14 @@ public class WorldSpaceText : MonoBehaviour
         uiText.text = text;
 	}
 
-    public void SetSize(int size)
+    public void SetSize(int sizeNew)
     {
-        size = 20;
-        sizeCurrent = ((size + 5) * 1.1f);
+		sizeNew = size;
+        sizeCurrent = size * 2;
     }
+
+	public void SetLifetime(int ticks)
+	{
+		lifeTime = ticks;
+	}
 }
