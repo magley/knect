@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -36,7 +38,7 @@ public class Ball : MonoBehaviour
 		set
 		{
 			_bonus = value;
-			StandardSpeed = 18f + _bonus / 2f;
+			StandardSpeed = 20f + _bonus / 2.85f;
 		}
 	}
 	[SerializeField] private int _bonus = 0;
@@ -44,12 +46,12 @@ public class Ball : MonoBehaviour
 	/// <summary>
 	/// Velocity magnitude at level start and when the ball is hit by the player.
 	/// </summary>
-	[SerializeField] private float StandardSpeed = 18f;
+	[SerializeField] private float StandardSpeed = 20f;
 	/// <summary>
 	/// Minimum speed in any axis. This is to prevent the ball from moving too slowly
 	/// on the z-axis which means it takes a long time for the ball to move across the arena.
 	/// </summary>
-	private float MinimumSpeedOnAxis = 9;
+	private float MinimumSpeedOnAxis = 11;
 
 	void Start()
 	{
@@ -163,6 +165,19 @@ public class Ball : MonoBehaviour
 
 		Vector3 dir = new Vector3(forward.x + xOffset * 10, forward.y + yOffset * 5, forward.z).normalized;
 		dir.z = 1;
+
+		// If there aren't a lot of bricks left, aim towards them with a probability.
+		// This prevents the "one lone brick that balls never seem to hit" scenario
+		// because of randomness of `dir`.
+		var bricks = FindObjectsOfType<Brick>().ToList();
+		if (bricks.Count > 0 && bricks.Count <= 3)
+		{
+			if (UnityEngine.Random.Range(0, 4) == 0)
+			{
+				AimTowardsOneOfTheBricks(ref dir, bricks);
+			}
+		}
+
 		rb.velocity = dir * StandardSpeed;
 	}
 
@@ -196,5 +211,12 @@ public class Ball : MonoBehaviour
 		}
 
 		Combo = 0;
+	}
+
+	private void AimTowardsOneOfTheBricks(ref Vector3 dir, List<Brick> bricks)
+	{
+		Brick brick = bricks[UnityEngine.Random.Range(0, bricks.Count)];
+		dir = brick.gameObject.transform.position - transform.position;
+		dir = dir.normalized;
 	}
 }
