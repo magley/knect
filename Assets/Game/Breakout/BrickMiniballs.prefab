@@ -128,6 +128,9 @@ MonoBehaviour:
   GenericDrops:
   - {fileID: 5605765447041821035, guid: f5092a72bd6a4164583d26d6b9f02c1a, type: 3}
   - {fileID: 5605765447041821035, guid: d2372b6f28d447a47a60093aa4f13fbc, type: 3}
+  - {fileID: 5243175114670031464, guid: 8f408d7758a7e584b82f48adda6b5648, type: 3}
+  - {fileID: 6194984299230207668, guid: c4343b44c26a93d4698b22065ff9e8b2, type: 3}
+  - {fileID: 8977980029331557448, guid: f965c5a4cf79cb14c962baf37a0835e8, type: 3}
 --- !u!114 &6115154169220091093
 MonoBehaviour:
   m_ObjectHideFlags: 0
