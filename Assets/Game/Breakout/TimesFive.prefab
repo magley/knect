@@ -70,6 +70,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollectableType: 1
   ScoreBonus: 2000
+  sndCollect: {fileID: 0}
+  MinSpeed: 8
+  MaxSpeed: 14
 --- !u!114 &-7208155289709198777
 MonoBehaviour:
   m_ObjectHideFlags: 0
