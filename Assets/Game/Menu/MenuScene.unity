@@ -1897,6 +1897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3485370ffd07c42b023e93cc21c49f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Variable: 1
   imageIndicator: {fileID: 176008036}
   sprNegative: {fileID: 21300000, guid: ee1216403150a8347905ddcbde7eac7d, type: 3}
   sprPositive: {fileID: 21300000, guid: bb176fdd877923c4781097f99b91d691, type: 3}

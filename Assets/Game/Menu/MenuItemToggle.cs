@@ -5,7 +5,20 @@ public class MenuItemToggle : MonoBehaviour
 {
     public bool IsToggled { get; private set; } = false;
 
-    public void Toggle()
+    public enum VariableToToggle
+    {
+        None,
+        PlayAsKinect,
+    }
+
+	[SerializeField] private VariableToToggle Variable = VariableToToggle.None;
+
+	private void Start()
+	{
+        SyncWithVariable();
+	}
+
+	public void Toggle()
     {
         SetToggle(!IsToggled);
 	}
@@ -13,12 +26,37 @@ public class MenuItemToggle : MonoBehaviour
     public void SetToggle(bool isToggled)
     {
         IsToggled = isToggled;
-
         if (imageIndicator != null)
         {
             imageIndicator.sprite = IsToggled ? sprPositive : sprNegative;
         }
+
+        ToggleVariable();
+	}
+
+    private void ToggleVariable()
+    {
+        switch (Variable)
+        {
+            case VariableToToggle.PlayAsKinect:
+                GameState.PlayingAsKinect = IsToggled;
+                break;
+            default:
+                break;
+        }
     }
+
+    private void SyncWithVariable()
+    {
+		switch (Variable)
+		{
+			case VariableToToggle.PlayAsKinect:
+				SetToggle(GameState.PlayingAsKinect);
+				break;
+			default:
+				break;
+		}
+	}
 
     [SerializeField] private Image imageIndicator;
 	[SerializeField] private Sprite sprNegative;

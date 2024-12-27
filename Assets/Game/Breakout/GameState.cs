@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class GameState
 {
@@ -11,12 +8,14 @@ public static class GameState
     public static int BestCombo = 0;
     public static int TotalWaves = 0;
 
+    public static bool PlayingAsKinect = false;
+
     public static void ResetScore()
     {
         Score = 0;
         BestCombo = 0;
         TotalWaves = 0;
-    }
+	}
 
     public static int AddScore(int added)
     {

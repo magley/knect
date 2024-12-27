@@ -100,6 +100,9 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private AudioClip mus;
 	[SerializeField] private AudioClip musHurryUp;
 
+	[SerializeField] private GameObject PlayerKeyboard;
+	[SerializeField] private GameObject PlayerKinect;
+
 	private void HandleTextFinishedSize()
 	{
 		if (!textFinishedScaleRunning)
@@ -204,8 +207,20 @@ public class LevelManager : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 		pauseManager = FindObjectOfType<PauseManager>();
 
+		if (GameState.PlayingAsKinect)
+		{
+			PlayerKeyboard.SetActive(false);
+			PlayerKinect.SetActive(true);
+		}
+		else
+		{
+			PlayerKeyboard.SetActive(true);
+			PlayerKinect.SetActive(false);
+		}
+
 		GameState.ResetScore();
 		XMLManager.instance.Load();
+
 
 		secondsLeft = seconds;
 
