@@ -16,6 +16,7 @@ public class CollectableItem : MonoBehaviour
     [SerializeField] private float MaxSpeed = 17;
 	[SerializeField] private GameObject PrefabWorldSpaceTextForScore = null;
 
+    private bool isCollected = false;
 	private float speed = 7;
 
 	private void Start()
@@ -25,7 +26,14 @@ public class CollectableItem : MonoBehaviour
 
 	private void OnCollect()
     {
-        if (ScoreBonus > 0)
+        if (isCollected)
+        {
+            return;
+        }
+
+        isCollected = true;
+
+		if (ScoreBonus > 0)
         {
             int points = GameState.AddScore(ScoreBonus);
 
