@@ -63,7 +63,7 @@ public class UIBonus : MonoBehaviour
 		{
 			if (uiComboTextSizeCurrent > uiComboTextSizeDesired)
 			{
-				uiComboTextSizeCurrent -= 4;
+				uiComboTextSizeCurrent -= 4 * Time.deltaTime * 60f;
 			}
 
 			UIComboText.fontSize = (int)uiComboTextSizeCurrent;

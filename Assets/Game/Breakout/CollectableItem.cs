@@ -72,7 +72,7 @@ public class CollectableItem : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.back * speed * Time.deltaTime, Space.World);
-        transform.Rotate(transform.up * 6);
+        transform.Rotate(transform.up * 120 * Time.deltaTime);
 
         if (transform.position.z < -100)
         {

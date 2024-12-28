@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class WorldSpaceText : MonoBehaviour
 {
     [SerializeField] private Text uiText;
-    private int lifeTime = 160;
+    private float lifeTime = 2.2f;
     private int size = 20;
     private float sizeCurrent = 20;
 
@@ -18,7 +18,7 @@ public class WorldSpaceText : MonoBehaviour
     {
 		if (sizeCurrent > size)
 		{
-			sizeCurrent -= 1.15f;
+			sizeCurrent -= 1.15f * Time.deltaTime * 60f;
 		}
 		if (sizeCurrent < size)
 		{
@@ -31,10 +31,10 @@ public class WorldSpaceText : MonoBehaviour
     {
 		if (lifeTime > 0)
 		{
-			lifeTime--;
+			lifeTime -= Time.deltaTime;
 		}
 
-		if (lifeTime == 0)
+		if (lifeTime <= 0)
 		{
 			var col = uiText.color;
 			col.a -= 0.075f;
@@ -60,6 +60,6 @@ public class WorldSpaceText : MonoBehaviour
 
 	public void SetLifetime(int ticks)
 	{
-		lifeTime = ticks;
+		lifeTime = ticks / 60f;
 	}
 }

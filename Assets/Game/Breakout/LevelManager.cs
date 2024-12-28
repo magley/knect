@@ -93,7 +93,7 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private Text textFinished;
 	private float textFinishedScaleStart = 4;
 	private float textFinishedScaleMid = 0.5f;
-	private float textFinishedScaleEnd = 0.4f;
+	private float textFinishedScaleEnd = 0.3f;
 	private bool textFinishedScaleRunning = false;
 
 	private AudioSource objMusic;
@@ -114,14 +114,14 @@ public class LevelManager : MonoBehaviour
 		float textFinishedScaleChangeSpeed = 0.5f;
 		if (textFinishedScale <= textFinishedScaleMid)
 		{
-			textFinishedScaleChangeSpeed = 0.0025f;
+			textFinishedScaleChangeSpeed = 0.003f;
 		}
 		if (textFinishedScale <= textFinishedScaleEnd)
 		{
-			textFinishedScaleChangeSpeed = 0.05f;
+			textFinishedScaleChangeSpeed = 0.1f;
 		}
 
-		textFinishedScale -= textFinishedScaleChangeSpeed;
+		textFinishedScale -= textFinishedScaleChangeSpeed * Time.deltaTime * 15;
 		if (textFinishedScale < 0)
 		{
 			textFinishedScale = 0;
@@ -183,7 +183,12 @@ public class LevelManager : MonoBehaviour
 	{
 		if (textCountdown.transform.localScale.x > textCountdownScaleEnd)
 		{
-			textCountdown.transform.localScale -= Vector3.one * 0.5f;
+			textCountdown.transform.localScale -= Vector3.one * 0.5f * Time.deltaTime * 30;
+
+			if (textCountdown.transform.localScale.x < textCountdownScaleEnd)
+			{
+				textCountdown.transform.localScale = Vector3.one * textCountdownScaleEnd;
+			}
 		}
 	}
 
@@ -233,7 +238,6 @@ public class LevelManager : MonoBehaviour
 
 		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
 	}
-
 
 	private void ApplyBonuses()
 	{

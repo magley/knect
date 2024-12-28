@@ -59,7 +59,7 @@ public class PauseManager : MonoBehaviour
 
 		foreach (var canvasGroup in uiObjectsToHandleOpacity)
 		{
-			canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, uiOpacity, 0.1f);
+			canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, uiOpacity, Time.deltaTime * 8);
 		}
 	}
 

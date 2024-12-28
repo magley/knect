@@ -38,7 +38,7 @@ public class UIScore : MonoBehaviour
     {
 		if (textPosY > textPosYbase)
 		{
-			textPosY -= 5;
+			textPosY -= 5 * Time.deltaTime * 60;
 
 			if (textPosY < textPosYbase)
 			{
