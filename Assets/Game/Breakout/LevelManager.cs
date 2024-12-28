@@ -94,6 +94,7 @@ public class LevelManager : MonoBehaviour
 	private float textFinishedScaleStart = 4;
 	private float textFinishedScaleMid = 0.5f;
 	private float textFinishedScaleEnd = 0.3f;
+	private int textFinishedScaleState = 0;
 	private bool textFinishedScaleRunning = false;
 
 	private AudioSource objMusic;
@@ -114,11 +115,23 @@ public class LevelManager : MonoBehaviour
 		float textFinishedScaleChangeSpeed = 0.5f;
 		if (textFinishedScale <= textFinishedScaleMid)
 		{
-			textFinishedScaleChangeSpeed = 0.003f;
+			textFinishedScaleChangeSpeed = 0.01f;
+
+			if (textFinishedScaleState == 0)
+			{
+				textFinishedScale = textFinishedScaleMid;
+				textFinishedScaleState++;
+			}
 		}
 		if (textFinishedScale <= textFinishedScaleEnd)
 		{
 			textFinishedScaleChangeSpeed = 0.1f;
+
+			if (textFinishedScaleState == 1)
+			{
+				textFinishedScale = textFinishedScaleEnd;
+				textFinishedScaleState++;
+			}
 		}
 
 		textFinishedScale -= textFinishedScaleChangeSpeed * Time.deltaTime * 15;
