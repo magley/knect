@@ -102,10 +102,16 @@ public class Brick : MonoBehaviour
 			case DropOnBreak.Miniballs:
 				{
 					int N = 5;
+
+					Vector3 forwardDirection = transform.forward;
+					Vector3 downwardDirection = Vector3.down;
+					float angleOffset = Vector3.SignedAngle(forwardDirection, downwardDirection, Vector3.right);
+
 					for (int i = 0; i < N; i++)
 					{
-						float angle = Mathf.Lerp(Mathf.PI, 2 * Mathf.PI, (float)i / (N - 1));
-						Vector3 dir = new Vector3(Mathf.Cos(angle), Random.Range(-1, 1), Mathf.Sin(angle));
+						float angle = Mathf.Lerp(angleOffset - 90f, angleOffset + 90f, (float)i / (N - 1));
+						int[] dirY = new int[2] { -1, 1 };
+						Vector3 dir = new Vector3(Mathf.Cos(angle), dirY[Random.Range(0, dirY.Length)], Mathf.Sin(angle));
 
 						GameObject o = Instantiate(MiniballPrefab, transform.parent);
 						o.transform.position = transform.position + dir * 0.2f;
