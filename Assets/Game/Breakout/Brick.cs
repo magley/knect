@@ -101,20 +101,15 @@ public class Brick : MonoBehaviour
 				break;
 			case DropOnBreak.Miniballs:
 				{
-					for (int i = 0; i < 5; i++)
+					int N = 5;
+					for (int i = 0; i < N; i++)
 					{
-						Vector3 rand = new(
-							Random.Range(-1, 1),
-							Random.Range(-1, 1),
-							Random.Range(-1, 1)
-						);
+						float angle = Mathf.Lerp(Mathf.PI, 2 * Mathf.PI, (float)i / (N - 1));
+						Vector3 dir = new Vector3(Mathf.Cos(angle), Random.Range(-1, 1), Mathf.Sin(angle));
+
 						GameObject o = Instantiate(MiniballPrefab, transform.parent);
-						o.transform.position = transform.position + rand * 0.2f;
-						o.transform.rotation = Quaternion.Euler(new(
-							Random.Range(-90, 90),
-							Random.Range(-90, 90),
-							Random.Range(-90, 90)
-						));
+						o.transform.position = transform.position + dir * 0.2f;
+						o.transform.rotation = Quaternion.LookRotation(dir);
 					}
 				}
 				break;

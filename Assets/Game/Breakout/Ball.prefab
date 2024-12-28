@@ -139,7 +139,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0fd72991e9d62f643b4573a9171ce58d, type: 2}
   _combo: 0
   _bonus: 0
-  StandardSpeed: 14
+  StandardSpeed: 20
 --- !u!54 &2814906130537546299
 Rigidbody:
   m_ObjectHideFlags: 0
