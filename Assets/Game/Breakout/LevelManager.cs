@@ -429,7 +429,10 @@ public class LevelManager : MonoBehaviour
 		DrumRollLoop.loop = false;
 		DrumRollLoop.Play();
 
-		Invoke(nameof(TimeIsUp_07_ShowResults), 2.5f);
+		Invoke(nameof(TimeIsUp_07_ShowResults), 4.5f);
+
+
+		ConfettiBlower.StartSequenceEmit();
 	}
 
 	private void TimeIsUp_07_ShowResults()
