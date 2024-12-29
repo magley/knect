@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -98,6 +99,7 @@ public class Ball : MonoBehaviour
 	private void Update()
 	{
 		HandleTrailLength();
+		HandleTrailColor();
 		HandleVelocityDirection();
 	}
 
@@ -152,6 +154,19 @@ public class Ball : MonoBehaviour
 	{
 		float trailRenderTargetTime = 0.025f + _combo / 50f;
 		trailRenderer.time = Mathf.Lerp(trailRenderer.time, trailRenderTargetTime, 0.25f);
+	}
+
+	private void HandleTrailColor()
+	{
+		Color targetColor = Color.white;
+		if (_combo >= 10)
+		{
+			float hue = Mathf.PingPong(Time.time * (0.1f + _combo / 20f), 1f);
+			targetColor = Color.HSVToRGB(hue, 1f, 1f);
+		}
+
+		trailRenderer.startColor = Color.Lerp(trailRenderer.startColor, targetColor, Time.deltaTime * 2f);
+		trailRenderer.endColor = trailRenderer.startColor;
 	}
 
 	private void BounceOffBouncePad()
