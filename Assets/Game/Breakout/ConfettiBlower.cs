@@ -3,6 +3,7 @@ using UnityEngine;
 public class ConfettiBlower : MonoBehaviour
 {
     private ParticleSystem ps;
+    private AudioSource sndConfettiPop;
 
     /// <summary>
     /// Not all blowers emit confetti at the same time.
@@ -28,7 +29,8 @@ public class ConfettiBlower : MonoBehaviour
     void Start()
     {
 		ps = GetComponentInChildren<ParticleSystem>();
-    }
+		sndConfettiPop = GetComponent<AudioSource>();
+	}
 
 	private void Update()
 	{
@@ -52,9 +54,10 @@ public class ConfettiBlower : MonoBehaviour
 		}
 	}
 
-	private void Emit()
+    private void Emit()
     {
-		ps.Play();
+        ps.Play();
+        sndConfettiPop.Play();
     }
 
 	private void EmitIfOrderIs(int theOrder)

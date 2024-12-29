@@ -419,6 +419,7 @@ public class LevelManager : MonoBehaviour
 		else
 		{
 			Invoke(nameof(TimeIsUp_06_DrumRollEnd), 0.67f);
+			ConfettiBlower.StartSequenceEmit();
 		}
 	}
 
@@ -430,9 +431,7 @@ public class LevelManager : MonoBehaviour
 		DrumRollLoop.Play();
 
 		Invoke(nameof(TimeIsUp_07_ShowResults), 4.5f);
-
-
-		ConfettiBlower.StartSequenceEmit();
+		AudienceController.CheerEndlessly();
 	}
 
 	private void TimeIsUp_07_ShowResults()

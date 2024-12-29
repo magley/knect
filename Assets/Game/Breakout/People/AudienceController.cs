@@ -93,6 +93,16 @@ public class AudienceController : MonoBehaviour
 		}
 	}
 
+    public static void CheerEndlessly()
+    {
+        foreach (var audience in FindObjectsOfType<AudienceController>())
+        {
+			audience.setEmoteToIdleTimer = 0f;
+			audience.SetEmote(Emotes.Cheer);
+			audience.audienceGroup.PlayCheer();
+		}
+	}
+
 	private void Update()
 	{
         if (setEmoteToIdleTimer > 0f)
