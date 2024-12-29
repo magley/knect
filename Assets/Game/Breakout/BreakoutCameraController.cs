@@ -23,8 +23,8 @@ public class BreakoutCameraController : MonoBehaviour
     void Update()
     {
         Vector3 targetCentroid = GetPlayerCentroid();
-        myCentroid = Vector3.Lerp(myCentroid, targetCentroid, 0.25f);
-        myCentroid = initialCentroid + (myCentroid - initialCentroid) * 0.2f;
+        myCentroid = Vector3.Lerp(myCentroid, targetCentroid, 0.05f);
+        myCentroid = initialCentroid + (myCentroid - initialCentroid) * 0.85f;
 
 		transform.LookAt(myCentroid, Vector3.up);
         transform.position = initialPosition + new Vector3((myCentroid - initialCentroid).x, (myCentroid - initialCentroid).y, 0) * 0.9f;
