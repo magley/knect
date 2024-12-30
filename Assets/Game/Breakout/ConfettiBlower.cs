@@ -1,8 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ConfettiBlower : MonoBehaviour
 {
-    private ParticleSystem ps;
+    private List<ParticleSystem> ps;
     private AudioSource sndConfettiPop;
 
     /// <summary>
@@ -28,7 +30,7 @@ public class ConfettiBlower : MonoBehaviour
 
     void Start()
     {
-		ps = GetComponentInChildren<ParticleSystem>();
+		ps = GetComponentsInChildren<ParticleSystem>().ToList();
 		sndConfettiPop = GetComponent<AudioSource>();
 	}
 
@@ -56,7 +58,10 @@ public class ConfettiBlower : MonoBehaviour
 
     private void Emit()
     {
-        ps.Play();
+        foreach (var p in ps)
+        {
+            p.Play();
+        }
         sndConfettiPop.Play();
     }
 
