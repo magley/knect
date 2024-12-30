@@ -14,7 +14,7 @@ public class BreakoutScoreboard : MonoBehaviour
 
 	private void Update()
 	{
-		SetText();
+		// SetText();
 	}
 
 	private string RandomizeString(string s)

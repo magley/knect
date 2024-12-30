@@ -22,31 +22,31 @@ class LevelStartBonus
 
 	public static List<LevelStartBonus> Bonuses = new()
 	{
-		new LevelStartBonus("Start with 90 seconds", 100_000, (LevelManager self) =>
+		new LevelStartBonus("90 seconds", 100_000, (LevelManager self) =>
 		{
 			self.SetStartingTime(90);
 		}),
-		new LevelStartBonus("Start with x2 multiplier", 200_000, (LevelManager self) =>
+		new LevelStartBonus("x2 multiplier", 200_000, (LevelManager self) =>
 		{
 			PlayerAdditions.SetScoreMultiplier(2);
 		}),
-		new LevelStartBonus("Start with 120 seconds", 300_000, (LevelManager self) =>
+		new LevelStartBonus("120 seconds", 300_000, (LevelManager self) =>
 		{
 			self.SetStartingTime(120);
 		}),
-		new LevelStartBonus("Start with 2 balls", 500_000, (LevelManager self) =>
+		new LevelStartBonus("2 balls", 500_000, (LevelManager self) =>
 		{
 			self.AddBall();
 		}),
-		new LevelStartBonus("Start with x5 multiplier", 800_000, (LevelManager self) =>
+		new LevelStartBonus("x5 multiplier", 800_000, (LevelManager self) =>
 		{
 			PlayerAdditions.SetScoreMultiplier(5);
 		}),
-		new LevelStartBonus("All multipliers are x5", 1_000_000, (LevelManager self) =>
+		new LevelStartBonus("Force x5", 1_000_000, (LevelManager self) =>
 		{
 			PlayerAdditions.ForceScoreMultiplier5 = true;
 		}),
-		new LevelStartBonus("Start with 3 balls", 1_500_000, (LevelManager self) =>
+		new LevelStartBonus("3 balls", 1_500_000, (LevelManager self) =>
 		{
 			self.AddBall();
 		}),
