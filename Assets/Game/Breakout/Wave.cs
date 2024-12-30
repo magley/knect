@@ -24,6 +24,11 @@ public class Wave : MonoBehaviour
 
     void Update()
     {
+        if (!levelManager.IsGameGoing)
+        {
+            return;
+        }
+
         switch (mode)
         {
             case Mode.Pending:

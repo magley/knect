@@ -651,7 +651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabWorldSpaceTextForScore: {fileID: 8017578372582268918, guid: cbdd3306d3e03a340ab14e9cec9fe919, type: 3}
-  seconds: 60
+  seconds: 15
   TimeLeftText: {fileID: 1648655256}
   DrumRollLoop: {fileID: 1143740115}
   SndRefereeWhistle: {fileID: 8300000, guid: 4b36af5f359c79044bcc2a2c91506b5f, type: 3}
@@ -675,6 +675,7 @@ MonoBehaviour:
   musHurryUp: {fileID: 8300000, guid: 9992281c3aadc594d84c71fbaade160b, type: 3}
   PlayerKeyboard: {fileID: 353211932}
   PlayerKinect: {fileID: 993332205}
+  IsGameGoing: 1
 --- !u!82 &109193468
 AudioSource:
   m_ObjectHideFlags: 0

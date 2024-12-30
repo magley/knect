@@ -205,7 +205,7 @@ public class LevelManager : MonoBehaviour
 		}
 	}
 
-	private bool IsGameGoing = true;
+	public bool IsGameGoing = true;
 
 	internal void SetStartingTime(int newSeconds)
 	{
@@ -215,8 +215,7 @@ public class LevelManager : MonoBehaviour
 
 	internal void AddBall()
 	{
-		var ball = Instantiate(PrefabBall, FindFirstObjectByType<Ball>().transform);
-		ball.transform.position += Vector3.left * 2;
+		var ball = Instantiate(PrefabBall, FindFirstObjectByType<Ball>().transform.position, Quaternion.identity);
 	}
 
 	void Start()
