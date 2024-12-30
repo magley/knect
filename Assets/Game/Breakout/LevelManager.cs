@@ -59,8 +59,8 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private GameObject PrefabWorldSpaceTextForScore;
 	private AudioSource audioSource;
 
-	private bool ShouldTickTimeLeft = true;
-	[SerializeField] float seconds = 60;
+	private bool ShouldTickTimeLeft = false;
+	float seconds = 60;
 	[SerializeField] private Text TimeLeftText;
 	private float secondsLeft = 60;
 	[SerializeField] private AudioSource DrumRollLoop;
