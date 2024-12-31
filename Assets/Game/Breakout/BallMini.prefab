@@ -133,6 +133,9 @@ MonoBehaviour:
   sndBallHitHard:
   - {fileID: 8300000, guid: 411b0874d3954784b881240171bfe579, type: 3}
   - {fileID: 8300000, guid: 4436a4ddd3e70b844b666f3ec9a4ab57, type: 3}
+  sndBallHitGlass:
+  - {fileID: 8300000, guid: 60c8ff1d4aed07f4892dd2badf2fb08e, type: 3}
+  - {fileID: 8300000, guid: a359c2fd0c9c4ed419e5d1a61dd01750, type: 3}
   PossibleMaterial:
   - {fileID: 2100000, guid: f1471667223c8d94298a498fdd6383be, type: 2}
   - {fileID: 2100000, guid: 4d13994ad3aaf1844ac0c53dd22ba780, type: 2}

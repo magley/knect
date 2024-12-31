@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Ball : MonoBehaviour
 {
@@ -19,6 +17,7 @@ public class Ball : MonoBehaviour
 
 	[SerializeField] private AudioClip[] sndBallHit = { };
 	[SerializeField] private AudioClip[] sndBallHitHard = { };
+	[SerializeField] private AudioClip[] sndBallHitGlass = { };
 
 	[SerializeField] private Material[] PossibleMaterial = { };
 
@@ -144,9 +143,23 @@ public class Ball : MonoBehaviour
 		{
 			DecreaseBonus();
 
-			var clip = sndBallHit[UnityEngine.Random.Range(0, sndBallHit.Length)];
-			SndHitWallSource.clip = clip;
-			SndHitWallSource.Play();
+			// Play sound.
+
+			bool hittingGlass = false;
+			if (collision.gameObject.CompareTag("Glass"))
+			{
+				hittingGlass = true;
+			}
+
+			if (hittingGlass)
+			{
+				SndHitWallSource.clip = sndBallHitGlass[UnityEngine.Random.Range(0, sndBallHitGlass.Length)];
+			}
+			else
+			{
+				SndHitWallSource.clip = sndBallHit[UnityEngine.Random.Range(0, sndBallHit.Length)];
+			}
+			SndHitWallSource.Play();	
 		}
 	}
 

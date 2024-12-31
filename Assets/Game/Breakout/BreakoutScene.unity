@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 8959997}
   m_Layer: 0
   m_Name: BackWall
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -651,7 +651,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabWorldSpaceTextForScore: {fileID: 8017578372582268918, guid: cbdd3306d3e03a340ab14e9cec9fe919, type: 3}
-  seconds: 15
   TimeLeftText: {fileID: 1648655256}
   DrumRollLoop: {fileID: 1143740115}
   SndRefereeWhistle: {fileID: 8300000, guid: 4b36af5f359c79044bcc2a2c91506b5f, type: 3}
@@ -4467,7 +4466,7 @@ GameObject:
   - component: {fileID: 1058213672}
   m_Layer: 0
   m_Name: LeftWall
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5987,7 +5986,7 @@ GameObject:
   - component: {fileID: 1326267807}
   m_Layer: 0
   m_Name: RightWall
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6092,7 +6091,7 @@ GameObject:
   - component: {fileID: 1342236319}
   m_Layer: 0
   m_Name: FrontWall
-  m_TagString: Untagged
+  m_TagString: Glass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
