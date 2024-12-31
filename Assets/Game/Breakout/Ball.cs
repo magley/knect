@@ -53,6 +53,8 @@ public class Ball : MonoBehaviour
 	/// </summary>
 	private float MinimumSpeedOnAxis = 11;
 
+	private bool BouncedOffNonPlayerAtLeastOnce = false;
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -104,13 +106,16 @@ public class Ball : MonoBehaviour
 
 	private void HandleVelocityDirection()
 	{
-		if (Math.Abs(rb.velocity.z) < MinimumSpeedOnAxis)
+		if (BouncedOffNonPlayerAtLeastOnce)
 		{
-			rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Math.Sign(rb.velocity.z) * MinimumSpeedOnAxis);
-		}
-		if (Math.Abs(rb.velocity.y) < MinimumSpeedOnAxis)
-		{
-			rb.velocity = new Vector3(rb.velocity.x, Math.Sign(rb.velocity.y) * MinimumSpeedOnAxis, rb.velocity.z);
+			if (Math.Abs(rb.velocity.z) < MinimumSpeedOnAxis)
+			{
+				rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Math.Sign(rb.velocity.z) * MinimumSpeedOnAxis);
+			}
+			if (Math.Abs(rb.velocity.y) < MinimumSpeedOnAxis)
+			{
+				rb.velocity = new Vector3(rb.velocity.x, Math.Sign(rb.velocity.y) * MinimumSpeedOnAxis, rb.velocity.z);
+			}
 		}
 	}
 
@@ -133,6 +138,7 @@ public class Ball : MonoBehaviour
 			Destroy(collision.gameObject);
 			IncreaseComboAndBonus();
 			GameState.AddScore(Bonus * 50);
+			BouncedOffNonPlayerAtLeastOnce = true;
 
 			if (DestroyOnImpact)
 			{
@@ -142,6 +148,7 @@ public class Ball : MonoBehaviour
 		else
 		{
 			DecreaseBonus();
+			BouncedOffNonPlayerAtLeastOnce = true;
 
 			// Play sound.
 
@@ -193,6 +200,10 @@ public class Ball : MonoBehaviour
 
 		Vector3 dir = new Vector3(forward.x + xOffset * 10, forward.y + yOffset * 5, forward.z).normalized;
 		dir.z = 1;
+		float magn = dir.magnitude;
+
+		BouncedOffNonPlayerAtLeastOnce = false;
+		float spd = StandardSpeed;
 
 		// If there aren't a lot of bricks left, aim towards them with a probability.
 		// This prevents the "one lone brick that balls never seem to hit" scenario
@@ -200,11 +211,13 @@ public class Ball : MonoBehaviour
 		var bricks = FindObjectsOfType<Brick>().ToList();
 		if (bricks.Count > 0 && bricks.Count <= 3)
 		{
-			if (UnityEngine.Random.Range(0, 4) == 0)
+			if (UnityEngine.Random.Range(0, bricks.Count) == 0)
 			{
 				AimTowardsOneOfTheBricks(ref dir, bricks);
+				spd *= 1.25f;
 			}
 		}
+		dir = dir.normalized * magn;
 
 		rb.velocity = dir * StandardSpeed;
 	}
