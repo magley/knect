@@ -9,6 +9,7 @@ TagManager:
   - Death
   - KinectPointer
   - Music
+  - Glass
   layers:
   - Default
   - TransparentFX
