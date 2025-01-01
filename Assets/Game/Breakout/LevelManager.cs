@@ -219,7 +219,12 @@ public class LevelManager : MonoBehaviour
 
 	internal void AddBall()
 	{
-		var ball = Instantiate(PrefabBall, FindFirstObjectByType<Ball>().transform.position, Quaternion.identity);
+		Vector3 offset = new(
+			UnityEngine.Random.Range(-0.25f, 0.25f),
+			UnityEngine.Random.Range(-0.25f, 0.25f),
+			UnityEngine.Random.Range(-0.25f, 0.25f)
+		);
+		var ball = Instantiate(PrefabBall, FindFirstObjectByType<Ball>().transform.position + offset, UnityEngine.Random.rotation);
 	}
 
 	void Start()

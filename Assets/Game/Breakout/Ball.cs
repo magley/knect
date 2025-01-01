@@ -8,8 +8,11 @@ public class Ball : MonoBehaviour
 	private Rigidbody rb;
 	private TrailRenderer trailRenderer;
 	private ParticleSystem particles;
+	[SerializeField] private GameObject model;
 	private bool CanGetHitByBouncePad = true;
 	[SerializeField] public bool DestroyOnImpact = false;
+
+	private Vector3 modelSpin = Vector3.zero;
 
 	private AudioSource SndHitWallSource;
 
@@ -61,9 +64,15 @@ public class Ball : MonoBehaviour
 		trailRenderer = GetComponent<TrailRenderer>();
 		SndHitWallSource = GetComponent<AudioSource>();
 		particles = GetComponent<ParticleSystem>();
-		rb.velocity = transform.forward * StandardSpeed;
 
-		GetComponent<Renderer>().material = PossibleMaterial[UnityEngine.Random.Range(0, PossibleMaterial.Length)];
+		rb.velocity = transform.forward * StandardSpeed;
+		model.GetComponent<Renderer>().material = PossibleMaterial[UnityEngine.Random.Range(0, PossibleMaterial.Length)];
+
+		modelSpin = new Vector3(
+			UnityEngine.Random.Range(10, 25),
+			UnityEngine.Random.Range(10, 25),
+			UnityEngine.Random.Range(10, 25)
+		);
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -85,6 +94,12 @@ public class Ball : MonoBehaviour
 				var clip = sndBallHitHard[UnityEngine.Random.Range(0, sndBallHitHard.Length)];
 				SndHitWallSource.clip = clip;
 				SndHitWallSource.Play();
+
+				modelSpin = new Vector3(
+					UnityEngine.Random.Range(10, 25),
+					UnityEngine.Random.Range(10, 25),
+					UnityEngine.Random.Range(10, 25)
+				);
 			}
 		}
 	}
@@ -102,6 +117,12 @@ public class Ball : MonoBehaviour
 		HandleTrailLength();
 		HandleTrailColor();
 		HandleVelocityDirection();
+		HandleModelSpin();
+	}
+
+	private void HandleModelSpin()
+	{
+		model.transform.Rotate(modelSpin * 25 * Time.deltaTime);
 	}
 
 	private void HandleVelocityDirection()
