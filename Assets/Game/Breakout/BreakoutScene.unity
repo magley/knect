@@ -668,6 +668,8 @@ MonoBehaviour:
   - {fileID: 36954942758086008, guid: cb19da5c317c6c6459b83e4c6dc519aa, type: 3}
   - {fileID: 36954942758086008, guid: 6bf70d48b69c21543a0d811fe4191cce, type: 3}
   - {fileID: 36954942758086008, guid: fdd319ae579db9142b245c890e1645cb, type: 3}
+  - {fileID: 36954942758086008, guid: 12ac9cfd2b328b84f854978c29fc80e2, type: 3}
+  - {fileID: 36954942758086008, guid: 60fd732ce70f48643a4fc3d3dc841eb4, type: 3}
   textCountdown: {fileID: 129054793}
   sndCountdown: {fileID: 8300000, guid: 4210c2b37e31a2149814d0fd7f2e6b0e, type: 3}
   sndCountdownEnd: {fileID: 8300000, guid: 1e3dc62290a2e524c9110b84ef879940, type: 3}

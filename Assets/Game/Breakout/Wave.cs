@@ -78,6 +78,11 @@ public class Wave : MonoBehaviour
     private void CallForNextWave()
     {
 		levelManager = FindObjectOfType<LevelManager>();        // ???
+
+        foreach (var obj in GetComponentsInChildren<Transform>().Where(t => t.gameObject.CompareTag("WaveObject"))) {
+            Destroy(obj.gameObject);
+        }
+
 		levelManager.SpawnNextWave();
     }
 }
