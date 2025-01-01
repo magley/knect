@@ -62,7 +62,15 @@ public class ResultsUIManager : MonoBehaviour
             MaybeStartPlayingBlip();
 
 			int diff = GameState.Score - animScore;
-			if (diff > 20000)
+			if (diff > 1_000_000)
+			{
+				animScore += 100_000;
+			}
+			if (diff > 100_000)
+			{
+				animScore += 10_000;
+			}
+			if (diff > 20_000)
 			{
 				animScore += 5000;
 			}

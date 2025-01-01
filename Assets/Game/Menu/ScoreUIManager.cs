@@ -48,24 +48,24 @@ public class ScoreUIManager : MonoBehaviour
             {
                 spr = sprTail;
 			}
-            SpawnSprite(spr, new(0, -64 * i));
+            SpawnSprite(spr, new(0, -64 * i + 32));
 
             var bonus = LevelStartBonus.Bonuses[i];
 			if (highScore < bonus.HighScoreThreshold)
 			{
-				SpawnSprite(sprUnchecked, new(0, -64 * i));
+				SpawnSprite(sprUnchecked, new(0, -64 * i + 32));
 			}
             else
             {
-				SpawnSprite(sprChecked, new(0, -64 * i));
+				SpawnSprite(sprChecked, new(0, -64 * i + 32));
 			}
 
             Color color = (highScore < bonus.HighScoreThreshold) ? Color.gray : Color.white;
 
-            SpawnText(bonus.Description, new(500, -64 * i), color);
+            SpawnText(bonus.Description, new(500, -64 * i + 32), color);
 
 			string formattedNumber = bonus.HighScoreThreshold.ToString("#,0", numberFormat);
-			SpawnText($"{formattedNumber}", new(220, -64 * i), color, TextAnchor.MiddleRight);
+			SpawnText($"{formattedNumber}", new(220, -64 * i + 32), color, TextAnchor.MiddleRight);
 		}
 	}
 
