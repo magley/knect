@@ -26,7 +26,7 @@ class LevelStartBonus
 		{
 			self.SetStartingTime(90);
 		}),
-		new LevelStartBonus("x2 multiplier", 200_000, (LevelManager self) =>
+		new LevelStartBonus("Start with x2", 200_000, (LevelManager self) =>
 		{
 			PlayerAdditions.SetScoreMultiplier(2);
 		}),
@@ -38,7 +38,7 @@ class LevelStartBonus
 		{
 			self.AddBall();
 		}),
-		new LevelStartBonus("x5 multiplier", 800_000, (LevelManager self) =>
+		new LevelStartBonus("Start with x5", 800_000, (LevelManager self) =>
 		{
 			PlayerAdditions.SetScoreMultiplier(5);
 		}),
@@ -49,6 +49,10 @@ class LevelStartBonus
 		new LevelStartBonus("3 balls", 1_500_000, (LevelManager self) =>
 		{
 			self.AddBall();
+		}),
+		new LevelStartBonus("Unlock x10", 2_250_000, (LevelManager self) =>
+		{
+			PlayerAdditions.UnlockScoreMultiplier10 = true;
 		}),
 	};
 }

@@ -7,6 +7,7 @@ public class CollectableItem : MonoBehaviour
         TimesTwo,
         TimesFive,
         Gem,
+        TimesTen,
     }
 
     [SerializeField] public Type CollectableType;
@@ -58,6 +59,9 @@ public class CollectableItem : MonoBehaviour
 				break;
             case Type.Gem:
                 break;
+			case Type.TimesTen:
+				PlayerAdditions.SetScoreMultiplier(10);
+				break;
 			default: break;
         }
 

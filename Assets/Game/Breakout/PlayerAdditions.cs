@@ -9,10 +9,12 @@ public class PlayerAdditions : MonoBehaviour
 	public static int ScoreMultiplier = 1;
 	public static int ScoreMultiplierTimeBase = 10;
 	public static bool ForceScoreMultiplier5 = false;
+	public static bool UnlockScoreMultiplier10 = false;
 
 	private void Awake()
 	{
 		ForceScoreMultiplier5 = false;
+		UnlockScoreMultiplier10 = false;
 	}
 
 	void Update()
@@ -34,7 +36,7 @@ public class PlayerAdditions : MonoBehaviour
 			if (scoreMultiplierTimeLeft < 0)
 			{
 				scoreMultiplierTimeLeft = 0;
-				PlayerAdditions.ScoreMultiplier = 1;
+				ScoreMultiplier = 1;
 			}
 		}
 	}

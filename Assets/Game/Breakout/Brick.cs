@@ -81,6 +81,10 @@ public class Brick : MonoBehaviour
 							{
 								canBeDropped = false;
 							}
+							if (item.CollectableType == CollectableItem.Type.TimesTen && !PlayerAdditions.UnlockScoreMultiplier10)
+							{
+								canBeDropped = false;
+							}
 
 							if (canBeDropped)
 							{
