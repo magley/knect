@@ -14,6 +14,7 @@ public class PauseManager : MonoBehaviour
 
 	[SerializeField] private Camera cameraMain;
 	[SerializeField] private Camera cameraPause;
+	[SerializeField] private GameObject uiTutorial;
 
 	[SerializeField] private AudioClip sndPause;
 	[SerializeField] private AudioClip sndUnpause;
@@ -33,6 +34,7 @@ public class PauseManager : MonoBehaviour
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
 		}
+		uiTutorial.SetActive(true);
 
 		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
 
@@ -61,6 +63,7 @@ public class PauseManager : MonoBehaviour
 		{
 			canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, uiOpacity, Time.deltaTime * 8);
 		}
+		uiTutorial.GetComponentInChildren<CanvasGroup>().alpha = 1.0f;
 	}
 
 	IEnumerator PauseOnEndOfFrame()
@@ -131,7 +134,6 @@ public class PauseManager : MonoBehaviour
 		isPaused = false;
 		cameraMain.enabled = true;
 		cameraPause.enabled = false;
-
 
 		foreach (var pauseable in FindObjectsOfType<Pauseable>(true).Except(wasInactiveBeforePausing))
 		{
