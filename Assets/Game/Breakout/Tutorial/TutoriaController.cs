@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TutoriaController : MonoBehaviour
 {
+	private float beforeShowTutorialTime = 1f;
+
     [SerializeField] private GameObject clearArea;
     [SerializeField] private Image playerIcon;
 	[SerializeField] private Image sofa;
@@ -21,13 +23,13 @@ public class TutoriaController : MonoBehaviour
 	[SerializeField] List<Sprite> sprPlayerHitBallFrames;
 	[SerializeField] List<Sprite> sprWallFrames;
 	private float hitBall_timeUntilMove = 1f;
-	private float hitBall_timeUntilHitHand = 0.7f;
-	private float hitBall_timeUntilHitWall = 0.7f;
+	private float hitBall_timeUntilHitHand = 0.5f;
+	private float hitBall_timeUntilHitWall = 0.5f;
 	private float hitBall_timeUntilEnd = 1f;
 	private CanvasGroup hitBallGroup;
 
 	[SerializeField] private GameObject items;
-	private float items_timeUntilEnd = 4f;
+	private float items_timeUntilEnd = 3.5f;
 	private CanvasGroup itemsGroup;
 
 	private void AnimatePlayerIcon()
@@ -41,13 +43,22 @@ public class TutoriaController : MonoBehaviour
 		hitBallGroup = hitBall.GetComponentInChildren<CanvasGroup>();
 		itemsGroup = items.GetComponentInChildren<CanvasGroup>();
 
-		clearArea.SetActive(true);
+		clearArea.SetActive(false);
 		hitBall.SetActive(false);
 		items.SetActive(false);
 
 		clearAreaGroup.alpha = 0f;
 		hitBallGroup.alpha = 0f;
 		itemsGroup.alpha = 0f;
+	}
+
+	private void HandleBeforeTutorialBegins()
+	{
+		beforeShowTutorialTime -= Time.deltaTime;
+		if (beforeShowTutorialTime <= 0f)
+		{
+			clearArea.SetActive(true);
+		}
 	}
 
 	private void HandleClearArea()
@@ -106,7 +117,7 @@ public class TutoriaController : MonoBehaviour
 			if (hitBall_timeUntilHitHand > 0f)
 			{
 				hitBall_timeUntilHitHand -= Time.deltaTime;
-				ball.rectTransform.position += new Vector3(180, -42, 0) * Time.deltaTime;
+				ball.rectTransform.position += new Vector3(220, -59, 0) * Time.deltaTime;
 			}
 			if (hitBall_timeUntilHitHand <= 0f)
 			{
@@ -115,7 +126,7 @@ public class TutoriaController : MonoBehaviour
 				if (hitBall_timeUntilHitWall > 0f)
 				{
 					hitBall_timeUntilHitWall -= Time.deltaTime;
-					ball.rectTransform.position += new Vector3(-200, 70, 0) * Time.deltaTime;
+					ball.rectTransform.position += new Vector3(-240, 84, 0) * Time.deltaTime;
 				}
 
 				if (hitBall_timeUntilHitWall <= 0f)
@@ -157,7 +168,8 @@ public class TutoriaController : MonoBehaviour
 	void Update()
     {
         AnimatePlayerIcon();
-        HandleClearArea();
+		HandleBeforeTutorialBegins();
+		HandleClearArea();
 		HandleHitBall();
 		HandleItems();
 	}
