@@ -10,8 +10,9 @@ public class TutoriaController : MonoBehaviour
 	[SerializeField] private Image sofa;
 	[SerializeField] private Image chair;
 	[SerializeField] List<Sprite> sprPlayerIdleFrames;
-    private float clearArea_timeUntilMove = 2f;
+    private float clearArea_timeUntilMove = 1.5f;
     private float clearArea_timeUntilMoveStop = 1.5f;
+	private CanvasGroup clearAreaGroup;
 
 	[SerializeField] private GameObject hitBall;
     [SerializeField] private Image playerIcon02;
@@ -19,12 +20,15 @@ public class TutoriaController : MonoBehaviour
 	[SerializeField] private Image ball;
 	[SerializeField] List<Sprite> sprPlayerHitBallFrames;
 	[SerializeField] List<Sprite> sprWallFrames;
-	private float hitBall_timeUntilMove = 2f;
+	private float hitBall_timeUntilMove = 1f;
 	private float hitBall_timeUntilHitHand = 0.7f;
 	private float hitBall_timeUntilHitWall = 0.7f;
+	private float hitBall_timeUntilEnd = 1f;
+	private CanvasGroup hitBallGroup;
 
 	[SerializeField] private GameObject items;
 	private float items_timeUntilEnd = 4f;
+	private CanvasGroup itemsGroup;
 
 	private void AnimatePlayerIcon()
     {
@@ -33,15 +37,34 @@ public class TutoriaController : MonoBehaviour
 
     void Start()
     {
-        
-    }
+		clearAreaGroup = clearArea.GetComponentInChildren<CanvasGroup>();
+		hitBallGroup = hitBall.GetComponentInChildren<CanvasGroup>();
+		itemsGroup = items.GetComponentInChildren<CanvasGroup>();
 
-    private void HandleClearArea()
+		clearArea.SetActive(true);
+		hitBall.SetActive(false);
+		items.SetActive(false);
+
+		clearAreaGroup.alpha = 0f;
+		hitBallGroup.alpha = 0f;
+		itemsGroup.alpha = 0f;
+	}
+
+	private void HandleClearArea()
     {
-        if (!clearArea.activeSelf)
+        if (!clearArea.activeInHierarchy)
         {
             return;
         }
+		clearAreaGroup.alpha += Time.deltaTime * 3f;
+		if (clearAreaGroup.alpha >= 1f)
+		{
+			clearAreaGroup.alpha = 1f;
+		}
+		else
+		{
+			return;
+		}
 
         clearArea_timeUntilMove -= Time.deltaTime;
 
@@ -54,14 +77,26 @@ public class TutoriaController : MonoBehaviour
 				chair.rectTransform.position += new Vector3(-38, 38, 0) * Time.deltaTime;
 				sofa.rectTransform.position += new Vector3(38, 48, 0) * Time.deltaTime;
 			}
+			else
+			{
+				hitBall.SetActive(true);
+			}
 		}
 	}
 
 	private void HandleHitBall()
 	{
-		if (!hitBall.activeSelf)
+		if (!hitBall.activeInHierarchy)
 		{
 			return;
+		}
+		if (hitBallGroup.alpha < 1f)
+		{
+			hitBallGroup.alpha += Time.deltaTime * 3f;
+			if (hitBallGroup.alpha < 1f)
+			{
+				return;
+			}
 		}
 
 		hitBall_timeUntilMove -= Time.deltaTime;
@@ -85,7 +120,13 @@ public class TutoriaController : MonoBehaviour
 
 				if (hitBall_timeUntilHitWall <= 0f)
 				{
-					wall.sprite = sprWallFrames[1];
+					wall.sprite = sprWallFrames[1];	
+					hitBall_timeUntilEnd -= Time.deltaTime;
+
+					if (hitBall_timeUntilEnd <= 0f)
+					{
+						items.SetActive(true);
+					}
 				}
 			}
 		}
@@ -93,9 +134,17 @@ public class TutoriaController : MonoBehaviour
 
 	private void HandleItems()
 	{
-		if (!items.activeSelf)
+		if (!items.activeInHierarchy)
 		{
 			return;
+		}
+		if (itemsGroup.alpha < 1f)
+		{
+			itemsGroup.alpha += Time.deltaTime * 3f;
+			if (itemsGroup.alpha < 1f)
+			{
+				return;
+			}
 		}
 
 		items_timeUntilEnd -= Time.deltaTime;

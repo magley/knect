@@ -38,7 +38,10 @@ public class PauseManager : MonoBehaviour
 
 		objMusic = FindObjectsOfType<AudioSource>().Where(o => o.CompareTag("Music")).First();
 
-		uiObjectsToHandleOpacity = transform.GetComponentsInChildren<CanvasGroup>(true).ToList();
+		uiObjectsToHandleOpacity = transform
+			.GetComponentsInChildren<CanvasGroup>(true)
+			.Where(o => o.gameObject.CompareTag("GameUiTop"))
+			.ToList();
 	}
 
 	void Update()
