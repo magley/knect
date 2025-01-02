@@ -9,9 +9,9 @@ public class TutoriaController : MonoBehaviour
     [SerializeField] private Image playerIcon;
 	[SerializeField] private Image sofa;
 	[SerializeField] private Image chair;
+	[SerializeField] List<Sprite> sprPlayerIdleFrames;
     private float clearArea_timeUntilMove = 2f;
     private float clearArea_timeUntilMoveStop = 1.5f;
-	[SerializeField] List<Sprite> sprPlayerIdleFrames;
 
 	[SerializeField] private GameObject hitBall;
     [SerializeField] private Image playerIcon02;
@@ -19,10 +19,12 @@ public class TutoriaController : MonoBehaviour
 	[SerializeField] private Image ball;
 	[SerializeField] List<Sprite> sprPlayerHitBallFrames;
 	[SerializeField] List<Sprite> sprWallFrames;
-
 	private float hitBall_timeUntilMove = 2f;
 	private float hitBall_timeUntilHitHand = 0.7f;
 	private float hitBall_timeUntilHitWall = 0.7f;
+
+	[SerializeField] private GameObject items;
+	private float items_timeUntilEnd = 4f;
 
 	private void AnimatePlayerIcon()
     {
@@ -89,11 +91,25 @@ public class TutoriaController : MonoBehaviour
 		}
 	}
 
+	private void HandleItems()
+	{
+		if (!items.activeSelf)
+		{
+			return;
+		}
+
+		items_timeUntilEnd -= Time.deltaTime;
+		if (items_timeUntilEnd <= 0f)
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	void Update()
     {
         AnimatePlayerIcon();
         HandleClearArea();
 		HandleHitBall();
-
+		HandleItems();
 	}
 }
