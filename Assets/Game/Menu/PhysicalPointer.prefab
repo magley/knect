@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 4574323621304840041}
   - component: {fileID: 3900310015716201771}
   - component: {fileID: 950101934322446471}
+  - component: {fileID: 7015078667594822373}
   m_Layer: 0
   m_Name: PhysicalPointer
   m_TagString: KinectPointer
@@ -425,3 +426,15 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &7015078667594822373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229765817215691569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763195685223d984e91f6e1a3fb91e12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

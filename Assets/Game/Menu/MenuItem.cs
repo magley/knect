@@ -28,27 +28,21 @@ public class MenuItem : MonoBehaviour
     private bool Selected = false;
     private bool HasFocusFromKinect = false;
     private float TimeUntilSelectFromKinect = 120;
-
     private const float scaleFocus = 1f;
     private const float scaleUnfocus = 0.65f;
     private float scale = 1f;
-
     [SerializeField] private AudioClip sndFocus;
     [SerializeField] private AudioClip sndSelect;
     private AudioSource audioSource;
-
     private MenuManager parentMenu; // Set in MenuManager::Start().
     public bool IsActive { get => parentMenu.IsActive; }
-
     private Vector3 baseScale;
-
     private MenuItemToggle toggle;
-
     private float focusRotation = 0f;
-
     private UIManager UIManager;
+    private KinectPointer? KinectPointer = null;
 
-    void Start()
+	void Start()
     {
 		audioSource = GetComponent<AudioSource>();
         parentMenu = GetComponentInParent<MenuManager>();
@@ -140,8 +134,12 @@ public class MenuItem : MonoBehaviour
 
             if (TimeUntilSelectFromKinect <= 0)
             {
-                DoSelect();
-            }
+                if (KinectPointer.CanInteract)
+                {
+                    DoSelect();
+                    KinectPointer.OnInteract();
+                }
+			}
         }
         else
         {
@@ -156,6 +154,8 @@ public class MenuItem : MonoBehaviour
 	{
 		if (other.CompareTag("KinectPointer") && IsActive)
         {
+			KinectPointer = other.GetComponent<KinectPointer>();
+
 			if (!HasFocusFromKinect)
             {
                 DoFocus();
@@ -166,12 +166,7 @@ public class MenuItem : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-        if (!IsActive)
-        {
-            return;
-        }
-
-		if (other.CompareTag("KinectPointer") && IsActive)
+		if (other.CompareTag("KinectPointer"))
         {
             LoseFocusFromKinect();
 		}
@@ -179,10 +174,7 @@ public class MenuItem : MonoBehaviour
 
     private void LoseFocusFromKinect()
     {
-		if (HasFocusFromKinect)
-		{
-			DoUnfocus();
-		}
+        DoUnfocus();
 		HasFocusFromKinect = false;
 	}
 
@@ -215,6 +207,7 @@ public class MenuItem : MonoBehaviour
         {
             scale = 2f;
 			Selected = true;
+            HasFocusFromKinect = false;
 			audioSource.clip = sndSelect;
 			audioSource.Play();
 		}
