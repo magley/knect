@@ -161,7 +161,7 @@ public class TutoriaController : MonoBehaviour
 		items_timeUntilEnd -= Time.deltaTime;
 		if (items_timeUntilEnd <= 0f)
 		{
-			Destroy(gameObject);
+			gameObject.SetActive(false);
 		}
 	}
 
