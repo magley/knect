@@ -108,6 +108,60 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private GameObject PlayerKeyboard;
 	[SerializeField] private GameObject PlayerKinect;
 
+	[SerializeField] private Text textHurryUp;
+	private float textHurryUpScaleStart = 4;
+	private float textHurryUpScaleMid = 0.9f;
+	private float textHurryUpScaleEnd = 0.6f;
+	private int textHurryUpScaleState = 0;
+	private bool textHurryUpScaleRunning = false;
+
+	private void HandleTextHurryUpSize()
+	{
+		if (!textHurryUpScaleRunning)
+		{
+			return;
+		}
+
+		float scale = textHurryUp.transform.localScale.x;
+		float scaleChangeSpeed = 0.5f;
+		if (scale <= textHurryUpScaleMid)
+		{
+			scaleChangeSpeed = 0.01f;
+
+			if (textHurryUpScaleState == 0)
+			{
+				scale = textHurryUpScaleMid;
+				textHurryUpScaleState++;
+			}
+		}
+		if (scale <= textHurryUpScaleEnd)
+		{
+			scaleChangeSpeed = 0.1f;
+
+			if (textHurryUpScaleState == 1)
+			{
+				scale = textHurryUpScaleEnd;
+				textHurryUpScaleState++;
+			}
+		}
+
+		scale -= scaleChangeSpeed * Time.deltaTime * 15;
+		if (scale < 0)
+		{
+			scale = 0;
+			textHurryUpScaleRunning = false;
+			textHurryUp.text = "";
+		}
+		textHurryUp.transform.localScale = Vector3.one * scale;
+	}
+
+	private void ShowHurryUpText(float seconds)
+	{
+		textHurryUpScaleRunning = true;
+		textHurryUp.text = $"{(int)seconds} SECONDS LEFT!";
+		textHurryUp.transform.localScale = Vector3.one * textHurryUpScaleStart;
+	}
+
 	private void HandleTextFinishedSize()
 	{
 		if (!textFinishedScaleRunning)
@@ -301,6 +355,7 @@ public class LevelManager : MonoBehaviour
 		UpdateTimeLeft();
 		HandleTextCountdown();
 		HandleTextFinishedSize();
+		HandleTextHurryUpSize();
 	}
 
 	private void UpdateTimeLeft()
@@ -330,6 +385,7 @@ public class LevelManager : MonoBehaviour
 				{
 					objMusic.clip = musHurryUp;
 					objMusic.Play();
+					ShowHurryUpText(Mathf.Ceil(seconds / 6));
 				}
 			}
 		}
