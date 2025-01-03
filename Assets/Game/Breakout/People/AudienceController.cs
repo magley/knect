@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.GraphicsBuffer;
 
 public class AudienceController : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class AudienceController : MonoBehaviour
 	private List<Ball> ballsIamAwareOf = new List<Ball>();
     private GameObject focusObject;
     private bool followingBalls = true;
-    private float lookAtLerpSpeed = 0.25f;
+    private float lookAtLerpSpeed = 5f;
 
     /// <summary>
     /// The combo you're currently cheering for.
@@ -51,7 +52,9 @@ public class AudienceController : MonoBehaviour
     /// </summary>
     private float setEmoteToIdleTimer = 0f;
 
-    private AudienceGroupController audienceGroup;
+	private Vector3 currentRelativePos;
+	private float updateFocusTimer = 1f;
+	private AudienceGroupController audienceGroup;
 
 	void Start()
     {
@@ -118,58 +121,54 @@ public class AudienceController : MonoBehaviour
 	}
 
 	void LateUpdate()
-    {
-        FollowBalls();
-	}
-
-    private void UpdateBallsList()
-    {
-        ballsIamAwareOf = FindObjectsByType<Ball>(FindObjectsSortMode.None).ToList();
-        if (ballsIamAwareOf.Count > 0)
-        {
-			focusObject = ballsIamAwareOf[Random.Range(0, ballsIamAwareOf.Count)].gameObject;
-        }
-
-        lookAtLerpSpeed = Random.Range(0.15f, 0.35f);
-		if (followingBalls)
-        {
-            Invoke(nameof(UpdateBallsList), 3f);
-        }
-    }
-
-    private void FollowBalls()
-    {
-        if (ballsIamAwareOf.Count == 0)
-        {
-			return;
+	{
+		if (updateFocusTimer > 0)
+		{
+			updateFocusTimer -= Time.deltaTime;
+			if (updateFocusTimer <= 0)
+			{
+				updateFocusTimer = 1f;
+				UpdateBallsList();
+			}
 		}
 
-        // Ugly ugly ugly code.
+		FollowBalls();
+	}
 
-        if (focusObject.IsDestroyed()) 
-        {
+	private void UpdateBallsList()
+	{
+		focusObject = null;
+		if (followingBalls)
+		{
 			ballsIamAwareOf = FindObjectsByType<Ball>(FindObjectsSortMode.None).ToList();
 			if (ballsIamAwareOf.Count > 0)
 			{
 				focusObject = ballsIamAwareOf[Random.Range(0, ballsIamAwareOf.Count)].gameObject;
-
-				Vector3 focusPoint = focusObject.transform.position;
-				Vector3 relativePos = focusPoint - boneHead.transform.position;
-				Quaternion toRotation = Quaternion.LookRotation(relativePos);
-				boneHead.transform.rotation = Quaternion.Lerp(boneHead.transform.rotation, toRotation, lookAtLerpSpeed);
 			}
-		} 
-        else
-        {
-			Vector3 focusPoint = focusObject.transform.position;
-			Vector3 relativePos = focusPoint - boneHead.transform.position;
-			Quaternion toRotation = Quaternion.LookRotation(relativePos);
-			boneHead.transform.rotation = Quaternion.Lerp(boneHead.transform.rotation, toRotation, lookAtLerpSpeed);
-
+			lookAtLerpSpeed = Random.Range(2f, 6f);
 		}
 	}
 
-    private void SetEmote(Emotes emote)
+	private void FollowBalls()
+	{
+		if (focusObject == null || focusObject.IsDestroyed())
+		{
+			UpdateBallsList();
+			if (focusObject == null || focusObject.IsDestroyed())
+			{
+				return;
+			}
+		}
+
+		Vector3 focusPoint = focusObject.transform.position;
+		Vector3 targetRelativePos = focusPoint - boneHead.transform.position;
+		currentRelativePos = Vector3.Lerp(currentRelativePos, targetRelativePos, Time.deltaTime * lookAtLerpSpeed);
+
+		Quaternion toRotation = Quaternion.LookRotation(currentRelativePos);
+		boneHead.transform.rotation = toRotation;
+	}
+
+	private void SetEmote(Emotes emote)
     {
         switch (emote)
         {
