@@ -16,8 +16,14 @@ public class ResultsUIManager : MonoBehaviour
 	[SerializeField] private Text Score;
 	[SerializeField] private Text NewHighScore;
 	private int DisplayScore = 0;
-	private float TimeUntilScoreIsHeld = 2f;  // After this, the next section begins.
+	private float TimeUntilScoreIsHeld = 1f;
 	private bool ScoreIsUpdating = false;
+
+	[SerializeField] private Text WavesCleared;
+	private int DisplayWavesCleared = 0;
+	private float TimeUntilWaveCounterTicks = 0.175f;
+	private float TimeUntilWavesClearedIsHeld = 1f;
+	private bool WavesClearedIsUpdating = false;
 
 	private void Start()
 	{
@@ -28,6 +34,7 @@ public class ResultsUIManager : MonoBehaviour
 	{
 		HandleScore();
 		HandleBeforeAll();
+		HandleWavesCleared();
 	}
 
 	public void Ready()
@@ -74,7 +81,7 @@ public class ResultsUIManager : MonoBehaviour
 
 		if (DisplayScore == GameState.Score)
 		{
-			//if (GameState.Score > XMLManager.instance.data.GetHighScore())
+			if (GameState.Score > XMLManager.instance.data.GetHighScore())
 			{
 				if (!NewHighScore.enabled)
 				{
@@ -97,6 +104,48 @@ public class ResultsUIManager : MonoBehaviour
 			if (UpdateTimer(ref TimeUntilScoreIsHeld).Item1)
 			{
 				ScoreIsUpdating = false;
+				WavesClearedIsUpdating = true;
+			}
+		}
+	}
+
+	private void HandleWavesCleared()
+	{
+		if (!WavesClearedIsUpdating)
+		{
+			return;
+		}
+
+		if (DisplayWavesCleared < GameState.TotalWaves)
+		{
+			if (UpdateTimer(ref TimeUntilWaveCounterTicks).Item2)
+			{
+				TimeUntilWaveCounterTicks = 0.175f;
+				DisplayWavesCleared += 1;
+
+				AudioSource.Stop();
+				AudioSource.clip = SndBlip;
+				AudioSource.loop = false;
+				AudioSource.Play();
+
+			}
+
+			if (DisplayWavesCleared == GameState.TotalWaves)
+			{
+				AudioSource.Stop();
+				AudioSource.clip = SndBloop;
+				AudioSource.loop = false;
+				AudioSource.Play();
+			}
+		}
+
+		WavesCleared.text = DisplayWavesCleared.ToString().PadLeft(2, '0');
+
+		if (DisplayWavesCleared == GameState.TotalWaves)
+		{
+			if (UpdateTimer(ref TimeUntilWavesClearedIsHeld).Item1)
+			{
+				WavesClearedIsUpdating = false;
 			}
 		}
 	}
