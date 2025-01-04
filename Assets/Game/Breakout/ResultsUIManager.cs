@@ -25,6 +25,13 @@ public class ResultsUIManager : MonoBehaviour
 	private float TimeUntilWavesClearedIsHeld = 1f;
 	private bool WavesClearedIsUpdating = false;
 
+	[SerializeField] private Text Combo;
+	private int DisplayCombo = 0;
+	private float TimeUntilNextBrickSpawns = 0.3f;
+	private float TimeUntilComboIsHeld = 1f;
+	private bool ComboIsUpdating = false;
+	[SerializeField] GameObject PrefabResultsBrick;
+
 	private void Start()
 	{
 		AudioSource = GetComponent<AudioSource>();
@@ -35,6 +42,7 @@ public class ResultsUIManager : MonoBehaviour
 		HandleScore();
 		HandleBeforeAll();
 		HandleWavesCleared();
+		HandleCombo();
 	}
 
 	public void Ready()
@@ -146,8 +154,52 @@ public class ResultsUIManager : MonoBehaviour
 			if (UpdateTimer(ref TimeUntilWavesClearedIsHeld).Item1)
 			{
 				WavesClearedIsUpdating = false;
+				ComboIsUpdating = true;
 			}
 		}
+	}
+
+	private void HandleCombo()
+	{
+        if (!ComboIsUpdating)
+		{
+			return;
+		}
+
+		if (DisplayCombo < GameState.BestCombo)
+		{
+			if (UpdateTimer(ref TimeUntilNextBrickSpawns).Item2)
+			{
+				Instantiate(PrefabResultsBrick, transform);
+
+				TimeUntilNextBrickSpawns = 0.3f;
+				DisplayCombo += 1;
+
+				AudioSource.Stop();
+				AudioSource.clip = SndBlip;
+				AudioSource.loop = false;
+				AudioSource.Play();
+			}
+
+			if (DisplayCombo == GameState.BestCombo)
+			{
+				AudioSource.Stop();
+				AudioSource.clip = SndBloop;
+				AudioSource.loop = false;
+				AudioSource.Play();
+			}
+		}
+
+		Combo.text = DisplayCombo.ToString().PadLeft(2, '0');
+
+		if (DisplayCombo == GameState.BestCombo)
+		{
+			if (UpdateTimer(ref TimeUntilComboIsHeld).Item1)
+			{
+				ComboIsUpdating = false;
+			}
+		}
+
 	}
 
 	private void IncrementScore()

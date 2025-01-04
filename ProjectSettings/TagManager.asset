@@ -12,6 +12,7 @@ TagManager:
   - Glass
   - WaveObject
   - GameUiTop
+  - ResultsUI Brick Breaker
   layers:
   - Default
   - TransparentFX
