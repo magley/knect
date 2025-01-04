@@ -1,161 +1,128 @@
-using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ResultsUIManager : MonoBehaviour
 {
-    [SerializeField] private Text textScoreBoard;
+	private AudioSource AudioSource;
 
-    private int animScore = 0;
-    private int animWaves = 0;
-    private int animCombo = 0;
-    private bool animRunning = false;
+	[SerializeField] private AudioClip SndBlip;
+	[SerializeField] private AudioClip SndBloop;
+	[SerializeField] private AudioClip SndSuccess;
 
-    private AudioSource audioSource;
-    [SerializeField] private AudioClip sndBlip;
-	[SerializeField] private AudioClip sndBloop;
-    [SerializeField] private MenuItem BtnExitToMenu;
+	private float TimeUntilBeforeAllIsHeld = 2f;
+	private bool BeforeAllIsUpdating = false;
 
-    private void SetScoreBoardText(int score, int waves, int bestCombo)
-    {
-        /*
-        Score: 00000000
-        New High Score!
-        _____________________
-
-        Waves Cleared: 00
-        _____________________
-
-        Best Combo: 00
-        */
-
-        string s = "";
-        bool isNewHighScore = score > 0 && score >= XMLManager.instance.data.GetHighScore();
-        s += $"Score:       {score.ToString().PadLeft(8, '0')}\n";
-        s += isNewHighScore ? $"New High Score!\n" : "\n";
-        s += "_____________________\n\n";
-        s += $"Waves Cleared: {waves,0}\n";
-        s += "_____________________\n\n";
-        s += $"Best Combo: {bestCombo,0}\n";
-
-        textScoreBoard.text = s;
-	}
+	[SerializeField] private Text Score;
+	[SerializeField] private Text NewHighScore;
+	private int DisplayScore = 0;
+	private float TimeUntilScoreIsHeld = 2f;  // After this, the next section begins.
+	private bool ScoreIsUpdating = false;
 
 	private void Start()
 	{
-        audioSource = GetComponent<AudioSource>();
-        SetScoreBoardText(0, 0, 0);
+		AudioSource = GetComponent<AudioSource>();
 	}
 
-	void Update()
-    {
-        if (animRunning)
-        {
-            HandleAnim();
-        }
-    }
-
-    private void HandleAnim()
-    {
-        if (animScore < GameState.Score)
-        {
-            MaybeStartPlayingBlip();
-
-			int diff = GameState.Score - animScore;
-			if (diff > 1_000_000)
-			{
-				animScore += 100_000;
-			}
-			if (diff > 100_000)
-			{
-				animScore += 10_000;
-			}
-			if (diff > 20_000)
-			{
-				animScore += 5000;
-			}
-			if (diff > 10000)
-            {
-				animScore += 1000;
-            }
-			if (diff > 5000)
-			{
-				animScore += 500;
-			}
-			else
-            {
-                animScore += 100;
-			}
-
-            if (animScore >= GameState.Score)
-            {
-				StopAnim();
-				Invoke(nameof(StartAnim), 1f);
-				animScore = GameState.Score;
-            }
-        }
-        else if (animWaves < GameState.TotalWaves)
-        {
-            MaybeStartPlayingBlip();
-
-			animWaves++;
-
-			if (animWaves >= GameState.TotalWaves)
-			{
-				StopAnim();
-				Invoke(nameof(StartAnim), 1f);
-				animWaves = GameState.TotalWaves;
-			}
-		}
-        else if (animCombo < GameState.BestCombo)
-        {
-            MaybeStartPlayingBlip();
-
-			animCombo++;
-
-			if (animCombo >= GameState.BestCombo)
-			{
-                StopAnim();
-				Invoke(nameof(StartAnim), 1f);
-				animCombo = GameState.BestCombo;
-			}
-		}
-        else
-        {
-			audioSource.Stop();
-			animRunning = false;
-            BtnExitToMenu.CanBeSelected = true;
-		}
-
-		SetScoreBoardText(animScore, animWaves, animCombo);
-	}
-
-    private void StartAnim()
-    {
-		animRunning = true;
-    }
-
-    private void MaybeStartPlayingBlip()
-    {
-		if (!audioSource.isPlaying)
-		{
-			audioSource.clip = sndBlip;
-			audioSource.loop = true;
-			audioSource.Play();
-		}
-	}
-
-	private void StopAnim()
-    {
-		audioSource.Stop();
-		audioSource.clip = sndBloop;
-		audioSource.loop = false;
-		audioSource.Play();
-		animRunning = false;
+	private void Update()
+	{
+		HandleScore();
+		HandleBeforeAll();
 	}
 
 	public void Ready()
 	{
-        Invoke(nameof(StartAnim), 1f);
+		BeforeAllIsUpdating = true;
+	}
+
+	private void HandleBeforeAll()
+	{
+		if (!BeforeAllIsUpdating)
+		{
+			return;
+		}
+
+		if (UpdateTimer(ref TimeUntilBeforeAllIsHeld).Item1)
+		{
+			BeforeAllIsUpdating = false;
+			ScoreIsUpdating = true;
+		}
+	}
+
+	private void HandleScore()
+	{
+		if (!ScoreIsUpdating)
+		{
+			return;
+		}
+
+		if (DisplayScore < GameState.Score)
+		{
+			LoopSoundBlip();
+			IncrementScore();
+
+			if (DisplayScore == GameState.Score)
+			{
+				AudioSource.Stop();
+				AudioSource.clip = SndBloop;
+				AudioSource.loop = false;
+				AudioSource.Play();
+			}
+		}
+
+		Score.text = DisplayScore.ToString().PadLeft(8, '0');
+
+		if (DisplayScore == GameState.Score)
+		{
+			if (GameState.Score > XMLManager.instance.data.GetHighScore())
+			{
+				NewHighScore.enabled = true;
+				NewHighScore.text = "New High Score!";
+			}
+
+			if (UpdateTimer(ref TimeUntilScoreIsHeld).Item1)
+			{
+				ScoreIsUpdating = false;
+			}
+		}
+	}
+
+	private void IncrementScore()
+	{
+		DisplayScore = (int)Mathf.Lerp(DisplayScore, GameState.Score, 3 * Time.deltaTime);
+		if (Mathf.Abs(DisplayScore - GameState.Score) < 100)
+		{
+			DisplayScore = GameState.Score;
+		}
+	}
+
+	private void LoopSoundBlip()
+	{
+		if (!AudioSource.isPlaying)
+		{
+			AudioSource.clip = SndBlip;
+			AudioSource.loop = true;
+			AudioSource.Play();
+		}
+	}
+
+	/// <returns>(timer ended, timer just ended)</returns>
+	private (bool, bool) UpdateTimer(ref float timer)
+	{
+		if (timer > 0)
+		{
+			timer -= Time.deltaTime;
+
+			if (timer <= 0)
+			{
+				return (true, true);
+			}
+		}
+		else
+		{
+			return (true, false);
+		}
+
+		return (false, false);
 	}
 }

@@ -115,6 +115,12 @@ public class LevelManager : MonoBehaviour
 	private int textHurryUpScaleState = 0;
 	private bool textHurryUpScaleRunning = false;
 
+	private void DEBUG_FinishEarly()
+	{
+		seconds = 5;
+		secondsLeft = 5;
+	}
+
 	private void HandleTextHurryUpSize()
 	{
 		if (!textHurryUpScaleRunning)
@@ -352,6 +358,7 @@ public class LevelManager : MonoBehaviour
 
 	void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.Q)) DEBUG_FinishEarly();
 		UpdateTimeLeft();
 		HandleTextCountdown();
 		HandleTextFinishedSize();
