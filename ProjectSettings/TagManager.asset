@@ -10,6 +10,8 @@ TagManager:
   - KinectPointer
   - Music
   - Glass
+  - WaveObject
+  - GameUiTop
   layers:
   - Default
   - TransparentFX
