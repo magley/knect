@@ -74,10 +74,24 @@ public class ResultsUIManager : MonoBehaviour
 
 		if (DisplayScore == GameState.Score)
 		{
-			if (GameState.Score > XMLManager.instance.data.GetHighScore())
+			//if (GameState.Score > XMLManager.instance.data.GetHighScore())
 			{
-				NewHighScore.enabled = true;
-				NewHighScore.text = "New High Score!";
+				if (!NewHighScore.enabled)
+				{
+					AudioSource.Stop();
+					AudioSource.clip = SndSuccess;
+					AudioSource.loop = false;
+					AudioSource.Play();
+
+					NewHighScore.enabled = true;
+					NewHighScore.text = "New High Score!";
+					NewHighScore.rectTransform.localRotation = Quaternion.Euler(new(0, 0, Random.Range(-8, 8)));
+					NewHighScore.rectTransform.localScale = Vector3.one * 1.25f;
+				} else
+				{
+					float scale = Mathf.Lerp(NewHighScore.rectTransform.localScale.x, 1f, 11f * Time.deltaTime);
+					NewHighScore.rectTransform.localScale = Vector3.one * scale;
+				}
 			}
 
 			if (UpdateTimer(ref TimeUntilScoreIsHeld).Item1)

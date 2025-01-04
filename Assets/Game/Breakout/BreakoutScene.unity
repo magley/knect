@@ -1024,7 +1024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SndBlip: {fileID: 8300000, guid: f36859247b0037640b91c971d1f940a1, type: 3}
   SndBloop: {fileID: 8300000, guid: d790126424f48b5488e14b90b4f6b019, type: 3}
-  SndSuccess: {fileID: 0}
+  SndSuccess: {fileID: 8300000, guid: ac401b41c3a9c694098138b2c11ec5ec, type: 3}
   Score: {fileID: 1347730961}
   NewHighScore: {fileID: 1388495543}
 --- !u!82 &141503329
