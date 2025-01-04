@@ -10,6 +10,8 @@ public class ResultsUIManager : MonoBehaviour
 	[SerializeField] private AudioClip SndBloop;
 	[SerializeField] private AudioClip SndSuccess;
 
+	[SerializeField] private MenuItem BtnBackToMenu;
+
 	private float TimeUntilBeforeAllIsHeld = 2f;
 	private bool BeforeAllIsUpdating = false;
 
@@ -35,6 +37,7 @@ public class ResultsUIManager : MonoBehaviour
 	private void Start()
 	{
 		AudioSource = GetComponent<AudioSource>();
+		BtnBackToMenu.gameObject.SetActive(false);
 	}
 
 	private void Update()
@@ -197,9 +200,15 @@ public class ResultsUIManager : MonoBehaviour
 			if (UpdateTimer(ref TimeUntilComboIsHeld).Item1)
 			{
 				ComboIsUpdating = false;
+				GiveInput();
 			}
 		}
+	}
 
+	private void GiveInput()
+	{
+		BtnBackToMenu.gameObject.SetActive(true);
+		BtnBackToMenu.CanBeSelected = true;
 	}
 
 	private void IncrementScore()
