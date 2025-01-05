@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private List<Transform> textKinectManagerNotFound = new List<Transform>();
 	[SerializeField] private Transform backgroundObject;
 	[SerializeField] private SpriteMask transitionCircleMask;
+	private float transitionCircleMaskSizeOpen;
 
 
 	private float backgroundScale = 1f;
@@ -59,7 +60,10 @@ public class UIManager : MonoBehaviour
 		{
 			if (transitionCircleMask.transform.localScale.x > 0f)
 			{
-				transitionCircleMask.transform.localScale -= Vector3.one * 0.135f;
+				float scaleX = transitionCircleMask.transform.localScale.x;
+				scaleX -= 5 * Time.deltaTime;
+				transitionCircleMask.transform.localScale = Vector3.one * scaleX;
+
 				if (transitionCircleMask.transform.localScale.x <= 0.025f)
 				{
 					transitionCircleMask.transform.localScale *= 0;
@@ -71,7 +75,9 @@ public class UIManager : MonoBehaviour
 		{
 			if (transitionCircleMask.transform.localScale.x < transitionCircleMaskOpenSize)
 			{
-				transitionCircleMask.transform.localScale += Vector3.one * 0.135f;
+				float scaleX = transitionCircleMask.transform.localScale.x;
+				scaleX += 5 * Time.deltaTime;
+				transitionCircleMask.transform.localScale = Vector3.one * scaleX;
 			}
 		}
 	}
