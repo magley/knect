@@ -1,8 +1,5 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using Image = UnityEngine.UIElements.Image;
 
 public class UIBonus : MonoBehaviour
 {
@@ -22,6 +19,7 @@ public class UIBonus : MonoBehaviour
 		Ball.OnComboMade += ShowCombo;
 		UIComboText.text = "";
 		sourceBonus = GetComponent<AudioSource>();
+		SetUIAlpha(0);
 	}
 
 	private void OnDestroy()
@@ -42,24 +40,8 @@ public class UIBonus : MonoBehaviour
 			}
 		}
 
-		{
-			Color col = Background.GetComponent<RawImage>().color;
-			float targetAlpha = IsBeingShown ? 1f : 0f;
-			col.a = Mathf.Lerp(col.a, targetAlpha, 0.15f);
-			Background.GetComponent<RawImage>().color = col;
-		}
-		{
-			Color col = UIComboText.color;
-			float targetAlpha = IsBeingShown ? 1f : 0f;
-			col.a = Mathf.Lerp(col.a, targetAlpha, 0.15f);
-			UIComboText.color = col;
-		}
-		{
-			Color col = Title.color;
-			float targetAlpha = IsBeingShown ? 1f : 0f;
-			col.a = Mathf.Lerp(col.a, targetAlpha, 0.15f);
-			Title.color = col;
-		}
+		LerpUIAlpha(IsBeingShown ? 1f : 0f);
+		
 		{
 			if (uiComboTextSizeCurrent > uiComboTextSizeDesired)
 			{
@@ -91,5 +73,43 @@ public class UIBonus : MonoBehaviour
 	private void HideUI()
 	{
 		IsBeingShown = false;
+	}
+
+	private void LerpUIAlpha(float targetAlpha)
+	{
+		{
+			Color col = Background.GetComponent<RawImage>().color;
+			col.a = Mathf.Lerp(col.a, targetAlpha, 6 * Time.deltaTime);
+			Background.GetComponent<RawImage>().color = col;
+		}
+		{
+			Color col = UIComboText.color;
+			col.a = Mathf.Lerp(col.a, targetAlpha, 6 * Time.deltaTime);
+			UIComboText.color = col;
+		}
+		{
+			Color col = Title.color;
+			col.a = Mathf.Lerp(col.a, targetAlpha, 6 * Time.deltaTime);
+			Title.color = col;
+		}
+	}
+
+	private void SetUIAlpha(float alpha)
+	{
+		{
+			Color col = Background.GetComponent<RawImage>().color;
+			col.a = alpha;
+			Background.GetComponent<RawImage>().color = col;
+		}
+		{
+			Color col = UIComboText.color;
+			col.a = alpha;
+			UIComboText.color = col;
+		}
+		{
+			Color col = Title.color;
+			col.a = alpha;
+			Title.color = col;
+		}
 	}
 }
