@@ -23,13 +23,13 @@ public class ResultsUIManager : MonoBehaviour
 
 	[SerializeField] private Text WavesCleared;
 	private int DisplayWavesCleared = 0;
-	private float TimeUntilWaveCounterTicks = 0.175f;
+	private float TimeUntilWaveCounterTicks = 0.135f;
 	private float TimeUntilWavesClearedIsHeld = 1f;
 	private bool WavesClearedIsUpdating = false;
 
 	[SerializeField] private Text Combo;
 	private int DisplayCombo = 0;
-	private float TimeUntilNextBrickSpawns = 0.3f;
+	private float TimeUntilNextBrickSpawns = 0.25f;
 	private float TimeUntilComboIsHeld = 1f;
 	private bool ComboIsUpdating = false;
 	[SerializeField] GameObject PrefabResultsBrick;
