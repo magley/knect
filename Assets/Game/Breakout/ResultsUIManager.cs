@@ -11,6 +11,7 @@ public class ResultsUIManager : MonoBehaviour
 	[SerializeField] private AudioClip SndSuccess;
 
 	[SerializeField] private MenuItem BtnBackToMenu;
+	[SerializeField] private MenuItem BtnPlayAgain;
 
 	private float TimeUntilBeforeAllIsHeld = 2f;
 	private bool BeforeAllIsUpdating = false;
@@ -38,6 +39,7 @@ public class ResultsUIManager : MonoBehaviour
 	{
 		AudioSource = GetComponent<AudioSource>();
 		BtnBackToMenu.gameObject.SetActive(false);
+		BtnPlayAgain.gameObject.SetActive(false);
 	}
 
 	private void Update()
@@ -209,6 +211,9 @@ public class ResultsUIManager : MonoBehaviour
 	{
 		BtnBackToMenu.gameObject.SetActive(true);
 		BtnBackToMenu.CanBeSelected = true;
+
+		BtnPlayAgain.gameObject.SetActive(true);
+		BtnPlayAgain.CanBeSelected = true;
 	}
 
 	private void IncrementScore()
