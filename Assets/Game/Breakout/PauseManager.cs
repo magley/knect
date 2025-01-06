@@ -4,8 +4,9 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static KinectGestures;
 
-public class PauseManager : MonoBehaviour
+public class PauseManager : MonoBehaviour, GestureListenerInterface
 {
 	private Texture2D screenshot;
 	public Image pauseImage;
@@ -197,4 +198,37 @@ public class PauseManager : MonoBehaviour
 		}
 	}
 
+	public void UserDetected(uint userId, int userIndex)
+	{
+		KinectManager manager = KinectManager.Instance;
+		manager.DetectGesture(userId, Gestures.RaiseRightHand);
+	}
+
+	public void UserLost(uint userId, int userIndex)
+	{
+		// Do nothing.
+	}
+
+	public void GestureInProgress(uint userId, int userIndex, Gestures gesture, float progress, KinectWrapper.NuiSkeletonPositionIndex joint, Vector3 screenPos)
+	{
+		// Do nothing.
+	}
+
+	public bool GestureCompleted(uint userId, int userIndex, Gestures gesture, KinectWrapper.NuiSkeletonPositionIndex joint, Vector3 screenPos)
+	{
+		if (gesture == Gestures.RaiseRightHand)
+		{
+			if (!isPaused)  // Pause, but don't unpause.
+			{
+				TogglePause();
+			}
+		}
+
+		return true;
+	}
+
+	public bool GestureCancelled(uint userId, int userIndex, Gestures gesture, KinectWrapper.NuiSkeletonPositionIndex joint)
+	{
+		return true;
+	}
 }
