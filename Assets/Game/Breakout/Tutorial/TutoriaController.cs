@@ -28,28 +28,39 @@ public class TutoriaController : MonoBehaviour
 	private float hitBall_timeUntilEnd = 1f;
 	private CanvasGroup hitBallGroup;
 
-	[SerializeField] private GameObject items;
-	private float items_timeUntilEnd = 3.5f;
-	private CanvasGroup itemsGroup;
+	[SerializeField] private GameObject pause;
+	[SerializeField] private Image playerIconPause;
+	[SerializeField] List<Sprite> sprPlayerPauseFrames;
+	private float pause_timeUntilEnd = 3.5f;
+	private CanvasGroup pauseGroup;
 
 	private void AnimatePlayerIcon()
     {
-        playerIcon.sprite = sprPlayerIdleFrames[(int)(Time.time * 1.5f) % sprPlayerIdleFrames.Count];
-    }
+		if (clearArea.activeInHierarchy)
+		{
+			playerIcon.sprite = sprPlayerIdleFrames[(int)(Time.time * 1.5f) % sprPlayerIdleFrames.Count];
+		}
 
-    void Start()
+		if (pause.activeInHierarchy)
+		{
+			playerIconPause.sprite = sprPlayerPauseFrames[(int)(Time.time * 1.25f) % sprPlayerPauseFrames.Count];
+		}
+
+	}
+
+	void Start()
     {
 		clearAreaGroup = clearArea.GetComponentInChildren<CanvasGroup>();
 		hitBallGroup = hitBall.GetComponentInChildren<CanvasGroup>();
-		itemsGroup = items.GetComponentInChildren<CanvasGroup>();
+		pauseGroup = pause.GetComponentInChildren<CanvasGroup>();
 
 		clearArea.SetActive(false);
 		hitBall.SetActive(false);
-		items.SetActive(false);
+		pause.SetActive(false);
 
 		clearAreaGroup.alpha = 0f;
 		hitBallGroup.alpha = 0f;
-		itemsGroup.alpha = 0f;
+		pauseGroup.alpha = 0f;
 	}
 
 	private void HandleBeforeTutorialBegins()
@@ -136,7 +147,7 @@ public class TutoriaController : MonoBehaviour
 
 					if (hitBall_timeUntilEnd <= 0f)
 					{
-						items.SetActive(true);
+						pause.SetActive(true);
 					}
 				}
 			}
@@ -145,21 +156,21 @@ public class TutoriaController : MonoBehaviour
 
 	private void HandleItems()
 	{
-		if (!items.activeInHierarchy)
+		if (!pause.activeInHierarchy)
 		{
 			return;
 		}
-		if (itemsGroup.alpha < 1f)
+		if (pauseGroup.alpha < 1f)
 		{
-			itemsGroup.alpha += Time.deltaTime * 3f;
-			if (itemsGroup.alpha < 1f)
+			pauseGroup.alpha += Time.deltaTime * 3f;
+			if (pauseGroup.alpha < 1f)
 			{
 				return;
 			}
 		}
 
-		items_timeUntilEnd -= Time.deltaTime;
-		if (items_timeUntilEnd <= 0f)
+		pause_timeUntilEnd -= Time.deltaTime;
+		if (pause_timeUntilEnd <= 0f)
 		{
 			gameObject.SetActive(false);
 		}
