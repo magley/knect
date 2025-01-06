@@ -48,6 +48,10 @@ public class Brick : MonoBehaviour
 		vel.y = (6 + i >= 2 ? 8 : 0);
 		vel.z = 5 * (i % 2 == 0 ? -1 : 1);
 
+		vel.x += Random.Range(-3, 3);
+		vel.y += Random.Range(-3, 3);
+		vel.z += Random.Range(-3, 3);
+
 		shard.transform.position += new Vector3(vel.x / Random.Range(4, 5), vel.y / Random.Range(4, 5), vel.z / Random.Range(5f, 10f));
 		rb.velocity = vel;
 
