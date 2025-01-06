@@ -858,7 +858,22 @@ public class KinectManager : MonoBehaviour
 	
 	//----------------------------------- end of public functions --------------------------------------//
 
+
+	private void TogglePointerIfKinectInitialized()
+	{
+		foreach (var pointer in FindObjectsOfType<KinectPointer>(true))
+		{
+			pointer.gameObject.SetActive(KinectInitialized);
+		}
+	}
+
 	void Awake()
+	{
+		TryInitKinect();
+		Invoke(nameof(TogglePointerIfKinectInitialized), 1.0f);  // TODO: YIKES
+	}
+
+	void TryInitKinect()
 	{
 		//CalibrationText = GameObject.Find("CalibrationText");
 		int hr = 0;
@@ -1100,7 +1115,9 @@ public class KinectManager : MonoBehaviour
 	
 	void Update()
 	{
-		if(KinectInitialized)
+		TogglePointerIfKinectInitialized();
+
+		if (KinectInitialized)
 		{
 			// needed by the KinectExtras' native wrapper to check for next frames
 			// uncomment the line below, if you use the Extras' wrapper, but none of the Extras' managers
