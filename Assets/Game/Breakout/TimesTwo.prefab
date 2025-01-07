@@ -70,7 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollectableType: 0
   ScoreBonus: 1000
-  sndCollect: {fileID: 0}
+  sndCollect: {fileID: 8300000, guid: d5dc1af45970ffb4da486546307a3113, type: 3}
   MinSpeed: 8
   MaxSpeed: 14
   PrefabWorldSpaceTextForScore: {fileID: 0}
